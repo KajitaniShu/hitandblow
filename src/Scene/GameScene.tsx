@@ -38,11 +38,6 @@ import {
   IconBrandTelegram,
   IconInfoSquareRoundedFilled,
 } from '@tabler/icons-react';
-
-import {
-  AiOutlineUserSwitch
-} from 'react-icons/ai'
-
 import {
   IoIosShareAlt
 } from 'react-icons/io'
@@ -55,57 +50,9 @@ import { Ad } from '../Component/Ad';
 import { Clock } from '../Component/Clock';
 
 
-const useStyles = createStyles((theme) => ({
-  userActive: {
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white,
-  },
-
-  tabsList: {
-    borderBottom: '0 !important',
-  },
-
-  tab: {
-    color: "white",
-    borderTopLeftRadius: theme.spacing.xs,
-    borderTopRightRadius: theme.spacing.xs,
-    fontWeight: 500,
-    height: rem(35),
-    borderBottom: '0 !important',
-    backgroundColor: 'transparent',
-
-    '&:hover': {
-      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[1],
-    },
-
-    '&[data-active]': {
-      backgroundColor: 'rgba(0, 0, 0, 0.2)',
-      borderColor: 'transparent',
-      borderBottom: '0 !important',
-    },
-  },
-
-  mainModule: {
-    borderRadius: theme.spacing.xs,
-    borderTopLeftRadius: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
-  },
-
-  subModule: {
-    borderRadius: theme.spacing.xs,
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
-    marginTop: rem(35),
-  }
-  
-  
-}));
-
-
-
-
 export function GameScene() {
   const [opened, { toggle }] = useDisclosure(false);
   const { width, height } = useViewportSize();
-  const { classes, cx } = useStyles();
   const theme = useMantineTheme();
   const componentHeight = px(rem(170));
   const SECONDARY_TOP_HEIGHT= `calc(${componentHeight} / 3 - ${theme.spacing.md})`;
@@ -129,8 +76,8 @@ export function GameScene() {
     },
   });
 
-  const mySide = {name: "ひいらぎ(こっちーーーーーー)", image: "/images/oni.png", level: 1000, win: 10, lose:12};
-  const enemy = {name: "ひいらぎ(あいて)", image: "/images/fighter.png", level: 1, win: 1, lose:2};
+  const mySide = {name: "ひいらぎ(こっちーーーーーー)", number: "1234",image: "/images/oni.png", level: 1000, win: 10, lose:12};
+  const enemy = {name: "ひいらぎ(あいて)", number: "0123", image: "/images/fighter.png", level: 1, win: 1, lose:2};
   const messageList = [
     {name: "ひいらぎ(こっちーーーーーー)", message: "えおいｊふぉえしｆじょいあｊふぉあいｆ"},
     {name: "ひいらぎ(こっちーーーーーー)", message: "えおいｊふぉえしｆじょいあｊふぉあいｆ"},

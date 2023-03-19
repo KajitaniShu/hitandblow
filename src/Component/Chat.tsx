@@ -46,15 +46,14 @@ export function Chat({mySide, enemy, messageList, messageForm, height}: any) {
                   </Group>
                   
                   <Paper p="xs" bg="white" style={{wordWrap: "break-word", overflowWrap: "break-word"}}>
-                  <Text color="#191736" size="xs" weight="bold">
-                    {message}
-                  </Text>
-                </Paper>
+                    <Text color="#191736" size="xs" weight="bold">
+                      {message}
+                    </Text>
+                  </Paper>
                 </div>
                 {name===mySide.name ? <Avatar src={mySide.image} bg="#585497" radius="xl" size="md" style={{border: "white 2px solid", top:0}} /> : ""}
               </Flex>
             )})}
-
           </ScrollArea>
         </Paper>
 
