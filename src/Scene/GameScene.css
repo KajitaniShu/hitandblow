@@ -1,0 +1,56 @@
+body {
+  background-image: linear-gradient(45deg, #191736, #1e1b49);
+}
+
+.header {
+  border-bottom: none;
+  background-color: transparent;
+}
+
+.paper {
+  position: relative;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: -10;
+}
+
+.gray {
+  color:#9491cf;
+  background: #191736;
+}
+
+.gray-main {
+  color:#d1d0e6;
+  background: #191736;
+}
+
+.num-left {
+  position: absolute;
+  left: 18px;
+}
+
+.num-right {
+  position: absolute;
+  right: 18px;
+}
+
+.paper-group {
+  padding: 5px;
+}
+
+.mainCharacter{
+  padding: 10px;
+  border: #d1d0e6 5px solid;
+  border-radius: 100%;
+  overflow: hidden;
+  background-color: #585497;
+  pointer-events: 'none'
+}
+
+.small-text{
+  color:#d1d0e6;
+}
+
+.gray-button {
+  background: #191736;
+  border:#575674 1px solid;
+}

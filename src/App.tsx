@@ -1,26 +1,42 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useRoutes
+} from 'react-router-dom'
+import { PageNotFound } from './Component/PageNotFound';
+import { GameScene } from './Scene/GameScene';
+import { 
+  MantineProvider, 
+  ColorSchemeProvider, 
+  ColorScheme, 
+} from '@mantine/core';
+import { ModalsProvider } from '@mantine/modals';
+import { HomeScene } from './Scene/HomeScene';
+import { LobbyScene } from './Scene/LobbyScene';
 
-function App() {
+
+export function App() {
+  const [colorScheme, setColorScheme] = useState<ColorScheme>('light');
+  const toggleColorScheme = (value?: ColorScheme) =>
+    setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+      <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
+        <ModalsProvider>
+          <BrowserRouter basename={process.env.PUBLIC_URL}>
+            <Routes>
+              <Route index element={<HomeScene/>} />
+              <Route path="/room/:id" element={<GameScene/>} />
+              <Route path="/lobby/:id" element={<LobbyScene/>} />
+              <Route path="*" element={<PageNotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </ModalsProvider>
+      </MantineProvider>
+    </ColorSchemeProvider>
+  )
 }
-
-export default App;
