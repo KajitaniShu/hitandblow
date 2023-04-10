@@ -15,7 +15,6 @@ import {
 } from '@mantine/core';
 import { ModalsProvider } from '@mantine/modals';
 import { HomeScene } from './Scene/HomeScene';
-import { LobbyScene } from './Scene/LobbyScene';
 
 
 export function App() {
@@ -31,7 +30,6 @@ export function App() {
             <Routes>
               <Route index element={<HomeScene/>} />
               <Route path="/room/:id" element={<GameScene/>} />
-              <Route path="/lobby/:id" element={<LobbyScene/>} />
               <Route path="*" element={<PageNotFound />} />
             </Routes>
           </BrowserRouter>
