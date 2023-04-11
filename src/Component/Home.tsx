@@ -12,10 +12,14 @@ import {
   SimpleGrid,
   Grid,
   rem,
-  Menu
+  Menu,
+  Modal,
+  TextInput,
+  Center
 } from '@mantine/core';
 import {
-  useViewportSize
+  useViewportSize,
+  useDisclosure
 } from '@mantine/hooks';
 import { 
   IconDiamondFilled,
@@ -28,18 +32,36 @@ import {
 import { GameSetting } from '../Component/GameSetting';
 import { CharacterSelect } from '../Component/CharacterSelect';
 import { auth } from '../Config/firebase'
+import { InitName } from './InitName' 
 
 
-export function Home() {
+export function Home({userData}: any) {
   const { width, height } = useViewportSize();
   const theme = useMantineTheme();
   const componentHeight = px(rem(170));
   const SECONDARY_TOP_HEIGHT= `calc(${componentHeight} / 3 - ${theme.spacing.md})`;
   const SECONDARY_BOTTOM_HEIGHT= `calc((${SECONDARY_TOP_HEIGHT} + ${theme.spacing.md} )*2)`;
   const CENTER_MARGIN = height/7;
+  const [opened, { open, close }] = useDisclosure(false);
+
+  useEffect(() => {
+    if(userData === undefined){
+      open();
+    }
+  }, [userData]);
 
   return (
     <div style={{height:height}}>
+      <Center>
+        <Modal opened={opened} onClose={close} title="ユーザーネームを入力してください">
+          <TextInput 
+            data-autofocus
+            label="ユーザーネーム" 
+            placeholder="ユーザーネーム" />
+        </Modal>
+      </Center>
+      
+
         <Header height={50} px="md" className="header" bg="dark">
           <Container>
             <Group position="apart" sx={{ height: '100%' }}>

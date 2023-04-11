@@ -53,18 +53,18 @@ export function HomeScene() {
   const [contentsIndex, setContentsIndex] = useState<string>("");
   const [opened, { toggle, close }] = useDisclosure(false);
   const [active, setActive] = useState('一覧');
-  const [database, setDatabase] = useState<any>();
+  const [userData, setUserData] = useState<any>();
 
   
   useEffect(() => {
-    if(user && database === undefined){
+    if(user && userData === undefined){
       // データを取得
-      let _database: any = [];
+      let _userData: any = [];
       const dataList = query(collection(db, "user-data"), where("uuid", "==", user.uid));
       getDocs(dataList).then((snapShot)=>{
         const _data = JSON.stringify(snapShot.docs.map((doc) => {
           const data = doc.data();
-          _database.push({
+          _userData.push({
             id:     doc.ref.id,
             name:   data.name,
             uuid:   data.uuid,
@@ -72,18 +72,21 @@ export function HomeScene() {
             json:   JSON.parse(data.json || "[]")
           })
         }));
-        setDatabase(_database);
+        setUserData(_userData);
       })
     }
   }, [user]);
 
   return (
     <div style={{height:height}}>
-      {!user ?
-        <Admin/>
-        :
-        <Home />
-      }
+      {(() => {
+        if(user) {  // ログイン済み
+          return <Home userData={userData}/>
+        }
+        else {      // 未ログイン
+          return <Admin />
+        }
+      })()}
     </div>
   )
 }
