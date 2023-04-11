@@ -30,37 +30,6 @@ import { useParams } from 'react-router-dom'
 
 
 export function Admin() {
-  const [user, initialising] = useAuthState(auth);
-  const [contentsIndex, setContentsIndex] = useState<string>("");
-  const theme = useMantineTheme();
-  const [opened, { toggle, close }] = useDisclosure(false);
-  const [active, setActive] = useState('一覧');
-  const [database, setDatabase] = useState<any>(); 
-  const { width, height } = useViewportSize();
-
-  
-  useEffect(() => {
-    if(user && database === undefined){
-      // データを取得
-      let _database: any = [];
-      const dataList = query(collection(db, "user-data"), where("uuid", "==", user.uid));
-      getDocs(dataList).then((snapShot)=>{
-        const _data = JSON.stringify(snapShot.docs.map((doc) => {
-          const data = doc.data();
-          _database.push({
-            id:     doc.ref.id,
-            name:   data.name,
-            uuid:   data.uuid,
-            update: data.update,
-            json:   JSON.parse(data.json || "[]")
-          })
-        }));
-        setDatabase(_database);
-      })
-    }
-    console.log(user);
-  }, [user]);
-
   return (
     
       <Card 

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import { 
   Group, 
   Container,
@@ -25,22 +25,23 @@ import {
   useViewportSize
 } from '@mantine/hooks';
 import './GameScene.css';
-import { 
-  IconDiamondFilled,
-  IconPackage,
-  IconSquareCheck,
-  IconUsers,
-  IconCalendar,
-  IconInfoSquareRoundedFilled
-} from '@tabler/icons-react';
+import { useForm } from '@mantine/form';
+import { PageNotFound } from '../Component/PageNotFound';
+import { Login } from '../Admin/Login';
+import { db }  from '../Config/firebase';
+import {collection, doc, getDocs, query, where } from 'firebase/firestore';
+import { auth } from '../Config/firebase'
+import { useAuthState, useSignInWithFacebook } from 'react-firebase-hooks/auth'
+import { useParams } from 'react-router-dom'
 import { GameSetting } from '../Component/GameSetting';
 import { CharacterSelect } from '../Component/CharacterSelect';
 import { Ad } from '../Component/Ad';
 import { Clock } from '../Component/Clock'
 import { Admin } from '../Admin/Admin'
+import { Home } from '../Component/Home'
+
 
 export function HomeScene() {
-  const [opened, { toggle }] = useDisclosure(false);
   const { width, height } = useViewportSize();
   const theme = useMantineTheme();
   const componentHeight = px(rem(170));
@@ -48,7 +49,13 @@ export function HomeScene() {
   const SECONDARY_BOTTOM_HEIGHT= `calc((${SECONDARY_TOP_HEIGHT} + ${theme.spacing.md} )*2)`;
   const CENTER_MARGIN = height/7;
 
-  /*
+  const [user, initialising] = useAuthState(auth);
+  const [contentsIndex, setContentsIndex] = useState<string>("");
+  const [opened, { toggle, close }] = useDisclosure(false);
+  const [active, setActive] = useState('一覧');
+  const [database, setDatabase] = useState<any>();
+
+  
   useEffect(() => {
     if(user && database === undefined){
       // データを取得
@@ -68,93 +75,15 @@ export function HomeScene() {
         setDatabase(_database);
       })
     }
-    
   }, [user]);
-*/
+
   return (
     <div style={{height:height}}>
-      <Admin/>
-      <Header height={50} px="md" className="header" bg="dark">
-        <Container>
-          <Group position="apart" sx={{ height: '100%' }}>
-            <Title order={1} size="h4" color="white">Hit&Blow online</Title>
-            <Group position="right" px="md" py="sm">
-              <Avatar radius="xl" size="sm" color="violet">120</Avatar>
-              <Text color="white">ひいらぎ</Text>
-              
-              <div style={{backgroundColor:"#26254A", borderRadius: "8px", padding: "0.2em 0.5em"}}>
-                <Text color="white"><IconDiamondFilled size="0.75em"/> 1000</Text>
-              </div>
-              <Menu
-              transitionProps={{ transition: 'pop-top-right' }}
-              position="top-end"
-              width={220}
-              withinPortal
-            >
-              <Menu.Target>
-              <ActionIcon style={{color:"white"}} variant="transparent"><IconInfoSquareRoundedFilled size="20"/></ActionIcon>
-              </Menu.Target>
-                <Menu.Dropdown>
-                  <Menu.Item
-                    icon={<IconPackage size="1rem" color={theme.colors.blue[6]} stroke={1.5} />}
-                    rightSection={
-                      <Text size="xs" transform="uppercase" weight={700} color="dimmed">
-                        Ctrl + P
-                      </Text>
-                    }
-                  >
-                    Project
-                  </Menu.Item>
-                  <Menu.Item
-                    icon={<IconSquareCheck size="1rem" color={theme.colors.pink[6]} stroke={1.5} />}
-                    rightSection={
-                      <Text size="xs" transform="uppercase" weight={700} color="dimmed">
-                        Ctrl + T
-                      </Text>
-                    }
-                  >
-                    Task
-                  </Menu.Item>
-                  <Menu.Item
-                    icon={<IconUsers size="1rem" color={theme.colors.cyan[6]} stroke={1.5} />}
-                    rightSection={
-                      <Text size="xs" transform="uppercase" weight={700} color="dimmed">
-                        Ctrl + U
-                      </Text>
-                    }
-                  >
-                    Team
-                  </Menu.Item>
-                  <Menu.Item
-                    icon={<IconCalendar size="1rem" color={theme.colors.violet[6]} stroke={1.5} />}
-                    rightSection={
-                      <Text size="xs" transform="uppercase" weight={700} color="dimmed">
-                        Ctrl + E
-                      </Text>
-                    }
-                  >
-                    Event
-                  </Menu.Item>
-                </Menu.Dropdown>
-              </Menu>
-            </Group>
-          </Group>
-        </Container>
-      </Header>
-      <Container pt="sm" mt={CENTER_MARGIN}>
-        <SimpleGrid cols={2} spacing="md" breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
-            <GameSetting height={componentHeight} />
-            <Grid gutter="md">
-
-            <Grid.Col >
-              <CharacterSelect height={componentHeight}/>
-            </Grid.Col>
-
-            <Grid.Col>
-            </Grid.Col>
-          </Grid>
-        </SimpleGrid>
-      </Container>
+      {!user ?
+        <Admin/>
+        :
+        <Home />
+      }
     </div>
   )
 }
