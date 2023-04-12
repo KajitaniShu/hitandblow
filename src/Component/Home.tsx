@@ -85,9 +85,10 @@ export function Home({user}: any) {
 
   return (
     <div style={{height:height}}>
-        <Modal centered opened={opened}  onClose={close} title={<Text>ユーザーネームを設定してください</Text>}>
-          <InitName uuid={user.uid} close={close}/>
-        </Modal>
+      {/* ユーザーネーム登録モーダル (初期ログイン時に表示する) */}
+      <Modal centered opened={opened}  onClose={close} title={<Text>ユーザーネームを設定してください</Text>}>
+        <InitName uuid={user.uid} close={close}/>
+      </Modal>
 
         <Header height={50} px="md" className="header" bg="dark">
           <Container>

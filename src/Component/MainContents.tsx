@@ -39,7 +39,7 @@ export function MainContents({mySide, enemy, form, height}:any) {
   const [opened, { toggle }] = useDisclosure(false);
 
   return (
-    <div style={{backgroundColor:"#26254A", height: MAIN_HEIGHT, borderRadius: "8px", }}>
+    <div style={{backgroundColor:"#272B34", height: MAIN_HEIGHT, borderRadius: "8px", }}>
       <Group position="apart" px="sm" pt="sm" >
         <Badge size="lg" className="gray">{opened ? mySide.name : enemy.name}</Badge>
         <Tooltip label={opened ? "あいての情報をみる" : "じぶんの情報をみる"}>

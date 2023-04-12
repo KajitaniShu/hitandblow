@@ -25,9 +25,6 @@ import {
   useViewportSize
 } from '@mantine/hooks';
 import './GameScene.css';
-import { useForm } from '@mantine/form';
-import { PageNotFound } from '../Component/PageNotFound';
-import { Login } from '../Admin/Login';
 import { auth } from '../Config/firebase'
 import { useAuthState, useSignInWithFacebook } from 'react-firebase-hooks/auth'
 import { useParams } from 'react-router-dom'
@@ -37,6 +34,7 @@ import { Ad } from '../Component/Ad';
 import { Clock } from '../Component/Clock'
 import { Admin } from '../Admin/Admin'
 import { Home } from '../Component/Home'
+import { Loading } from '../Component/Loading'
 
 
 export function HomeScene() {
@@ -48,16 +46,12 @@ export function HomeScene() {
   const CENTER_MARGIN = height/7;
 
   const [user, initialising] = useAuthState(auth);
-
   return (
     <div style={{height:height}}>
       {(() => {
-        if(user) {  // ログイン済み
-          return <Home user={user}/>
-        }
-        else {      // 未ログイン
-          return <Admin />
-        }
+        if(initialising) return <Loading />         // ユーザーデータ取得中はローディング画面を出す
+        else if(user)    return <Home user={user}/> // ログイン済み
+        else             return <Admin />           // 未ログイン
       })()}
     </div>
   )

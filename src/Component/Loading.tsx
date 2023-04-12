@@ -1,12 +1,10 @@
 import React from 'react'
-import { Flex } from '@mantine/core'
+import { Loader, Flex, rem, px, Text, Group } from '@mantine/core'
 import { useViewportSize  } from '@mantine/hooks';
-import SignInWithGoogle from './SignInWithGoogle';
 
 
-export function Admin() {
+export function Loading() {
   const { width, height } = useViewportSize();
-
   return (
     <Flex
       h={height}
@@ -16,7 +14,9 @@ export function Admin() {
       direction="column"
       wrap="nowrap"
     >
-      <SignInWithGoogle/>
+      
+      <Loader color="violet" size="lg" variant="bars" />
+      <Text color="white">読み込み中</Text>
     </Flex>
   );
 }
