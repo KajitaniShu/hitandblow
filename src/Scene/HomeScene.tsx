@@ -28,8 +28,6 @@ import './GameScene.css';
 import { useForm } from '@mantine/form';
 import { PageNotFound } from '../Component/PageNotFound';
 import { Login } from '../Admin/Login';
-import { db }  from '../Config/firebase';
-import {collection, doc, getDocs, query, where } from 'firebase/firestore';
 import { auth } from '../Config/firebase'
 import { useAuthState, useSignInWithFacebook } from 'react-firebase-hooks/auth'
 import { useParams } from 'react-router-dom'
@@ -50,38 +48,12 @@ export function HomeScene() {
   const CENTER_MARGIN = height/7;
 
   const [user, initialising] = useAuthState(auth);
-  const [contentsIndex, setContentsIndex] = useState<string>("");
-  const [opened, { toggle, close }] = useDisclosure(false);
-  const [active, setActive] = useState('一覧');
-  const [userData, setUserData] = useState<any>();
-
-  
-  useEffect(() => {
-    if(user && userData === undefined){
-      // データを取得
-      let _userData: any = [];
-      const dataList = query(collection(db, "user-data"), where("uuid", "==", user.uid));
-      getDocs(dataList).then((snapShot)=>{
-        const _data = JSON.stringify(snapShot.docs.map((doc) => {
-          const data = doc.data();
-          _userData.push({
-            id:     doc.ref.id,
-            name:   data.name,
-            uuid:   data.uuid,
-            update: data.update,
-            json:   JSON.parse(data.json || "[]")
-          })
-        }));
-        setUserData(_userData);
-      })
-    }
-  }, [user]);
 
   return (
     <div style={{height:height}}>
       {(() => {
         if(user) {  // ログイン済み
-          return <Home userData={userData}/>
+          return <Home user={user}/>
         }
         else {      // 未ログイン
           return <Admin />

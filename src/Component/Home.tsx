@@ -33,9 +33,11 @@ import { GameSetting } from '../Component/GameSetting';
 import { CharacterSelect } from '../Component/CharacterSelect';
 import { auth } from '../Config/firebase'
 import { InitName } from './InitName' 
+import {collection, doc, getDocs, query, where } from 'firebase/firestore';
+import { db }  from '../Config/firebase';
 
 
-export function Home({userData}: any) {
+export function Home({user}: any) {
   const { width, height } = useViewportSize();
   const theme = useMantineTheme();
   const componentHeight = px(rem(170));
@@ -43,24 +45,49 @@ export function Home({userData}: any) {
   const SECONDARY_BOTTOM_HEIGHT= `calc((${SECONDARY_TOP_HEIGHT} + ${theme.spacing.md} )*2)`;
   const CENTER_MARGIN = height/7;
   const [opened, { open, close }] = useDisclosure(false);
+  const [userData, setUserData] = useState<any>();
 
   useEffect(() => {
-    if(userData === undefined){
-      open();
+    if(user && userData === undefined){
+      // データを取得
+      let _userData: any = [];
+      const dataList = query(collection(db, "user-data"), where("uuid", "==", user.uid));
+
+      // ユーザーデータ取得
+      getDocs(dataList).then((snapShot)=>{
+        if(snapShot.docs.length > 0) {    // ユーザーデータが格納されていた
+          // userDataにデータベースのデータを格納
+          const _data = JSON.stringify(snapShot.docs.map((doc) => {
+            const data = doc.data();
+            _userData.push({
+              id:     doc.ref.id,
+              name:   data.name,
+              uuid:   data.uuid,
+              win:    data.win,
+              lose:   data.lose,
+              level:  data.level,
+              language: data.language,
+              friends: data.friends,
+              history: data.history,
+              update: data.update
+            })
+            setUserData(_userData);
+          }));
+        }
+        else{ // ユーザーデータが未登録だった
+          open();
+        }
+        console.log(userData)
+      });
     }
-  }, [userData]);
+  });
+
 
   return (
     <div style={{height:height}}>
-      <Center>
-        <Modal opened={opened} onClose={close} title="ユーザーネームを入力してください">
-          <TextInput 
-            data-autofocus
-            label="ユーザーネーム" 
-            placeholder="ユーザーネーム" />
+        <Modal centered opened={opened}  onClose={close} title={<Text>ユーザーネームを設定してください</Text>}>
+          <InitName uuid={user.uid} close={close}/>
         </Modal>
-      </Center>
-      
 
         <Header height={50} px="md" className="header" bg="dark">
           <Container>

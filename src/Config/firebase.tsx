@@ -4,6 +4,7 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { GoogleAuthProvider, getAuth } from "firebase/auth";
 import { getAnalytics } from "firebase/analytics";
+import {collection, doc, addDoc, Timestamp } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: "AIzaSyBptRJsLIq4Nz-210u6nGNNrdhZw10WTZU",
@@ -24,4 +25,19 @@ const db = getFirestore(app);
 const auth = getAuth();
 const provider = new GoogleAuthProvider();
 
-export {db, storage, provider, auth};
+async function addUser(name: any, language: any, uuid: any) {
+  const update = Timestamp.now();
+
+  const docRef = await addDoc(collection(db, "user-data"), {
+    uuid: uuid,
+    name: name,
+    win: 0,
+    lose: 0,
+    level: 0.0,
+    language: language,
+    friends: {},
+    history: {},
+    update: update
+  });
+}
+export {db, storage, provider, auth, addUser};
