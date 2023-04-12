@@ -1,4 +1,7 @@
 import React, {useState} from 'react'
+import '../../css/panel.css'
+import '../../css/button.css'
+import '../../css/badge.css'
 import { 
   Group, 
   Container,
@@ -32,7 +35,6 @@ import {
 import {
   AiOutlineUserSwitch
 } from 'react-icons/ai'
-import '../Scene/GameScene.css';
 
 export function CharacterSelect({height}:any) {
   const theme = useMantineTheme();
@@ -43,9 +45,9 @@ export function CharacterSelect({height}:any) {
 
   useAnimationOffsetEffect(embla, TRANSITION_DURATION);
   return (
-    <div style={{backgroundColor:"#26254A", height: MAIN_HEIGHT, borderRadius: "8px", }}>
+    <div className="panel panel-shadow panel-border" style={{height: MAIN_HEIGHT }}>
       <Group position="apart" px="sm" pt="sm" >
-        <Badge size="lg" className="gray">キャラクター</Badge>
+        <Badge size="lg" className="badge">キャラクター</Badge>
       </Group>
 
       <ScrollArea>
@@ -56,7 +58,7 @@ export function CharacterSelect({height}:any) {
           controlsOffset="xs"
           loop 
           getEmblaApi={setEmbla} 
-          maw={320}
+          maw={380}
           mx="auto"
           height={MAIN_HEIGHT/7*3}
           w={"100%"}
@@ -84,15 +86,15 @@ export function CharacterSelect({height}:any) {
             </Center>
           </Carousel.Slide>
       </Carousel>
-      <Paper className="gray" px="xl" py="md" mt="xl">
-        <Text size="sm" color="white">あかまる</Text>
+      <Paper className="panel-gray" radius="md"  mx="auto" w="90%" px="xl" py="md" mt="xl">
+        <Title w="40%" order={6} size="h4" weight="bold" >あかまる</Title>
         <Divider mb="sm" />
         <Text size="sm">鬼一族の中でも最も勇敢な鬼として知られている．</Text>
           
             <Group mt="xl">
               <ScrollArea>
-                <Badge pl="xs" leftSection={<IconCirclePlus style={{marginTop:"5"}} size="16"/>} className="gray" variant="outline" size="md" mr="sm" style={{borderColor:"#afaecf"}}>プラスフラッシュ</Badge>
-                <Badge pl="xs" leftSection={<IconCirclePlus style={{marginTop:"5"}} size="16"/>} className="gray" variant="outline" size="md" mr="sm" style={{borderColor:"#afaecf"}}>プラスフラッシュ</Badge>
+                <Badge pl="xs" leftSection={<IconCirclePlus style={{marginTop:"5"}} size="16"/>} className="badge-yellow" size="md" mr="sm" >プラスフラッシュ</Badge>
+                <Badge pl="xs" leftSection={<IconCirclePlus style={{marginTop:"5"}} size="16"/>} className="badge-yellow" size="md" mr="sm"  >プラスフラッシュ</Badge>
               </ScrollArea>
             </Group>
       </Paper>

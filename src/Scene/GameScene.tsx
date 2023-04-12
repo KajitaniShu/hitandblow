@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './GameScene.css';
+
 import { 
   Header, 
   Group, 
@@ -15,8 +15,8 @@ import {
 import {
   IoIosShareAlt
 } from 'react-icons/io'
-
-import '../Component/Button.css'
+import '../css/GameScene.css';
+import '../css/button.css'
 import { useViewportSize  } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
 import { GameScenePC } from '../Component/GameScenePC'

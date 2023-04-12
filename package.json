@@ -13,7 +13,7 @@
     "@mantine/nprogress": "^6.0.0",
     "@react-three/drei": "^9.57.1",
     "@react-three/fiber": "^8.11.10",
-    "@tabler/icons-react": "^2.7.0",
+    "@tabler/icons-react": "^2.15.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",

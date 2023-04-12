@@ -15,7 +15,8 @@ import {
   Menu,
   Modal,
   TextInput,
-  Center
+  Center,
+  Badge
 } from '@mantine/core';
 import {
   useViewportSize,
@@ -29,12 +30,12 @@ import {
   IconTrophy,
   IconLogout
 } from '@tabler/icons-react';
-import { GameSetting } from '../Component/GameSetting';
-import { CharacterSelect } from '../Component/CharacterSelect';
-import { auth } from '../Config/firebase'
+import { GameSetting } from './GameSetting';
+import { CharacterSelect } from './CharacterSelect';
+import { auth } from '../../Config/firebase'
 import { InitName } from './InitName' 
 import {collection, doc, getDocs, query, where } from 'firebase/firestore';
-import { db }  from '../Config/firebase';
+import { db }  from '../../Config/firebase';
 
 
 export function Home({user}: any) {
@@ -86,7 +87,7 @@ export function Home({user}: any) {
   return (
     <div style={{height:height}}>
       {/* ユーザーネーム登録モーダル (初期ログイン時に表示する) */}
-      <Modal centered opened={opened}  onClose={close} title={<Text>ユーザーネームを設定してください</Text>}>
+      <Modal centered withCloseButton={false} opened={opened}  onClose={close} classNames={{content: "small-panel"}}  title={<Badge className="badge" size="lg" mb="md" >ユーザーネームを設定してください</Badge>}>
         <InitName uuid={user.uid} close={close}/>
       </Modal>
 
@@ -95,12 +96,9 @@ export function Home({user}: any) {
             <Group position="apart" sx={{ height: '100%' }}>
               <Title order={1} size="h4" color="white">Hit&Blow online</Title>
               <Group position="right" px="md" py="sm">
-                <Avatar radius="xl" size="sm" color="violet">120</Avatar>
-                <Text color="white">ひいらぎ</Text>
-                
-                <div style={{backgroundColor:"#26254A", borderRadius: "8px", padding: "0.2em 0.5em"}}>
-                  <Text color="white"><IconDiamondFilled size="0.75em"/> 1000</Text>
-                </div>
+                <Avatar radius="xl" size="sm" bg="white">120</Avatar>
+                <Text color="white" >ひいらぎ</Text>
+                <Text color="white"><IconDiamondFilled style={{marginRight:"0.1em"}} size="0.75em"/>1000</Text>
                 <Menu
                   transitionProps={{ transition: 'pop-top-right' }}
                   position="top-end"
@@ -110,7 +108,7 @@ export function Home({user}: any) {
                 <Menu.Target>
                 <ActionIcon style={{color:"white"}} variant="transparent"><IconInfoSquareRoundedFilled size="20"/></ActionIcon>
                 </Menu.Target>
-                  <Menu.Dropdown>
+                  <Menu.Dropdown className="mini-panel">
                     <Menu.Item
                       icon={<IconUserCircle size="1rem" color={theme.colors.blue[6]} stroke={1.5} />}
                     >

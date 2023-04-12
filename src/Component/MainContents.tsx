@@ -31,7 +31,7 @@ import {
 import {
   AiOutlineUserSwitch
 } from 'react-icons/ai'
-import '../Scene/GameScene.css';
+import '../css/GameScene.css';
 
 export function MainContents({mySide, enemy, form, height}:any) {
   const theme = useMantineTheme();

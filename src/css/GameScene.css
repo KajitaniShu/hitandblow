@@ -37,10 +37,10 @@
 
 .mainCharacter{
   padding: 10px;
-  border: #d1d0e6 5px solid;
+  border: black 3px solid;
   border-radius: 100%;
   overflow: hidden;
-  background-color: #585497;
+  background-color: #987edae8;
   pointer-events: 'none'
 }
 
