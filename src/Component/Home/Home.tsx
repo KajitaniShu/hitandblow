@@ -34,8 +34,10 @@ import { GameSetting } from './GameSetting';
 import { CharacterSelect } from './CharacterSelect';
 import { auth } from '../../Config/firebase'
 import { InitName } from './InitName' 
-import {collection, doc, getDocs, query, where } from 'firebase/firestore';
+import {collection, doc, getDocs, query, where, getFirestore } from 'firebase/firestore';
 import { db }  from '../../Config/firebase';
+import { useCollectionOnce } from 'react-firebase-hooks/firestore';
+
 
 
 export function Home({user}: any) {
@@ -46,43 +48,8 @@ export function Home({user}: any) {
   const SECONDARY_BOTTOM_HEIGHT= `calc((${SECONDARY_TOP_HEIGHT} + ${theme.spacing.md} )*2)`;
   const CENTER_MARGIN = height/7;
   const [opened, { open, close }] = useDisclosure(false);
-  const [userData, setUserData] = useState<any>();
-
-  useEffect(() => {
-    if(user && userData === undefined){
-      // データを取得
-      let _userData: any = [];
-      const dataList = query(collection(db, "user-data"), where("uuid", "==", user.uid));
-
-      // ユーザーデータ取得
-      getDocs(dataList).then((snapShot)=>{
-        if(snapShot.docs.length > 0) {    // ユーザーデータが格納されていた
-          // userDataにデータベースのデータを格納
-          const _data = JSON.stringify(snapShot.docs.map((doc) => {
-            const data = doc.data();
-            _userData.push({
-              id:     doc.ref.id,
-              name:   data.name,
-              uuid:   data.uuid,
-              win:    data.win,
-              lose:   data.lose,
-              level:  data.level,
-              language: data.language,
-              friends: data.friends,
-              history: data.history,
-              update: data.update
-            })
-            setUserData(_userData);
-          }));
-        }
-        else{ // ユーザーデータが未登録だった
-          open();
-        }
-        console.log(userData)
-      });
-    }
-  });
-
+  const userQuery = query(collection(db, "user-data"), where("uuid", "==", user.uid));
+  const [userData, loading, error, reload] = useCollectionOnce(userQuery);
 
   return (
     <div style={{height:height}}>
