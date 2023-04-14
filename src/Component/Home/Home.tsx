@@ -16,7 +16,8 @@ import {
   Modal,
   TextInput,
   Center,
-  Badge
+  Badge,
+  Skeleton
 } from '@mantine/core';
 import {
   useViewportSize,
@@ -34,9 +35,10 @@ import { GameSetting } from './GameSetting';
 import { CharacterSelect } from './CharacterSelect';
 import { auth } from '../../Config/firebase'
 import { InitName } from './InitName' 
+import { UserInfo } from './UserInfo' 
 import {collection, doc, getDocs, query, where, getFirestore } from 'firebase/firestore';
 import { db }  from '../../Config/firebase';
-import { useCollectionOnce } from 'react-firebase-hooks/firestore';
+import { useCollectionDataOnce } from 'react-firebase-hooks/firestore';
 
 
 
@@ -47,25 +49,43 @@ export function Home({user}: any) {
   const SECONDARY_TOP_HEIGHT= `calc(${componentHeight} / 3 - ${theme.spacing.md})`;
   const SECONDARY_BOTTOM_HEIGHT= `calc((${SECONDARY_TOP_HEIGHT} + ${theme.spacing.md} )*2)`;
   const CENTER_MARGIN = height/7;
-  const [opened, { open, close }] = useDisclosure(false);
+  const [modalType, setModalType] = useState('none');
   const userQuery = query(collection(db, "user-data"), where("uuid", "==", user.uid));
-  const [userData, loading, error, reload] = useCollectionOnce(userQuery);
+  const [userData, loading, error, snapshot, reload] = useCollectionDataOnce(userQuery);
+
+
+  
+  useEffect(() => {
+    if(userData && userData.length <= 0) { setModalType('initName'); }
+    else if(modalType === 'userInfo') {;}
+    else if(modalType !== 'none') setModalType('none');
+  })
 
   return (
     <div style={{height:height}}>
       {/* ユーザーネーム登録モーダル (初期ログイン時に表示する) */}
-      <Modal centered withCloseButton={false} opened={opened}  onClose={close} classNames={{content: "small-panel"}}  title={<Badge className="badge" size="lg" mb="md" >ユーザーネームを設定してください</Badge>}>
-        <InitName uuid={user.uid} close={close}/>
-      </Modal>
-
+      <InitName uuid={user.uid} modalType={modalType} setModalType={setModalType} reload={reload} />
+      
+      {userData && userData.length > 0 && <UserInfo userData={userData} modalType={modalType} setModalType={setModalType} reload={reload}/>}
         <Header height={50} px="md" className="header" bg="dark">
           <Container>
             <Group position="apart" sx={{ height: '100%' }}>
               <Title order={1} size="h4" color="white">Hit&Blow online</Title>
               <Group position="right" px="md" py="sm">
-                <Avatar radius="xl" size="sm" bg="white">120</Avatar>
-                <Text color="white" >ひいらぎ</Text>
-                <Text color="white"><IconDiamondFilled style={{marginRight:"0.1em"}} size="0.75em"/>1000</Text>
+                {userData && userData.length > 0 ? 
+                  <>
+                    <Avatar radius="xl" size="sm" bg="white">{String(userData[0].level)}</Avatar>
+                    <Text color="white" >{String(userData[0].name)}</Text> 
+                    <Text color="white"><IconDiamondFilled style={{marginRight:"0.1em"}} size="0.75em"/>{String(userData[0].money)}</Text>
+                  </>
+                  :
+                  <>
+                    <Skeleton height={rem(26)} circle />
+                    <Skeleton height={rem(8)} radius="xl" width={"5em"} />
+                    <Skeleton height={rem(8)} radius="xl" width={"2em"} />
+                  </>
+                }
+                
                 <Menu
                   transitionProps={{ transition: 'pop-top-right' }}
                   position="top-end"
@@ -77,14 +97,10 @@ export function Home({user}: any) {
                 </Menu.Target>
                   <Menu.Dropdown className="mini-panel">
                     <Menu.Item
+                      onClick={()=>setModalType('userInfo')}
                       icon={<IconUserCircle size="1rem" color={theme.colors.blue[6]} stroke={1.5} />}
                     >
-                      アカウント設定
-                    </Menu.Item>
-                    <Menu.Item
-                      icon={<IconTrophy size="1rem" color={theme.colors.violet[6]} stroke={1.5} />}
-                    >
-                      対戦履歴
+                      アカウント情報
                     </Menu.Item>
                     <Menu.Item
                       icon={<IconZoomQuestion size="1rem" color={theme.colors.teal[6]} stroke={1.5} />}
