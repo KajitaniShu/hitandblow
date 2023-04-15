@@ -28,7 +28,7 @@ const provider = new GoogleAuthProvider();
 async function addUser(name: any, language: any, uuid: any) {
   const update = Timestamp.now();
 
-  const docRef = await addDoc(collection(db, "user-data"), {
+  const docRef = await setDoc(doc(db, "user-data", uuid), {
     uuid: uuid,
     name: name,
     money: 0,
@@ -67,4 +67,24 @@ async function setUser(
   });
 }
 
-export {db, storage, provider, auth, addUser, setUser};
+async function addRoom(
+  uuid:   string,
+  number:   number,
+  timeLimits: number,
+  effects: boolean,
+  ) {
+  const update = Timestamp.now();
+  const docRef = await addDoc(collection(db, "room-data"), {
+    host: uuid,
+    guest: null,
+    host_number: number,
+    guest_number: null,
+    turn: -1,
+    effects: effects,
+    timeLimits: timeLimits,
+    update: update
+  });
+  return docRef.id;
+}
+
+export {db, storage, provider, auth, addUser, setUser, addRoom};

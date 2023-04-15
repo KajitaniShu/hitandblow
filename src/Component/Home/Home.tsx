@@ -123,9 +123,8 @@ export function Home({user}: any) {
         </Header>
         <Container pt="sm" mt={CENTER_MARGIN}>
           <SimpleGrid cols={2} spacing="md" breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
-              <GameSetting height={componentHeight} />
+              <GameSetting height={componentHeight} userData={userData} />
               <Grid gutter="md">
-
               <Grid.Col >
                 <CharacterSelect height={componentHeight}/>
               </Grid.Col>

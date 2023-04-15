@@ -18,7 +18,6 @@ export function UserInfo({userData, modalType, setModalType, reload}: any) {
   const [opened, { open, close }] = useDisclosure(false);
   const { width, height } = useViewportSize();
   
-
   const form = useForm({
     initialValues: {
       name:     userData[0].name,
@@ -37,20 +36,34 @@ export function UserInfo({userData, modalType, setModalType, reload}: any) {
     },
   });
 
-  if(modalType === 'userInfo' && !opened) open();
+  if(modalType === 'userInfo' && !opened) {
+    form.setValues({
+      name:     userData[0].name,
+      level:    userData[0].level,
+      money:    userData[0].money,
+      win:      userData[0].win,
+      lose:     userData[0].lose,
+      language: userData[0].language,
+      friends:  userData[0].friends,
+      history:  userData[0].history,
+      update:   userData[0].update,
+    });
+    open();
+  }
   if(modalType !== 'userInfo' && opened) close();
 
   async function submit(name: any, language: any, uuid: any){
     setSending(true);     // 送信中に決定ボタンを押せないようにローディングを表示
     await setUser(userData[0].uuid, name, userData[0].money, userData[0].win, userData[0].lose, userData[0].level, language, userData[0].friends, userData[0].history);  // firebaseにデータを追加
-    
+    reload();             // ユーザーデータを再読み込み
     close();              // モーダルを閉じる
     setSending(false);    // ローディングを非表示
-    reload();             // ユーザーデータを再読み込み
+    setModalType('none'); // 現在開くべきモーダルの種類を'none'(何も開かない) にする
+    form.reset();         // フォームに書き込んだ情報をリセット
   }
   
   return (
-    <Modal centered opened={opened}  onClose={() => setModalType('none')} classNames={{content: "small-panel"}}  title={<Badge className="badge" size="lg" mb="md" >ユーザー情報</Badge>}>
+    <Modal centered opened={opened}  onClose={()=> {setModalType('none'); form.reset(); close();}} classNames={{content: "small-panel"}}  title={<Badge className="badge" size="lg" mb="md" >ユーザー情報</Badge>}>
       <form onSubmit={form.onSubmit((values) => { submit(values.name, 'japanese', userData[0].uuid); })}>
       <ScrollArea h={height/2}>
         <TextInput
@@ -113,8 +126,9 @@ export function UserInfo({userData, modalType, setModalType, reload}: any) {
             leftIcon={<IconCheck size="1rem" />}
             color="yellow"
             loading={sending}
+            disabled={!form.isDirty()}
           >
-            決定
+            変更
           </Button>
         </Group>
       </form>
