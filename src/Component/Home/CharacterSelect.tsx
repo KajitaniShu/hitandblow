@@ -7,52 +7,33 @@ import {
   Container,
   ScrollArea,
   Text,
-  useMantineTheme,
-  Button,
-  Flex,
   Image,
   Badge,
-  ActionIcon,
-  px,
-  Progress,
-  Box,
   AspectRatio,
   Title,
-  PinInput,
-  Tooltip,
   Center,
   Paper,
   Divider, 
 } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
 import { Carousel, useAnimationOffsetEffect, Embla } from '@mantine/carousel';
 import { 
   IconCirclePlus,
-  IconBrandTelegram,
-  IconArrowRight,
-  IconArrowLeft
 } from '@tabler/icons-react';
-import {
-  AiOutlineUserSwitch
-} from 'react-icons/ai'
 
-export function CharacterSelect({height}:any) {
-  const theme = useMantineTheme();
-  const MAIN_HEIGHT= height * 3  + px(theme.spacing.md);
+export function CharacterSelect({height}: any) {
   const TRANSITION_DURATION = 200;
-  const [opened, setOpened] = useState(false);
   const [embla, setEmbla] = useState<Embla | null>(null);
 
   useAnimationOffsetEffect(embla, TRANSITION_DURATION);
   return (
-    <div className="panel panel-shadow panel-border" style={{height: MAIN_HEIGHT }}>
+    <div className="panel panel-shadow panel-border" style={{height: height }}>
       <Group position="apart" px="sm" pt="sm" >
         <Badge size="lg" className="badge">キャラクター</Badge>
       </Group>
 
       <ScrollArea>
 
-      <Container pt="md">
+      <Container pt="xl">
         <Carousel
           mt="xl"
           controlsOffset="xs"
@@ -60,27 +41,26 @@ export function CharacterSelect({height}:any) {
           getEmblaApi={setEmbla} 
           maw={380}
           mx="auto"
-          height={MAIN_HEIGHT/7*3}
-          w={"100%"}
+          height={height/12*5}
           mb="xl"
         >
           <Carousel.Slide>
             <Center>
-              <AspectRatio ratio={500/500} w={MAIN_HEIGHT/7*3}>
+              <AspectRatio ratio={500/500} h={height/12*5} w={height/12*5}>
                 <Image src="./images/akamaru.png" className="mainCharacter" />
               </AspectRatio>
             </Center>
           </Carousel.Slide>
           <Carousel.Slide>
             <Center>
-              <AspectRatio ratio={500/500} w={MAIN_HEIGHT/7*3}>
+              <AspectRatio ratio={500/500} h={height/12*5} w={height/12*5}>
                 <Image src="./images/akamaru.png" className="mainCharacter" />
               </AspectRatio>
             </Center>
           </Carousel.Slide>
           <Carousel.Slide>
             <Center>
-              <AspectRatio ratio={500/500} w={MAIN_HEIGHT/7*3}>
+              <AspectRatio ratio={500/500} h={height/12*5} w={height/12*5}>
                 <Image src="./images/akamaru.png" className="mainCharacter" />
               </AspectRatio>
             </Center>

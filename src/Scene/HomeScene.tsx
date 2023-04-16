@@ -30,8 +30,8 @@ import { useAuthState, useSignInWithFacebook } from 'react-firebase-hooks/auth'
 import { useParams } from 'react-router-dom'
 import { GameSetting } from '../Component/Home/GameSetting';
 import { CharacterSelect } from '../Component/Home/CharacterSelect';
-import { Ad } from '../Component/Ad';
-import { Clock } from '../Component/Clock'
+import { Ad } from '../Component/Game/Ad';
+import { Clock } from '../Component/Game/Clock'
 import { Admin } from '../Admin/Admin'
 import { Home } from '../Component/Home/Home'
 import { Loading } from '../Component/Loading'

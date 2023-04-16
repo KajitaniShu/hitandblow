@@ -19,8 +19,8 @@ import '../css/GameScene.css';
 import '../css/button.css'
 import { useViewportSize  } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
-import { GameScenePC } from '../Component/GameScenePC'
-import { GameSceneSP } from '../Component/GameSceneSP'
+import { GameScenePC } from '../Component/Game/GameScenePC'
+import { GameSceneSP } from '../Component/Game/GameSceneSP'
 
 const useStyles = createStyles((theme) => ({
   sp: {

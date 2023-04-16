@@ -31,15 +31,15 @@ import { Chat } from './Chat';
 import { Ad } from './Ad';
 import { Clock } from './Clock';
 
-export function GameSceneSP({mySide, enemy, messageList, form}: any) {
+export function GameScenePC({mySide, enemy, messageList, form}: any) {
   const theme = useMantineTheme();
   const { height, width } = useViewportSize();
 
   return (
     <>
-      <Container pt="sm" h={height-px(rem(50))}>
+      <Container h={height-px(rem(50))} pt={(height-px(rem(650)))/2}>
         <SimpleGrid cols={2} spacing="md" breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
-          <MainContents mySide={mySide} enemy={enemy} form={form} height={rem(600)} />
+          <MainContents mySide={mySide} enemy={enemy} form={form} height={px(rem(600))} />
         <Grid gutter="md">
 
           <Grid.Col span={7}>

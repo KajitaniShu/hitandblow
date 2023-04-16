@@ -35,7 +35,6 @@ import { useForm } from '@mantine/form';
 
 export function GameSetting({height, userData}:any) {
   const theme = useMantineTheme();
-  const MAIN_HEIGHT= height * 3  + px(theme.spacing.md);
   const [opened, { toggle }] = useDisclosure(false);
   const [sending, setSending] = useState(false);
   const form = useForm({
@@ -61,12 +60,12 @@ export function GameSetting({height, userData}:any) {
   }
 
   return (
-    <div className="panel panel-shadow panel-border" style={{height: MAIN_HEIGHT }}>
+    <div className="panel panel-shadow panel-border" style={{height: height }}>
       <Group position="apart" px="sm" pt="sm" >
         <Badge className="badge" size="lg" >ゲームの設定</Badge>
       </Group>
 
-      <Container pt="xl" >
+      <Container pt="md" >
       <form onSubmit={form.onSubmit((values) => {  submit(String(userData[0].uuid), Number(values.number), Number(values.timeLimit), Boolean(values.effect)); })}>
         <ScrollArea>
           <Center>

@@ -1,8 +1,5 @@
 import { useState} from 'react'
 import { 
-  Header, 
-  Group, 
-  ActionIcon, 
   Container,
   rem,
   Text,
@@ -31,7 +28,7 @@ import { Chat } from './Chat';
 import { Ad } from './Ad';
 import { Clock } from './Clock';
 
-export function GameScenePC({mySide, enemy, messageList, form}: any) {
+export function GameSceneSP({mySide, enemy, messageList, form}: any) {
   const theme = useMantineTheme();
   const { height, width } = useViewportSize();
 

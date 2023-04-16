@@ -43,16 +43,14 @@ import { useCollectionDataOnce } from 'react-firebase-hooks/firestore';
 
 
 export function Home({user}: any) {
-  const { width, height } = useViewportSize();
   const theme = useMantineTheme();
   const componentHeight = px(rem(170));
   const SECONDARY_TOP_HEIGHT= `calc(${componentHeight} / 3 - ${theme.spacing.md})`;
   const SECONDARY_BOTTOM_HEIGHT= `calc((${SECONDARY_TOP_HEIGHT} + ${theme.spacing.md} )*2)`;
-  const CENTER_MARGIN = height/7;
   const [modalType, setModalType] = useState('none');
   const userQuery = query(collection(db, "user-data"), where("uuid", "==", user.uid));
   const [userData, loading, error, snapshot, reload] = useCollectionDataOnce(userQuery);
-
+  const { width, height } = useViewportSize();
 
   
   useEffect(() => {
@@ -67,7 +65,7 @@ export function Home({user}: any) {
       <InitName uuid={user.uid} modalType={modalType} setModalType={setModalType} reload={reload} />
       
       {userData && userData.length > 0 && <UserInfo userData={userData} modalType={modalType} setModalType={setModalType} reload={reload}/>}
-        <Header height={50} px="md" className="header" bg="dark">
+        <Header height={rem(50)} px="md" className="header" bg="dark">
           <Container>
             <Group position="apart" sx={{ height: '100%' }}>
               <Title order={1} size="h4" color="white">Hit&Blow online</Title>
@@ -121,12 +119,12 @@ export function Home({user}: any) {
             </Group>
           </Container>
         </Header>
-        <Container pt="sm" mt={CENTER_MARGIN}>
+        <Container pt="sm" mt={(height-px(rem(600)))/2}>
           <SimpleGrid cols={2} spacing="md" breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
-              <GameSetting height={componentHeight} userData={userData} />
+              <GameSetting userData={userData} height={px(rem(510))}/>
               <Grid gutter="md">
               <Grid.Col >
-                <CharacterSelect height={componentHeight}/>
+                <CharacterSelect height={px(rem(510))}/>
               </Grid.Col>
 
               <Grid.Col>
