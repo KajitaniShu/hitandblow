@@ -52,9 +52,9 @@ export function GameSetting({height, userData}:any) {
     },
   });
 
-  async function submit(uuid: string, num: number, timeLimits: number, effects: boolean){
+  async function submit(uuid: string, num: number, timeLimits: number, effects: boolean, name:string, level:number, win:number, lose:number, character: string){
     setSending(true);     // 送信中に決定ボタンを押せないようにローディングを表示
-    const roomId = await addRoom(uuid, num, timeLimits, effects);  // firebaseにデータを追加
+    const roomId = await addRoom(uuid, num, timeLimits, effects, name, level, win, lose, character );  // firebaseにデータを追加
     window.location.href = "/room/"+roomId;
     setSending(false);    // ローディングを非表示
   }
@@ -66,7 +66,7 @@ export function GameSetting({height, userData}:any) {
       </Group>
 
       <Container pt="md" >
-      <form onSubmit={form.onSubmit((values) => {  submit(String(userData[0].uuid), Number(values.number), Number(values.timeLimit), Boolean(values.effect)); })}>
+      <form onSubmit={form.onSubmit((values) => {  submit(String(userData[0].uuid), Number(values.number), Number(values.timeLimit), Boolean(values.effect), String(userData[0].name), Number(userData[0].level), Number(userData[0].win), Number(userData[0].lose), String(values.character)); })}>
         <ScrollArea>
           <Center>
           <Group position="apart" mb="xl" mt="xl" w="80%">
@@ -88,7 +88,7 @@ export function GameSetting({height, userData}:any) {
               {...form.getInputProps('character')}
               w="40%"
               data={[
-                { value: 'あかまる', label: 'あかまる' },
+                { value: 'akamru', label: 'あかまる' },
                 { value: 'キャラクター2', label: 'キャラクター2' },
                 { value: 'キャラクター3', label: 'キャラクター3' }
               ]}/>

@@ -72,15 +72,18 @@ async function addRoom(
   number:   number,
   timeLimits: number,
   effects: boolean,
+  name:string, 
+  level:number, 
+  win:number, 
+  lose:number,
+  character: string
   ) {
   const update = Timestamp.now();
   const docRef = await addDoc(collection(db, "room-data"), {
-    host: uuid,
+    host: {name: name, uuid: uuid, number: number, level: level, win: win, lose: lose, character: character},
     guest: null,
-    host_number: number,
-    guest_number: null,
     turn: -1,
-    effects: effects,
+    useEffects: effects,
     timeLimits: timeLimits,
     update: update
   });

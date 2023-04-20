@@ -38,7 +38,7 @@ import { setPredict } from '../../Config/firebase'
 import { useParams } from 'react-router-dom';
 
 
-export function MainContents({height, myside, enemy}: any) {
+export function MainContents({height, roomData, /*userData*/}: any) {
   const roomId = useParams();
   const [opened, { toggle }] = useDisclosure(true);
   const theme = useMantineTheme();
@@ -47,7 +47,6 @@ export function MainContents({height, myside, enemy}: any) {
   const form = useForm({
     initialValues: {
       predict:  0,
-      playerUuid: myside.uuid,
       effectId: '',
     },
 
@@ -67,7 +66,8 @@ export function MainContents({height, myside, enemy}: any) {
   return (
     <>
       <Group position="apart" px="sm" pt="sm" >
-        <Badge size="lg" className="badge">{opened ? myside.name : enemy.name}</Badge>
+      {/*<Badge size="lg" className="badge">{opened ? (roomData.host.uuid === userData.uuid ? roomData.host.name : roomData.guest.name) : (roomData.host.uuid === userData.uuid ? roomData.guest.name : roomData.host.name)}</Badge>*/}
+      <Badge size="lg" className="badge">{opened ? roomData.host.name : roomData.guest.name}</Badge>
         <Tooltip label={opened ? "あいての情報をみる" : "じぶんの情報をみる"}>
           <ActionIcon variant="transparent" onClick={toggle}><AiOutlineUserSwitch size="20"/></ActionIcon>
         </Tooltip>
@@ -76,10 +76,12 @@ export function MainContents({height, myside, enemy}: any) {
         <Box ml="xl" w="6em">
           <Group>
             <Text color="dark" weight="bold" size={px(theme.spacing.xs)/5*4} variant="dot" >
-                Lv.{opened ? myside.level : enemy.level}
+                {/*Lv.{opened ? (roomData.host.uuid === userData.uuid ? roomData.host.level : roomData.guest.level) : (roomData.host.uuid === userData.uuid ? roomData.guest.level : roomData.host.level)}*/}
+                Lv.{opened ? roomData.host.level : roomData.guest.level}
             </Text>
             <Text color="dark" weight="bold" size={px(theme.spacing.xs)/5*4} variant="dot">
-              {opened ? + " " + myside.win + "/" + myside.lose : enemy.win + "/" + enemy.lose}
+            {/*opened ? (roomData.host.uuid === userData.uuid ? roomData.host.win+"/"+roomData.host.lose : roomData.guest.win+"/")+roomData.guest.lose : (roomData.host.uuid === userData.uuid ? roomData.guest.win+"/"+roomData.guest.lose : roomData.host.win+"/")*/}
+            {opened ? roomData.host.win+"/"+roomData.host.lose : roomData.guest.win+"/"+roomData.guest.lose}
             </Text>
           </Group>
           <Progress size="xs" radius="md" color="dark" value={20} >aaa</Progress>
@@ -87,7 +89,8 @@ export function MainContents({height, myside, enemy}: any) {
       </Group>
 
       <Container pt="xl">
-        <form onSubmit={form.onSubmit((values) => { submit(values.predict, values.effectId, myside.uuid); })}>
+        {/*<form onSubmit={form.onSubmit((values) => { submit(values.predict, values.effectId, userData.uuid); })}>*/}
+        <form onSubmit={form.onSubmit((values) => { submit(values.predict, values.effectId, roomData.host.uuid); })}>
           <Flex
             mih={50}
             gap="md"

@@ -23,14 +23,15 @@ import {
   IconSend
 } from '@tabler/icons-react';
 
-export function Chat({mySide, enemy, messageList, messageForm, height}: any) {
+export function Chat({roomData, height}: any) {
   const theme = useMantineTheme();
 
   return (
       <Container pt="md">
         <Paper p="md"  h={height/7*5}  withBorder>
           <ScrollArea h={"100%"} type="scroll" scrollbarSize={6} offsetScrollbars>
-            {messageList.map(({name,  message, index}: any) => {return (
+            {/*
+            {roomData.map(({name,  message, index}: any) => {return (
               <Flex
                 key={index}
                 mb="md"
@@ -57,6 +58,7 @@ export function Chat({mySide, enemy, messageList, messageForm, height}: any) {
                 {name===mySide.name ? <Avatar src={mySide.image} bg="#585497" radius="xl" size="md" style={{border: "white 2px solid", top:0}} /> : ""}
               </Flex>
             )})}
+            */}
           </ScrollArea>
         </Paper>
 

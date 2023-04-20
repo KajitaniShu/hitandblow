@@ -49,9 +49,12 @@ export function GameScene() {
   const { width, height } = useViewportSize();
   const { classes, theme, cx } = useStyles();
   const roomId = useParams();
-  const roomRef =  doc(db, "room-data", String(roomId.id));
+  const roomRef = doc(db, "room-data", String(roomId.id));
+  //const usrDataRef = doc(db, "user-data", String(roomId.id));
   const [roomData, loading, error, snapshot, reload] = useDocumentDataOnce(roomRef);
-  console.log(roomData)
+  //const [userData, userDataloading, usrDataError, usrDataSnapshot, usrDataReload] = useDocumentDataOnce(usrDataRef);
+  console.log(roomData);
+  //console.log(userData);
   const numberForm = useForm({
     initialValues: {
       number: '',
@@ -70,7 +73,7 @@ export function GameScene() {
     },
   });
 
-  const mySide = {name: "ひいらぎ(こっちーーーーーー)", number: "1234",image: "/images/akamaru.png", level: 1000, win: 10, lose:12, uuid: 'id-kotti'};
+  const mySide = {name: "", number: "1234",image: "/images/akamaru.png", level: 1000, win: 10, lose:12, uuid: 'id-kotti'};
   const enemy = {name: "ひいらぎ(あいて)", number: "0123", image: "/images/fighter.png", level: 1, win: 1, lose:2, uuid: 'id-aite'};
   const messageList = [
     {name: "ひいらぎ(こっちーーーーーー)", message: "えおいｊふぉえしｆじょいあｊふぉあいｆ"},
@@ -79,8 +82,10 @@ export function GameScene() {
     {name: "ひいらぎ(あいて)", message: "せｆせｐふぉせふぇｓｆぽえおいｊふぉえしｆじょいあｊふぉあいｆ"},
   ];
 
-      if(loading)         return <Loading />         // ユーザーデータ取得中はローディング画面を出す
-      else if(!roomData)  return <PageNotFound />    // 未登録のルーム
+      if(loading /*|| userDataloading*/)  return <Loading />         // ユーザーデータ取得中はローディング画面を出す
+      else if(!roomData)              return <PageNotFound />    // 未登録のルーム
+      /*else if(!userData)              return <LoginModal />    // 未ログイン*/
+
       else                return (
         <>
           <Header height={rem(50)} px="md" className="header">
@@ -96,18 +101,14 @@ export function GameScene() {
           </Header>
           {width > 900 ?
             <GameScenePC
-              mySide={mySide} 
-              enemy={enemy} 
-              messageList={messageList} 
-              form={messageForm}
+              roomData={roomData}
+              //userData={userData}
               className={classes.pc} 
             />
             :
-              <GameSceneSP
-              mySide={mySide} 
-              enemy={enemy} 
-              messageList={messageList} 
-              form={messageForm}
+            <GameSceneSP
+              roomData={roomData}
+              //userData={userData}
               className={classes.sp} 
             />
           }  

@@ -31,7 +31,7 @@ import { Chat } from './Chat';
 import { Ad } from './Ad';
 import { Clock } from './Clock';
 
-export function GameScenePC({mySide, enemy, messageList, form}: any) {
+export function GameScenePC({roomData, /*userData*/}: any) {
   const theme = useMantineTheme();
   const { height, width } = useViewportSize();
 
@@ -40,7 +40,7 @@ export function GameScenePC({mySide, enemy, messageList, form}: any) {
       <Container h={height-px(rem(50))} pt={(height-px(rem(650)))/2}>
         <SimpleGrid cols={2} spacing="md" breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
           <div className="panel panel-shadow panel-border" style={{height: rem(600) }}>
-            <MainContents myside={mySide} enemy={enemy} form={form} height={px(rem(600))} />
+            <MainContents roomData={roomData} /*userData={userData}*/ height={px(rem(600))} />
           </div>
         <Grid gutter="md">
 
@@ -52,13 +52,13 @@ export function GameScenePC({mySide, enemy, messageList, form}: any) {
 
           <Grid.Col span={5}>
             <div className="panel panel-shadow panel-border" style={{height: px(rem(200))-px(theme.spacing.md) }}>
-              <Clock height={px(rem(200))-px(theme.spacing.md)} time={60} />
+              <Clock height={px(rem(200))-px(theme.spacing.md)} roomData={roomData} />
             </div>
           </Grid.Col>
 
           <Grid.Col>
             <div className="panel panel-shadow panel-border" style={{height: rem(400) }}>
-              <Chat mySide={mySide} enemy={enemy} messageList={messageList} form={form} height={px(rem(400))}/>
+              <Chat  roomData={roomData} /*userData={userData}*/ height={px(rem(400))}/>
             </div>
           </Grid.Col>
         </Grid>
