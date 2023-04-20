@@ -33,14 +33,39 @@ import {
 import {
   AiOutlineUserSwitch
 } from 'react-icons/ai'
+import { useForm } from '@mantine/form';
+import { setPredict } from '../../Config/firebase'
+import { useParams } from 'react-router-dom';
 
 
 export function MainContents({height, myside, enemy}: any) {
-  const [opened, { toggle }] = useDisclosure(false);
+  const roomId = useParams();
+  const [opened, { toggle }] = useDisclosure(true);
   const theme = useMantineTheme();
+  const [sending, setSending] = useState(false);
+
+  const form = useForm({
+    initialValues: {
+      predict:  0,
+      playerUuid: myside.uuid,
+      effectId: '',
+    },
+
+    validate: {
+      
+    },
+  });
+
+  async function submit(predict: any, effectId: any, playerUuid: any){
+    setSending(true);     // 送信中に決定ボタンを押せないようにローディングを表示
+    await setPredict(predict, effectId, playerUuid, roomId.id);  // firebaseにデータを追加
+    setSending(false);    // ローディングを非表示
+    form.reset();         // フォームに書き込んだ情報をリセット
+    setSending(false);
+  }
 
   return (
-    <div className="panel panel-shadow panel-border" style={{height: height }}>
+    <>
       <Group position="apart" px="sm" pt="sm" >
         <Badge size="lg" className="badge">{opened ? myside.name : enemy.name}</Badge>
         <Tooltip label={opened ? "あいての情報をみる" : "じぶんの情報をみる"}>
@@ -62,48 +87,28 @@ export function MainContents({height, myside, enemy}: any) {
       </Group>
 
       <Container pt="xl">
-        <Flex
-          mih={50}
-          gap="md"
-          justify="center"
-          align="center"
-          direction="column"
-          wrap="wrap"
-        >
-        <AspectRatio ratio={500/500} h={height/12*5} w={height/12*5}>
-          <Image src="../images/akamaru.png" className="mainCharacter" />
-        </AspectRatio>
-        <Title size={height/12*1}>1234</Title>
-          <ScrollArea w="100%" h={height/12} type="never">
-            <Group w={2000} h={height/12} >
-
-              <Button variant="default" radius="md" uppercase>
-              Settings
-            </Button>
-            <Button variant="default" radius="md" uppercase>
-              Settingsfgggggggggggggggggg
-            </Button>
-            <Button variant="default" radius="md" uppercase>
-              Settingsfgggggggggggggggggg
-            </Button><Button variant="default" radius="md" uppercase>
-              Settingsfgggggggggggggggggg
-            </Button><Button variant="default" radius="md" uppercase>
-              Settingsfgggggggggggggggggg
-            </Button><Button variant="default" radius="md" uppercase>
-              Settingsfgggggggggggggggggg
-            </Button>
+        <form onSubmit={form.onSubmit((values) => { submit(values.predict, values.effectId, myside.uuid); })}>
+          <Flex
+            mih={50}
+            gap="md"
+            justify="center"
+            align="center"
+            direction="column"
+            wrap="wrap"
+          >
+            <AspectRatio ratio={500/500} h={height/12*5} w={height/12*5}>
+              <Image src="../images/akamaru.png" className="mainCharacter" />
+            </AspectRatio>
+            <Title size={height/12*1}>1234</Title>
+            
+            
+            <Group position="right" h={height/12} >
+              <PinInput {...form.getInputProps('predict')} color="yellow" size="md" type="number"  />
+              <Button type="submit" loading={sending} color="yellow" className="button" ><IconSend size="1.3rem"/></Button>
             </Group>
-          </ScrollArea>
-        
-        
-        <Group position="right" h={height/12} >
-          <PinInput /*{...form.getInputProps('number')}*/ color="yellow" size="md" type="number"  />
-          <Button type="submit" /*loading={sending}*/ color="yellow" className="button" ><IconSend size="1.3rem"/></Button>
-        </Group>
-      </Flex>
-          
+          </Flex>
+        </form>
       </Container>
-      
-    </div>
+    </>
   )
 }

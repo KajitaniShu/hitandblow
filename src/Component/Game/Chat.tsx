@@ -12,21 +12,24 @@ import {
   Flex,
   Image,
   Card,
+  rem,
   px
 } from '@mantine/core';
 import { 
   IconBrandTelegram,
 } from '@tabler/icons-react';
+import { 
+  IconCirclePlus,
+  IconSend
+} from '@tabler/icons-react';
 
 export function Chat({mySide, enemy, messageList, messageForm, height}: any) {
-  const SECONDARY_BOTTOM_HEIGHT= height*2;
   const theme = useMantineTheme();
 
   return (
-    <div style={{backgroundColor:"#26254A", height: SECONDARY_BOTTOM_HEIGHT, borderRadius: "8px", }}>
       <Container pt="md">
-        <Paper p="md"  h={height*4/3} bg="#191736">
-          <ScrollArea h={"100%"} type="scroll" scrollbarSize={6}>
+        <Paper p="md"  h={height/7*5}  withBorder>
+          <ScrollArea h={"100%"} type="scroll" scrollbarSize={6} offsetScrollbars>
             {messageList.map(({name,  message, index}: any) => {return (
               <Flex
                 key={index}
@@ -40,12 +43,12 @@ export function Chat({mySide, enemy, messageList, messageForm, height}: any) {
                 {name===enemy.name ? <Avatar src={enemy.image} bg="#585497" radius="xl" size="md" style={{border: "white 2px solid", top:0}} /> : ""}
                 <div style={{maxWidth: "60%"}}>
                   <Group position={name===mySide.name ? "right" : "left"}>
-                    <Text color="white" size="xs">
+                    <Text size="xs" weight="bold" color={theme.colors.gray[7]}>
                       {name}
                     </Text>
                   </Group>
                   
-                  <Paper p="xs" bg="white" style={{wordWrap: "break-word", overflowWrap: "break-word"}}>
+                  <Paper p="xs" bg="white" withBorder style={{wordWrap: "break-word", overflowWrap: "break-word"}}>
                     <Text color="#191736" size="xs" weight="bold">
                       {message}
                     </Text>
@@ -59,7 +62,6 @@ export function Chat({mySide, enemy, messageList, messageForm, height}: any) {
 
         <Flex
           mt="lg"
-          mih={50}
           gap="md"
           justify="center"
           align="center"
@@ -68,17 +70,13 @@ export function Chat({mySide, enemy, messageList, messageForm, height}: any) {
         >
           <form >
             <TextInput
+              size="lg"
               color="#585497"
-              radius="lg"
               placeholder="メッセージを入力"
-              
-
           />
           </form>
-          <Button radius="lg" bg="#585497" color="violet"><IconBrandTelegram size="1rem" /></Button>
+          <Button type="submit" /*loading={sending}*/ variant="outline" color="dark" size="lg" className="button" ><IconSend size="1.3rem"/></Button>
         </Flex>
       </Container>
-      
-    </div>
   )
 }

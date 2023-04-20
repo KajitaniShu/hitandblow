@@ -87,4 +87,23 @@ async function addRoom(
   return docRef.id;
 }
 
-export {db, storage, provider, auth, addUser, setUser, addRoom};
+async function setPredict(
+  predict: any, 
+  effectId: any, 
+  playerUuid: any,
+  roomId: any
+  ) {
+  const update = Timestamp.now();
+  const docRef = await addDoc(collection(db, "room-data/" + roomId + "/game-data"), {
+    predict:  predict,
+    hit:      0,
+    blow:     0,
+    playerUuid: playerUuid,
+    update:  update,
+    effectId: effectId,
+    type: 'predict',
+  });
+  return docRef.id;
+}
+
+export {db, storage, provider, auth, addUser, setUser, addRoom, setPredict};

@@ -14,9 +14,8 @@ export function Ad({height}: any) {
   const SECONDARY_TOP_HEIGHT = height;
 
   return (
-    <div style={{backgroundColor:"#26254A", height: SECONDARY_TOP_HEIGHT, borderRadius: "8px" }}>
       <Group position="apart" px="sm" pt="sm" >
-        <Badge size="sm" className="gray">広告</Badge>
+        <Badge size="sm" className="badge">広告</Badge>
         <Popover width={200} trapFocus position="top" shadow="md" >
           <Popover.Dropdown sx={{ pointerEvents: 'none',  border: "gray 1px solid"}} className="gray">
             <Text size="xs">広告をここに載せてるよ．押し間違えたらごめんね...</Text>
@@ -26,6 +25,5 @@ export function Ad({height}: any) {
           </Popover.Target>
         </Popover>
       </Group>
-    </div>
   )
 }

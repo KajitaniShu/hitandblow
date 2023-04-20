@@ -29,30 +29,30 @@ import { Ad } from './Ad';
 import { Clock } from './Clock';
 
 export function GameSceneSP({mySide, enemy, messageList, form}: any) {
+  const TRANSITION_DURATION = 200;
+  const [opened, setOpened] = useState(false);
+  const [embla, setEmbla] = useState<Embla | null>(null);
   const theme = useMantineTheme();
   const { height, width } = useViewportSize();
+  useAnimationOffsetEffect(embla, TRANSITION_DURATION);
 
   return (
-    <>
-      <Container pt="sm" h={height-px(rem(50))}>
-        <SimpleGrid cols={2} spacing="md" breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
-          <MainContents mySide={mySide} enemy={enemy} form={form} height={rem(600)} />
-        <Grid gutter="md">
-
-          <Grid.Col span={7}>
-            <Ad height={px(rem(300))-px(theme.spacing.md)} />
-          </Grid.Col>
-
-          <Grid.Col span={5}>
-            <Clock height={px(rem(300))-px(theme.spacing.md)} time={60} />
-          </Grid.Col>
-
-          <Grid.Col>
-            <Chat mySide={mySide} enemy={enemy} messageList={messageList} form={form} height={rem(600)}/>
-          </Grid.Col>
-        </Grid>
-      </SimpleGrid>
-      </Container>
-    </>
+      <Carousel  maw={width} mx="auto" pt={(height-px(rem(450))-px(rem(50)))/2} h={height-px(rem(50))} withIndicators withControls={false} getEmblaApi={setEmbla}>
+      <Carousel.Slide>
+        <Container p="md" h="100%"> 
+          <div className="panel panel-shadow panel-border" style={{height: px(rem(450)) }}>
+            <MainContents myside={mySide} enemy={enemy} form={form} height={ px(rem(450)) } />
+          </div>
+        </Container>
+      </Carousel.Slide>
+      <Carousel.Slide>
+        <Container p="md" h="100%">      
+          <div className="panel panel-shadow panel-border" style={{height: px(rem(450)) }}>
+            <Chat mySide={mySide} enemy={enemy} messageList={messageList} form={form} height={px(rem(450))}/>
+          </div>
+        </Container>
+      </Carousel.Slide>
+      {/* ...other slides */}
+    </Carousel>
   );
 }

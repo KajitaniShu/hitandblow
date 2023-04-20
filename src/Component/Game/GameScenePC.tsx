@@ -39,19 +39,27 @@ export function GameScenePC({mySide, enemy, messageList, form}: any) {
     <>
       <Container h={height-px(rem(50))} pt={(height-px(rem(650)))/2}>
         <SimpleGrid cols={2} spacing="md" breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
-          <MainContents mySide={mySide} enemy={enemy} form={form} height={px(rem(600))} />
+          <div className="panel panel-shadow panel-border" style={{height: rem(600) }}>
+            <MainContents myside={mySide} enemy={enemy} form={form} height={px(rem(600))} />
+          </div>
         <Grid gutter="md">
 
           <Grid.Col span={7}>
-            <Ad height={px(rem(300))-px(theme.spacing.md)} />
+            <div className="panel panel-shadow panel-border" style={{height: px(rem(200))-px(theme.spacing.md) }}>
+              <Ad height={px(rem(200))-px(theme.spacing.md)} />
+            </div>
           </Grid.Col>
 
           <Grid.Col span={5}>
-            <Clock height={px(rem(300))-px(theme.spacing.md)} time={60} />
+            <div className="panel panel-shadow panel-border" style={{height: px(rem(200))-px(theme.spacing.md) }}>
+              <Clock height={px(rem(200))-px(theme.spacing.md)} time={60} />
+            </div>
           </Grid.Col>
 
           <Grid.Col>
-            <Chat mySide={mySide} enemy={enemy} messageList={messageList} form={form} height={rem(600)}/>
+            <div className="panel panel-shadow panel-border" style={{height: rem(400) }}>
+              <Chat mySide={mySide} enemy={enemy} messageList={messageList} form={form} height={px(rem(400))}/>
+            </div>
           </Grid.Col>
         </Grid>
       </SimpleGrid>
