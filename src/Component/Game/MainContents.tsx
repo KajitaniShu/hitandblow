@@ -106,7 +106,7 @@ export function MainContents({height, roomData, /*userData*/}: any) {
             
             
             <Group position="right" h={height/12} >
-              <PinInput {...form.getInputProps('predict')} color="yellow" size="md" type="number"  />
+              <PinInput {...form.getInputProps('predict')} color="yellow" size="md" type="number" />
               <Button type="submit" loading={sending} color="yellow" className="button" ><IconSend size="1.3rem"/></Button>
             </Group>
           </Flex>

@@ -53,11 +53,8 @@ export function GameScene() {
   const roomId = useParams();
   const roomRef = doc(db, "room-data", String(roomId.id));
   const [user, initialising] = useAuthState(auth);
-
   const [roomData, loading, error, snapshot] = useDocumentData(roomRef);
-  //const [userData, userDataloading, usrDataError, usrDataSnapshot, usrDataReload] = useDocumentDataOnce(usrDataRef);
-  console.log(roomData);
-  //console.log(userData);
+
   const numberForm = useForm({
     initialValues: {
       number: '',

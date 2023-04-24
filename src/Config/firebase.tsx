@@ -110,4 +110,22 @@ async function setPredict(
   return docRef.id;
 }
 
-export {db, storage, provider, auth, addUser, setUser, addRoom, setPredict};
+async function setMessage(
+  message: any, 
+  playerUuid: any,
+  roomId: any
+  ) {
+  const update = Timestamp.now();
+  const gameDataRef = collection(db, "room-data", roomId, "game-data");
+  const docRef = await addDoc(gameDataRef, {
+    message:  message,
+    hit:      0,
+    blow:     0,
+    playerUuid: playerUuid,
+    update:  update,
+    type: 'message',
+  });
+  return docRef.id;
+}
+
+export {db, storage, provider, auth, addUser, setUser, addRoom, setPredict, setMessage};

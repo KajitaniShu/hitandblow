@@ -13,6 +13,7 @@ import {
   Image,
   Card,
   rem,
+  ActionIcon,
   px
 } from '@mantine/core';
 import { 
@@ -20,28 +21,44 @@ import {
 } from '@tabler/icons-react';
 import { 
   IconCirclePlus,
-  IconSend
+  IconSend,
+  IconArrowRight
 } from '@tabler/icons-react';
 import { db }  from '../../Config/firebase';
 import { collection, query, where, orderBy, onSnapshot } from "firebase/firestore";
 import { useParams } from 'react-router-dom';
 import {format} from 'date-fns'
+import { useForm } from '@mantine/form';
+import { setMessage } from '../../Config/firebase'
 
 
 export function Chat({roomData, user, height}: any) {
   const roomId = useParams();   // URLから取得したルームID
   const [messages, setMessages] = useState<any>([]);   // メッセージと予測番号
+  const [sending, setSending] = useState(false);
+
+  const form = useForm({
+    initialValues: {
+      message: "",
+    },
+
+    validate: {
+    },
+  });
+
+  async function submit(message: string, uuid: string){
+    setSending(true);     // 送信中に決定ボタンを押せないようにローディングを表示
+    await setMessage(message, uuid, roomId);  // firebaseにデータを追加
+    setSending(false);    // ローディングを非表示
+  }
 
   useEffect(() =>{
     if(roomId.id){
       const ref = collection(db, "room-data", roomId.id, "game-data");
       const msg = onSnapshot(query(ref, orderBy("update")), (querySnapshot) => {
         setMessages(querySnapshot.docs.map((doc => ({ ...doc.data() }))));
-        
       });
     }
-    
-  
   })
   const theme = useMantineTheme();
 
@@ -61,23 +78,22 @@ export function Chat({roomData, user, height}: any) {
                 wrap="wrap"
               >
                 {msg.playerUuid === user.uid ? <Avatar src={"../../images/nekoninja.png"} bg="#585497" radius="xl" size="md" style={{border: "white 2px solid", top:0}} /> : ""}
-                <div style={{maxWidth: "60%"}}>
-                  <Group position={msg.playerUuid === user.uid ? "left" : "right"}>
-                    <Text size="xs" weight="bold" color={theme.colors.gray[7]}>
-                      {msg.playerUuid === roomData.host.uuid ? roomData.host.name : roomData.guest.name}
-                    </Text>
-                  </Group>
-                  
-                  <Paper p="xs" bg="white" withBorder style={{wordWrap: "break-word", overflowWrap: "break-word"}}>
-                    <Text color="#191736" size="xs" weight="bold">
-                      {msg.type === "predict" ? msg.predict : msg.message}
-                    </Text>
-                  </Paper>
-                  <Group position={msg.playerUuid === user.uid ? "left" : "right"}>
-
-                  <Text size="0.5em" color="dimmed">{String(format(msg.update.toDate(), 'hh:mm'))}</Text>
-                  </Group>
-                </div>
+                  <div style={{maxWidth: "60%"}}>
+                    <Group position={msg.playerUuid === user.uid ? "left" : "right"}>
+                      <Text size="xs" weight="bold" color={theme.colors.gray[7]}>
+                        {msg.playerUuid === roomData.host.uuid ? roomData.host.name : roomData.guest.name}
+                      </Text>
+                    </Group>
+                    
+                    <Paper p="xs" bg="white" withBorder style={{wordWrap: "break-word", overflowWrap: "break-word"}}>
+                      <Text color="#191736" size="xs" weight="bold">
+                        {msg.type === "predict" ? msg.predict : msg.message}
+                      </Text>
+                    </Paper>
+                    <Group position={msg.playerUuid === user.uid ? "left" : "right"}>
+                      <Text size="0.5em" color="dimmed">{String(format(msg.update.toDate(), 'hh:mm'))}</Text>
+                    </Group>
+                  </div>
                 {msg.playerUuid !== user.uid ? <Avatar src={"../../images/nezumighost.png"} bg="#585497" radius="xl" size="md" style={{border: "white 2px solid", top:0}} /> : ""}
               </Flex>
             )})}
@@ -86,20 +102,23 @@ export function Chat({roomData, user, height}: any) {
 
         <Flex
           mt="lg"
-          gap="md"
-          justify="center"
-          align="center"
+          w="100%"
           direction="row"
-          wrap="wrap"
+          wrap="nowrap"
         >
-          <form >
+          <form style={{width: "100%"}}   onSubmit={form.onSubmit((values) => {  submit(String(values.message), String(user.uid)) })}>
+            
+          <Group position="center" w="100%">
             <TextInput
+              w={"76%"}
               size="lg"
               color="#585497"
               placeholder="メッセージを入力"
-          />
+              {...form.getInputProps('message')}
+            />
+            <Button type="submit" loading={sending} variant="default" className="button" w={"20%"} size="lg"><IconSend size="1.3rem"/></Button>
+          </Group>
           </form>
-          <Button type="submit" /*loading={sending}*/ variant="outline" color="dark" size="lg" className="button" ><IconSend size="1.3rem"/></Button>
         </Flex>
       </Container>
   )
