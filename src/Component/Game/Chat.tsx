@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState, useRef} from 'react'
 import { 
   Group, 
   Container,
@@ -22,43 +22,65 @@ import {
   IconCirclePlus,
   IconSend
 } from '@tabler/icons-react';
+import { db }  from '../../Config/firebase';
+import { collection, query, where, orderBy, onSnapshot } from "firebase/firestore";
+import { useParams } from 'react-router-dom';
+import {format} from 'date-fns'
 
-export function Chat({roomData, height}: any) {
+
+export function Chat({roomData, user, height}: any) {
+  const roomId = useParams();   // URLから取得したルームID
+  const [messages, setMessages] = useState<any>([]);   // メッセージと予測番号
+
+  useEffect(() =>{
+    if(roomId.id){
+      const ref = collection(db, "room-data", roomId.id, "game-data");
+      const msg = onSnapshot(query(ref, orderBy("update")), (querySnapshot) => {
+        setMessages(querySnapshot.docs.map((doc => ({ ...doc.data() }))));
+        
+      });
+    }
+    
+  
+  })
   const theme = useMantineTheme();
+
 
   return (
       <Container pt="md">
         <Paper p="md"  h={height/7*5}  withBorder>
           <ScrollArea h={"100%"} type="scroll" scrollbarSize={6} offsetScrollbars>
-            {/*
-            {roomData.map(({name,  message, index}: any) => {return (
+            {messages.map((msg: any, {index}: any) => {return (
               <Flex
                 key={index}
                 mb="md"
                 gap="sm"
-                justify={name===mySide.name ? "flex-end" : "flex-start"}
+                justify={msg.playerUuid===user.uid ? "flex-start" : "flex-end"}
                 align="flex-start"
                 direction="row"
                 wrap="wrap"
               >
-                {name===enemy.name ? <Avatar src={enemy.image} bg="#585497" radius="xl" size="md" style={{border: "white 2px solid", top:0}} /> : ""}
+                {msg.playerUuid === user.uid ? <Avatar src={"../../images/nekoninja.png"} bg="#585497" radius="xl" size="md" style={{border: "white 2px solid", top:0}} /> : ""}
                 <div style={{maxWidth: "60%"}}>
-                  <Group position={name===mySide.name ? "right" : "left"}>
+                  <Group position={msg.playerUuid === user.uid ? "left" : "right"}>
                     <Text size="xs" weight="bold" color={theme.colors.gray[7]}>
-                      {name}
+                      {msg.playerUuid === roomData.host.uuid ? roomData.host.name : roomData.guest.name}
                     </Text>
                   </Group>
                   
                   <Paper p="xs" bg="white" withBorder style={{wordWrap: "break-word", overflowWrap: "break-word"}}>
                     <Text color="#191736" size="xs" weight="bold">
-                      {message}
+                      {msg.type === "predict" ? msg.predict : msg.message}
                     </Text>
                   </Paper>
+                  <Group position={msg.playerUuid === user.uid ? "left" : "right"}>
+
+                  <Text size="0.5em" color="dimmed">{String(format(msg.update.toDate(), 'hh:mm'))}</Text>
+                  </Group>
                 </div>
-                {name===mySide.name ? <Avatar src={mySide.image} bg="#585497" radius="xl" size="md" style={{border: "white 2px solid", top:0}} /> : ""}
+                {msg.playerUuid !== user.uid ? <Avatar src={"../../images/nezumighost.png"} bg="#585497" radius="xl" size="md" style={{border: "white 2px solid", top:0}} /> : ""}
               </Flex>
             )})}
-            */}
           </ScrollArea>
         </Paper>
 

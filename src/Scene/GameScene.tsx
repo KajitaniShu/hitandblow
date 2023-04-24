@@ -23,10 +23,12 @@ import { GameScenePC } from '../Component/Game/GameScenePC'
 import { GameSceneSP } from '../Component/Game/GameSceneSP'
 import { useParams } from 'react-router-dom';
 import {collection, query, where, doc } from 'firebase/firestore';
-import { useDocumentDataOnce } from 'react-firebase-hooks/firestore';
+import { useDocumentData } from 'react-firebase-hooks/firestore';
 import { db }  from '../Config/firebase';
 import { PageNotFound } from '../Component/PageNotFound';
 import { Loading } from '../Component/Loading'
+import { useAuthState, useSignInWithFacebook } from 'react-firebase-hooks/auth'
+import { auth } from '../Config/firebase'
 
 
 const useStyles = createStyles((theme) => ({
@@ -50,8 +52,9 @@ export function GameScene() {
   const { classes, theme, cx } = useStyles();
   const roomId = useParams();
   const roomRef = doc(db, "room-data", String(roomId.id));
-  //const usrDataRef = doc(db, "user-data", String(roomId.id));
-  const [roomData, loading, error, snapshot, reload] = useDocumentDataOnce(roomRef);
+  const [user, initialising] = useAuthState(auth);
+
+  const [roomData, loading, error, snapshot] = useDocumentData(roomRef);
   //const [userData, userDataloading, usrDataError, usrDataSnapshot, usrDataReload] = useDocumentDataOnce(usrDataRef);
   console.log(roomData);
   //console.log(userData);
@@ -73,16 +76,7 @@ export function GameScene() {
     },
   });
 
-  const mySide = {name: "", number: "1234",image: "/images/akamaru.png", level: 1000, win: 10, lose:12, uuid: 'id-kotti'};
-  const enemy = {name: "ひいらぎ(あいて)", number: "0123", image: "/images/fighter.png", level: 1, win: 1, lose:2, uuid: 'id-aite'};
-  const messageList = [
-    {name: "ひいらぎ(こっちーーーーーー)", message: "えおいｊふぉえしｆじょいあｊふぉあいｆ"},
-    {name: "ひいらぎ(こっちーーーーーー)", message: "えおいｊふぉえしｆじょいあｊふぉあいｆ"},
-    {name: "ひいらぎ(こっちーーーーーー)", message: "えおいｊふぉえしｆじょいあｊふぉあいｆ"},
-    {name: "ひいらぎ(あいて)", message: "せｆせｐふぉせふぇｓｆぽえおいｊふぉえしｆじょいあｊふぉあいｆ"},
-  ];
-
-      if(loading /*|| userDataloading*/)  return <Loading />         // ユーザーデータ取得中はローディング画面を出す
+      if(loading || initialising)     return <Loading />         // ユーザーデータ取得中はローディング画面を出す
       else if(!roomData)              return <PageNotFound />    // 未登録のルーム
       /*else if(!userData)              return <LoginModal />    // 未ログイン*/
 
@@ -102,13 +96,13 @@ export function GameScene() {
           {width > 900 ?
             <GameScenePC
               roomData={roomData}
-              //userData={userData}
+              user={user}
               className={classes.pc} 
             />
             :
             <GameSceneSP
               roomData={roomData}
-              //userData={userData}
+              user={user}
               className={classes.sp} 
             />
           }  

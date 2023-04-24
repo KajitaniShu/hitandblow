@@ -67,7 +67,7 @@ export function MainContents({height, roomData, /*userData*/}: any) {
     <>
       <Group position="apart" px="sm" pt="sm" >
       {/*<Badge size="lg" className="badge">{opened ? (roomData.host.uuid === userData.uuid ? roomData.host.name : roomData.guest.name) : (roomData.host.uuid === userData.uuid ? roomData.guest.name : roomData.host.name)}</Badge>*/}
-      <Badge size="lg" className="badge">{opened ? roomData.host.name : roomData.guest.name}</Badge>
+      <Badge size="lg" className="badge">{opened ? (roomData.host.name) : (roomData.guest.name)}</Badge>
         <Tooltip label={opened ? "あいての情報をみる" : "じぶんの情報をみる"}>
           <ActionIcon variant="transparent" onClick={toggle}><AiOutlineUserSwitch size="20"/></ActionIcon>
         </Tooltip>
@@ -100,7 +100,7 @@ export function MainContents({height, roomData, /*userData*/}: any) {
             wrap="wrap"
           >
             <AspectRatio ratio={500/500} h={height/12*5} w={height/12*5}>
-              <Image src="../images/akamaru.png" className="mainCharacter" />
+              <Image src="../images/nekoninja.png" className="mainCharacter" />
             </AspectRatio>
             <Title size={height/12*1}>1234</Title>
             

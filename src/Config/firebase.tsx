@@ -85,7 +85,7 @@ async function addRoom(
     turn: -1,
     useEffects: effects,
     timeLimits: timeLimits,
-    update: update
+    update: update,
   });
   return docRef.id;
 }
@@ -97,7 +97,8 @@ async function setPredict(
   roomId: any
   ) {
   const update = Timestamp.now();
-  const docRef = await addDoc(collection(db, "room-data/" + roomId + "/game-data"), {
+  const gameDataRef = collection(db, "room-data", roomId, "game-data");
+  const docRef = await addDoc(gameDataRef, {
     predict:  predict,
     hit:      0,
     blow:     0,

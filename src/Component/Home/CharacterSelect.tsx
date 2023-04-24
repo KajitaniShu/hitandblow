@@ -54,22 +54,43 @@ export function CharacterSelect({height}: any) {
           <Carousel.Slide>
             <Center>
               <AspectRatio ratio={500/500} h={height/12*5} w={height/12*5}>
-                <Image src="./images/akamaru.png" className="mainCharacter" />
+                <Image src="./images/nekoninja.png" className="mainCharacter" />
               </AspectRatio>
             </Center>
           </Carousel.Slide>
           <Carousel.Slide>
             <Center>
               <AspectRatio ratio={500/500} h={height/12*5} w={height/12*5}>
-                <Image src="./images/akamaru.png" className="mainCharacter" />
+                <Image src="./images/dragon.png" className="mainCharacter" />
+              </AspectRatio>
+            </Center>
+          </Carousel.Slide>
+          <Carousel.Slide>
+            <Center>
+              <AspectRatio ratio={500/500} h={height/12*5} w={height/12*5}>
+                <Image src="./images/robot.png" className="mainCharacter" />
+              </AspectRatio>
+            </Center>
+          </Carousel.Slide>
+          <Carousel.Slide>
+            <Center>
+              <AspectRatio ratio={500/500} h={height/12*5} w={height/12*5}>
+                <Image src="./images/nezumighost.png" className="mainCharacter" />
+              </AspectRatio>
+            </Center>
+          </Carousel.Slide>
+          <Carousel.Slide>
+            <Center>
+              <AspectRatio ratio={500/500} h={height/12*5} w={height/12*5}>
+                <Image src="./images/mizu.png" className="mainCharacter" />
               </AspectRatio>
             </Center>
           </Carousel.Slide>
       </Carousel>
       <Paper className="panel-gray" radius="md"  mx="auto" w="90%" px="xl" py="md" mt="xl">
-        <Title w="40%" order={6} size="h4" weight="bold" >あかまる</Title>
+        <Title w="40%" order={6} size="h4" weight="bold" >キャラクター名</Title>
         <Divider mb="sm" />
-        <Text size="sm">鬼一族の中でも最も勇敢な鬼として知られている．</Text>
+        <Text size="sm">キャラクターの説明...</Text>
           
             <Group mt="xl">
               <ScrollArea>

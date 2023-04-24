@@ -89,7 +89,7 @@ export function GameSetting({height, userData}:any) {
               w="40%"
               data={[
                 { value: 'akamru', label: 'あかまる' },
-                { value: 'キャラクター2', label: 'キャラクター2' },
+                { value: 'nekoninja', label: 'キャラクター2' },
                 { value: 'キャラクター3', label: 'キャラクター3' }
               ]}/>
           </Group>
