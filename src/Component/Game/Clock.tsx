@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { 
   Group, 
   Badge,
@@ -14,13 +14,27 @@ import {
 import { 
   IconDotsVertical,
 } from '@tabler/icons-react';
-import { useLocalStorage } from '@mantine/hooks';
+import { useInterval } from '@mantine/hooks';
+import {format} from 'date-fns'
 
 
-export function Clock({height, time}: any) {
+export function Clock({height, roomData, messages}: any) {
   const theme = useMantineTheme();
-  const [timer, setTimer, removeTimer] = useLocalStorage({ key: 'time', defaultValue: '-' });
+  const [seconds, setSeconds] = useState(0);
+  var predicts = messages.filter( function(value: any) { return value.type === "predict"; })
+  const time = 60 - Math.floor((Date.now() - predicts[predicts.length-1].update.toDate())/1000);
+  
+  
+  const interval = useInterval(() => { 
+    //if(seconds > 0) setSeconds((s) => s - 1);
+    const time = Math.floor((Date.now() - messages[messages.length-1].update.toDate())/1000)+60;
+    if(time > 0) setSeconds(Number(time));
+  }, 1000);
 
+  useEffect(() => {
+    interval.start();
+    return interval.stop;
+  });
 
   return (
     <>
@@ -39,18 +53,19 @@ export function Clock({height, time}: any) {
       <Container>
       <Group position="center" >
         <RingProgress
-          
           mt={10}
           size={height/5*3}
           thickness={12}
           roundCaps
           label={
             <Text size="xl"  align="center" color="dark" weight={700}  sx={{ pointerEvents: 'none' }}>
-              {timer}
+              {//seconds > 0 ? seconds : "-"
+              time >= 0 ? time : "-"
+              }
             </Text>
           }
           sections={[
-            { value: timer !== '-' ? Number(timer)/120*100 : 0, color: '#F8B723', tooltip: '残り時間 – ' + timer + '秒' },
+            { value: time >= 0 ? Number(time)/60*100 : 0, color: '#F8B723', tooltip: '残り時間 – ' + seconds + '秒' },
           ]}
         />
       </Group>

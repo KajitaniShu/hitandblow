@@ -31,7 +31,7 @@ import { Chat } from './Chat';
 import { Ad } from './Ad';
 import { Clock } from './Clock';
 
-export function GameScenePC({roomData, user}: any) {
+export function GameScenePC({roomData, messages, user}: any) {
   const theme = useMantineTheme();
   const { height, width } = useViewportSize();
 
@@ -52,13 +52,13 @@ export function GameScenePC({roomData, user}: any) {
 
           <Grid.Col span={5}>
             <div className="panel panel-shadow panel-border" style={{height: px(rem(200))-px(theme.spacing.md) }}>
-              <Clock height={px(rem(200))-px(theme.spacing.md)} roomData={roomData} />
+              <Clock height={px(rem(200))-px(theme.spacing.md)} roomData={roomData} messages={messages}/>
             </div>
           </Grid.Col>
 
           <Grid.Col>
             <div className="panel panel-shadow panel-border" style={{height: rem(400) }}>
-              <Chat  roomData={roomData} user={user} height={px(rem(400))}/>
+              <Chat  roomData={roomData} messages={messages} user={user} height={px(rem(400))}/>
             </div>
           </Grid.Col>
         </Grid>

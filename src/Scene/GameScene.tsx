@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { 
   Header, 
@@ -22,7 +22,7 @@ import { useForm } from '@mantine/form';
 import { GameScenePC } from '../Component/Game/GameScenePC'
 import { GameSceneSP } from '../Component/Game/GameSceneSP'
 import { useParams } from 'react-router-dom';
-import {collection, query, where, doc } from 'firebase/firestore';
+import {collection, query, where, doc, orderBy, onSnapshot } from 'firebase/firestore';
 import { useDocumentData } from 'react-firebase-hooks/firestore';
 import { db }  from '../Config/firebase';
 import { PageNotFound } from '../Component/PageNotFound';
@@ -54,6 +54,16 @@ export function GameScene() {
   const roomRef = doc(db, "room-data", String(roomId.id));
   const [user, initialising] = useAuthState(auth);
   const [roomData, loading, error, snapshot] = useDocumentData(roomRef);
+  const [messages, setMessages] = useState<any>([]);   // メッセージと予測番号
+
+  useEffect(() =>{
+    if(roomId.id){
+      const ref = collection(db, "room-data", roomId.id, "game-data");
+      const msg = onSnapshot(query(ref, orderBy("update")), (querySnapshot) => {
+        setMessages(querySnapshot.docs.map((doc => ({ ...doc.data() }))));
+      });
+    }
+  })
 
   const numberForm = useForm({
     initialValues: {
@@ -93,12 +103,14 @@ export function GameScene() {
           {width > 900 ?
             <GameScenePC
               roomData={roomData}
+              messages={messages}
               user={user}
               className={classes.pc} 
             />
             :
             <GameSceneSP
               roomData={roomData}
+              messages={messages}
               user={user}
               className={classes.sp} 
             />

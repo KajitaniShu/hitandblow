@@ -32,9 +32,8 @@ import { useForm } from '@mantine/form';
 import { setMessage } from '../../Config/firebase'
 
 
-export function Chat({roomData, user, height}: any) {
+export function Chat({roomData, messages, user, height}: any) {
   const roomId = useParams();   // URLから取得したルームID
-  const [messages, setMessages] = useState<any>([]);   // メッセージと予測番号
   const [sending, setSending] = useState(false);
 
   const form = useForm({
@@ -48,18 +47,11 @@ export function Chat({roomData, user, height}: any) {
 
   async function submit(message: string, uuid: string){
     setSending(true);     // 送信中に決定ボタンを押せないようにローディングを表示
-    await setMessage(message, uuid, roomId);  // firebaseにデータを追加
+    await setMessage(message, uuid, String(roomId.id));  // firebaseにデータを追加
     setSending(false);    // ローディングを非表示
+    form.reset()
   }
 
-  useEffect(() =>{
-    if(roomId.id){
-      const ref = collection(db, "room-data", roomId.id, "game-data");
-      const msg = onSnapshot(query(ref, orderBy("update")), (querySnapshot) => {
-        setMessages(querySnapshot.docs.map((doc => ({ ...doc.data() }))));
-      });
-    }
-  })
   const theme = useMantineTheme();
 
 
@@ -106,17 +98,17 @@ export function Chat({roomData, user, height}: any) {
           direction="row"
           wrap="nowrap"
         >
-          <form style={{width: "100%"}}   onSubmit={form.onSubmit((values) => {  submit(String(values.message), String(user.uid)) })}>
             
+          <form style={{width: "100%"}}   onSubmit={form.onSubmit((values) => {  submit(String(values.message), String(user.uid)) })}>
           <Group position="center" w="100%">
             <TextInput
-              w={"76%"}
+              w={"60%"}
               size="lg"
               color="#585497"
               placeholder="メッセージを入力"
               {...form.getInputProps('message')}
             />
-            <Button type="submit" loading={sending} variant="default" className="button" w={"20%"} size="lg"><IconSend size="1.3rem"/></Button>
+            <Button type="submit" loading={sending} variant="default" className="button" w={"50"} size="lg"><IconSend size="1.3rem"/></Button>
           </Group>
           </form>
         </Flex>

@@ -28,7 +28,7 @@ import { Chat } from './Chat';
 import { Ad } from './Ad';
 import { Clock } from './Clock';
 
-export function GameSceneSP({roomData, user}: any) {
+export function GameSceneSP({roomData, messages, user}: any) {
   const TRANSITION_DURATION = 200;
   const [opened, setOpened] = useState(false);
   const [embla, setEmbla] = useState<Embla | null>(null);
@@ -48,7 +48,7 @@ export function GameSceneSP({roomData, user}: any) {
       <Carousel.Slide>
         <Container p="md" h="100%">      
           <div className="panel panel-shadow panel-border" style={{height: px(rem(450)) }}>
-            <Chat roomData={roomData} user={user} height={px(rem(450))}/>
+            <Chat roomData={roomData} messages={messages} user={user} height={px(rem(450))}/>
           </div>
         </Container>
       </Carousel.Slide>
