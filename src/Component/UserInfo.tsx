@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 import { useDisclosure, useViewportSize } from '@mantine/hooks';
 import { Modal, Group, Button, TextInput, Center, Badge, ScrollArea } from '@mantine/core';
-import { setUser } from '../../Config/firebase'
+import { setUser } from '../Config/firebase'
 import { useForm } from '@mantine/form';
 import { 
   IconPencil, 
   IconPencilOff,
   IconCheck 
 } from '@tabler/icons-react';
-import '../../css/panel.css'
-import '../../css/button.css'
-import '../../css/badge.css'
+import '../css/panel.css'
+import '../css/button.css'
+import '../css/badge.css'
 
 
 export function UserInfo({userData, modalType, setModalType, reload}: any) {

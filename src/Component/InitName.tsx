@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
 import { useDisclosure } from '@mantine/hooks';
 import { Modal, Group, Button, TextInput, Center, Badge } from '@mantine/core';
-import { addUser } from '../../Config/firebase'
+import { addUser } from '../Config/firebase'
 import { useForm } from '@mantine/form';
 import { 
   IconPencil, 
   IconCheck 
 } from '@tabler/icons-react';
-import '../../css/panel.css'
-import '../../css/button.css'
-import '../../css/badge.css'
+import '../css/panel.css'
+import '../css/button.css'
+import '../css/badge.css'
 
 export function InitName({uuid, modalType, setModalType, reload}: any) {
   const [sending, setSending] = useState(false);

@@ -29,6 +29,8 @@ import { PageNotFound } from '../Component/PageNotFound';
 import { Loading } from '../Component/Loading'
 import { useAuthState, useSignInWithFacebook } from 'react-firebase-hooks/auth'
 import { auth } from '../Config/firebase'
+import { Head } from '../Component/Head'
+import { Login } from '../Component/Login'
 
 
 const useStyles = createStyles((theme) => ({
@@ -85,21 +87,11 @@ export function GameScene() {
 
       if(loading || initialising)     return <Loading />         // ユーザーデータ取得中はローディング画面を出す
       else if(!roomData)              return <PageNotFound />    // 未登録のルーム
-      /*else if(!userData)              return <LoginModal />    // 未ログイン*/
+      else if(!user)                  return <Login />      // 未ログイン*/
 
       else                return (
         <>
-          <Header height={rem(50)} px="md" className="header">
-            <Container pt="sm">
-              <Group position="apart" sx={{ height: '100%' }}>
-                <Title order={1} size="h4" color="white">Hit&Blow online</Title>
-                <Group position="right" noWrap>
-                  <ActionIcon style={{color: "white"}} variant="transparent"><IoIosShareAlt size="20"/></ActionIcon>
-                  <ActionIcon style={{color: "white"}} variant="transparent"><IconInfoSquareRoundedFilled size="20"/></ActionIcon>
-                </Group>
-              </Group>
-            </Container>
-          </Header>
+          <Head  user={user}/>
           {width > 900 ?
             <GameScenePC
               roomData={roomData}
