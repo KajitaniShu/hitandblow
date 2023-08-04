@@ -38,8 +38,8 @@ export function GameSceneSP({roomData, messages, user}: any) {
 
   return (
     <>
-      <Container pt={px(rem(25))}>
-        <ClockSP height={px(rem(30))} roomData={roomData} messages={messages}/>
+      <Container pt={px(rem(35))} >
+        {/* <ClockSP height={px(rem(30))} roomData={roomData} messages={messages}/> */}
       </Container>
       <Carousel maw={width} mx="auto"  h={height-px(rem(105))} withIndicators withControls={false} getEmblaApi={setEmbla}>
         <Carousel.Slide>

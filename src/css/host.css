@@ -1,0 +1,19 @@
+.bg-host {
+	z-index:-2;
+	position: relative;
+	background-color: #fff;
+	color: #fff;
+	overflow: hidden;
+}
+.bg-host:before{
+	z-index:-1;
+	background-color: #FF6969;
+	content: '';
+	display: block;
+	transform: rotate(-60deg);
+	position: absolute;
+	bottom: 50%;
+	left: -272%;
+	width: 500%;
+	height: 500%;
+}

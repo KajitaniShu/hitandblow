@@ -87,8 +87,8 @@ export function CharacterSelect({height}: any) {
             </Center>
           </Carousel.Slide>
       </Carousel>
-      <Paper className="panel-gray" radius="md"  mx="auto" w="90%" px="xl" py="md" mt="xl">
-        <Title w="40%" order={6} size="h4" weight="bold" >キャラクター名</Title>
+      <Paper className="panel-gray" radius="md"  w="100%" px="xl" py="md" mt="xl">
+        <Title w="100%" size="h5" weight="bold" >キャラクター名</Title>
         <Divider mb="sm" />
         <Text size="sm">キャラクターの説明...</Text>
           

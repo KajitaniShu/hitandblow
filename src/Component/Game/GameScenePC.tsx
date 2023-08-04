@@ -52,7 +52,7 @@ export function GameScenePC({roomData, messages, user}: any) {
 
           <Grid.Col span={5}>
             <div className="panel panel-shadow panel-border" style={{height: px(rem(200))-px(theme.spacing.md) }}>
-              <Clock height={px(rem(200))-px(theme.spacing.md)} roomData={roomData} messages={messages}/>
+              {/* <Clock height={px(rem(200))-px(theme.spacing.md)} roomData={roomData} messages={messages}/> */}
             </div>
           </Grid.Col>
 

@@ -23,7 +23,20 @@ export function App() {
 
   return (
     <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-      <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
+      <MantineProvider 
+        withGlobalStyles 
+        withNormalizeCSS
+        theme={{
+          colorScheme,
+          breakpoints: {
+            xs: '22em',
+            sm: '48em',
+            md: '64em',
+            lg: '74em',
+            xl: '90em',
+          },
+        }}
+      >
         <ModalsProvider>
           <BrowserRouter basename={process.env.PUBLIC_URL}>
             <Routes>

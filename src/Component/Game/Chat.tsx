@@ -103,12 +103,12 @@ export function Chat({roomData, messages, user, height}: any) {
           <Group position="center" w="100%">
             <TextInput
               w={"60%"}
-              size="lg"
+              size="md"
               color="#585497"
               placeholder="メッセージを入力"
               {...form.getInputProps('message')}
             />
-            <Button type="submit" loading={sending} variant="default" className="button" w={"50"} size="lg"><IconSend size="1.3rem"/></Button>
+            <Button type="submit" loading={sending} variant="default" className="button" w={"50"} size="md"><IconSend size="1.3rem"/></Button>
           </Group>
           </form>
         </Flex>

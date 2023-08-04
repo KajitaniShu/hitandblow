@@ -89,7 +89,7 @@ export function GameScene() {
       else if(!roomData)              return <PageNotFound />    // 未登録のルーム
       else if(!user)                  return <Login />      // 未ログイン*/
 
-      else                return (
+      else return (
         <>
           <Head  user={user}/>
           {width > 900 ?
