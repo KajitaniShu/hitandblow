@@ -67,13 +67,13 @@ export function Guest({userData, height}:any) {
   }
 
   return (
-    <div className="panel panel-shadow panel-border bg-guest" style={{width: "100%", height: height}}>
+    <div className="panel panel-shadow panel-border bg-guest" style={{width: "100%", height: height,  zIndex:10}}>
       <Container>
       <form onSubmit={form.onSubmit((values) => {  submit(String(userData[0].uuid), Number(values.number), Number(values.timeLimit), Boolean(values.effect), String(userData[0].name), Number(userData[0].level), Number(userData[0].win), Number(userData[0].lose), String(values.character)); })}>
         <Badge variant="filled" color="dark" mt="sm" mb="xs">
             プレイヤー2
         </Badge>
-        <ScrollArea h={5*px(height)/9} >
+        <ScrollArea h={5*px(height)/9} type="never">
         <Flex
           direction={{ base: 'column', xs: 'row' }}
           gap="md"
@@ -95,7 +95,7 @@ export function Guest({userData, height}:any) {
 
               <Group>
                 <Group position='apart'>
-                <Text fz="sm" c="dark" weight="800">■ 勝率:</Text>
+                <Text fz="sm" c="dark" weight="800">■ 戦績:</Text>
                 <Text fz="sm" c="dark" weight="800">1.285</Text>
                 </Group>
               </Group>

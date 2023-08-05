@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
 import { useDisclosure, useViewportSize } from '@mantine/hooks';
-import { Modal, Group, Button, TextInput, Center, Badge, ScrollArea } from '@mantine/core';
+import { Modal, Group, Button, TextInput, Container, Text, ScrollArea } from '@mantine/core';
 import { setUser } from '../Config/firebase'
 import { useForm } from '@mantine/form';
 import { 
   IconPencil, 
   IconPencilOff,
-  IconCheck 
+  IconCheck,
+  IconUser
 } from '@tabler/icons-react';
 import '../css/panel.css'
-import '../css/button.css'
 import '../css/badge.css'
 
 
@@ -63,12 +63,30 @@ export function UserInfo({userData, modalType, setModalType, reload}: any) {
   }
   
   return (
-    <Modal centered opened={opened}  onClose={()=> {setModalType('none'); form.reset(); close();}} classNames={{content: "small-panel"}}  title={<Badge className="badge" size="lg" mb="md" >ユーザー情報</Badge>}>
+    <Modal centered opened={opened} size="lg" onClose={()=> {setModalType('none'); form.reset(); close();}}    title={
+      <Group noWrap spacing="xs">
+        <IconUser size="20"/>
+        <Text weight="bold">ユーザー情報</Text>
+      </Group>
+    }
+      styles={(theme) => ({
+        header: {
+          backgroundColor: '#FFC734',
+          height:"3em",
+          borderBottom: "1px solid black"
+        },
+        close: {
+          color:"black"
+        }
+      })}
+    >
       <form onSubmit={form.onSubmit((values) => { submit(values.name, 'japanese', userData[0].uuid); })}>
-      <ScrollArea h={height/2}>
+      <ScrollArea h={height/2} w="100%" type="never">
+      <Container >
         <TextInput
+          mt="lg"
           mb="xl"
-          size="lg"
+          size="md"
           label="名前"
           data-autofocus
           placeholder="10文字以内"
@@ -78,7 +96,7 @@ export function UserInfo({userData, modalType, setModalType, reload}: any) {
         <TextInput
           mb="xl"
           label="レベル"
-          size="lg"
+          size="md"
           disabled
           icon={<IconPencilOff size="1.2rem" />}
           {...form.getInputProps('level')}
@@ -86,7 +104,7 @@ export function UserInfo({userData, modalType, setModalType, reload}: any) {
         <TextInput
           mb="xl"
           label="ポイント"
-          size="lg"
+          size="md"
           disabled
           icon={<IconPencilOff size="1.2rem" />}
           {...form.getInputProps('money')}
@@ -94,7 +112,7 @@ export function UserInfo({userData, modalType, setModalType, reload}: any) {
         <TextInput
           mb="xl"
           label="勝ち"
-          size="lg"
+          size="md"
           disabled
           icon={<IconPencilOff size="1.2rem" />}
           {...form.getInputProps('win')}
@@ -103,7 +121,7 @@ export function UserInfo({userData, modalType, setModalType, reload}: any) {
         <TextInput
           mb="xl"
           label="負け"
-          size="lg"
+          size="md"
           disabled
           icon={<IconPencilOff size="1.2rem" />}
           {...form.getInputProps('lose')}
@@ -112,16 +130,15 @@ export function UserInfo({userData, modalType, setModalType, reload}: any) {
         <TextInput
           mb="xl"
           label="言語"
-          size="lg"
+          size="md"
           disabled
           icon={<IconPencilOff size="1.2rem" />}
           {...form.getInputProps('language')}
         />
-      
+      </Container>
       </ScrollArea>
       <Group noWrap position="right" mt="md">
           <Button
-            className="button"
             type="submit" 
             leftIcon={<IconCheck size="1rem" />}
             color="yellow"

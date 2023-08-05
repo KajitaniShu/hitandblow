@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDisclosure } from '@mantine/hooks';
-import { Modal, Group, Button, TextInput, Center, Badge } from '@mantine/core';
+import { Modal, Group, Button, TextInput, Text } from '@mantine/core';
 import { addUser } from '../Config/firebase'
 import { useForm } from '@mantine/form';
 import { 
@@ -9,7 +9,6 @@ import {
 } from '@tabler/icons-react';
 import '../css/panel.css'
 import '../css/button.css'
-import '../css/badge.css'
 
 export function InitName({uuid, modalType, setModalType, reload}: any) {
   const [sending, setSending] = useState(false);
@@ -36,14 +35,26 @@ export function InitName({uuid, modalType, setModalType, reload}: any) {
   }
   
   return (
-    <Modal centered withCloseButton={false} opened={opened}  onClose={close} classNames={{content: "small-panel"}}  title={<Badge className="badge" size="lg" mb="md" >ユーザーネームを設定してください</Badge>}>
+    <Modal centered withCloseButton={false} opened={opened} onClose={close}  title={<Group><IconPencil size="1.2rem"/><Text weight="bold">ユーザーネームを設定してください</Text></Group>}
+        styles={(theme) => ({
+          header: {
+            backgroundColor: theme.colors.yellow[6],
+            height:"3em",
+            borderBottom: "1px solid black"
+          },
+          content: {
+            border: "1px solid black",
+            borderRadius: "8px"
+          }
+        })}
+    >
       <form onSubmit={form.onSubmit((values) => { submit(values.name, 'japanese', uuid); })}>
         <TextInput
-          mb="xl"
+          my="xl"
+          mx="md"
           size="lg"
           data-autofocus
           placeholder="10文字以内"
-          icon={<IconPencil size="1.2rem" />}
           {...form.getInputProps('name')}
         />
         <Group noWrap position="right" mt="md">

@@ -14,7 +14,9 @@ import {
   Flex,
   Title,
   rem,
+  Text,
   PinInput,
+  Popover,
   Center,
   Select,
   NumberInput,
@@ -65,51 +67,13 @@ export function GameSetting({userData, height}:any) {
 
   return (
     <div className="panel panel-shadow panel-border" style={{height: height, width: "100%"}}>
-      <Group position="apart" px="sm" pt="sm" >
-        <Badge className="badge" size="lg" >ゲームの設定</Badge>
-      </Group>
-
       <Container mb="xl" >
+        <Badge variant="filled" color="dark" mt="sm" mb="xs">
+          ゲーム設定
+        </Badge>
+
       <form onSubmit={form.onSubmit((values) => {  submit(String(userData[0].uuid), Number(values.number), Number(values.timeLimit), Boolean(values.effect), String(userData[0].name), Number(userData[0].level), Number(userData[0].win), Number(userData[0].lose), String(values.character)); })}>
         <ScrollArea my="lg" >
-          {/*<Center>
-            <Flex
-              w={ width > 800 ? "90%" : "100%" }
-              mih={50}
-              my="xs"
-              gap={ width > 800 ? "md" : "none" }
-              justify="center"
-              align="center"
-              direction={ width > 800 ? "row" : "column" }
-              wrap="wrap"
-            >
-              <Title w={width > 800 ? "50%" : "100%"} size="h6" weight="bold" >
-                キャラクター
-                <Tooltip
-                  label="ゲームに利用するキャラクターを選択しよう"
-                  color="dark"
-                  withArrow
-                  w={"15em"}
-                  multiline
-                >
-                  <ThemeIcon variant="outline" ml="md" radius="xl" size="xs" color="gray">
-                    <IconQuestionMark />
-                  </ThemeIcon>
-                </Tooltip>
-              </Title>
-              <Select 
-                size="md"
-                {...form.getInputProps('character')}
-                w={width > 800 ? "40%" : "100%"}
-                data={[
-                  { value: 'akamru', label: 'あかまる' },
-                  { value: 'nekoninja', label: 'キャラクター2' },
-                  { value: 'キャラクター3', label: 'キャラクター3' }
-                ]}
-              />
-            </Flex>
-          </Center>
-          */}
           
           <Center>
             <Flex
@@ -124,18 +88,17 @@ export function GameSetting({userData, height}:any) {
             >
               <Title w={width > 800 ? "50%" : "100%"}  size="h6" weight="bold" >
                 特殊効果
-                <Tooltip
-                  label="ゲーム内で特殊効果が使えるかどうかを設定しよう"
-                  color="dark"
-                  withArrow
-                  w={"15em"}
-                  multiline
-                >
-                  <ThemeIcon variant="outline" ml="xs" radius="xl" size="xs" color="gray">
-                    <IconQuestionMark />
-                  </ThemeIcon>
-                </Tooltip>
-              </Title>
+                <Popover width={"10em"} position="bottom" withArrow shadow="md">
+                  <Popover.Target>
+                    <ThemeIcon variant="outline" ml="xs" radius="xl" size="xs" color="gray">
+                      <IconQuestionMark />
+                    </ThemeIcon>
+                  </Popover.Target>
+                  <Popover.Dropdown bg="black" p="xs">
+                    <Text size="xs" color="white">特殊効果を許可するかどうか決めよう ! </Text>
+                  </Popover.Dropdown>
+                </Popover>
+            </Title>
               <Select 
                 size="md"
                 {...form.getInputProps('effect')}
@@ -161,17 +124,16 @@ export function GameSetting({userData, height}:any) {
             >
               <Title w={width > 800 ? "50%" : "100%"}  size="h6" weight="bold" >
                 特殊効果の数
-                <Tooltip
-                  label="1ターンの時間を設定しよう(10～120秒)"
-                  color="dark"
-                  withArrow
-                  w={"15em"}
-                  multiline
-                >
-                  <ThemeIcon variant="outline" ml="xs" radius="xl" size="xs" color="gray">
-                    <IconQuestionMark />
-                  </ThemeIcon>
-                </Tooltip>
+                <Popover width={"10em"} position="bottom" withArrow shadow="md">
+                  <Popover.Target>
+                    <ThemeIcon variant="outline" ml="xs" radius="xl" size="xs" color="gray">
+                      <IconQuestionMark />
+                    </ThemeIcon>
+                  </Popover.Target>
+                  <Popover.Dropdown bg="black" p="xs">
+                    <Text size="xs" color="white">特殊効果の数を設定しよう ! (1～3個)</Text>
+                  </Popover.Dropdown>
+                </Popover>
               </Title>
               <NumberInput
                 size="md"
@@ -196,17 +158,16 @@ export function GameSetting({userData, height}:any) {
             >
               <Title w={width > 800 ? "50%" : "100%"}  size="h6" weight="bold" >
                 制限時間
-                <Tooltip
-                  label="1ターンの時間を設定しよう(10～120秒)"
-                  color="dark"
-                  withArrow
-                  w={"15em"}
-                  multiline
-                >
-                  <ThemeIcon variant="outline" ml="xs" radius="xl" size="xs" color="gray">
-                    <IconQuestionMark />
-                  </ThemeIcon>
-                </Tooltip>
+                <Popover width={"10em"} position="bottom" withArrow shadow="md">
+                  <Popover.Target>
+                    <ThemeIcon variant="outline" ml="xs" radius="xl" size="xs" color="gray">
+                      <IconQuestionMark />
+                    </ThemeIcon>
+                  </Popover.Target>
+                  <Popover.Dropdown bg="black" p="xs">
+                    <Text size="xs" color="white">1ターンの時間を設定しよう ! (10～120秒)</Text>
+                  </Popover.Dropdown>
+                </Popover>
               </Title>
               <NumberInput
                 size="md"
@@ -217,48 +178,10 @@ export function GameSetting({userData, height}:any) {
             </Flex>
           </Center>
 
-
-          
-          
-          {/*
-          <Center mb="lg">
-            <Flex
-              w={ width > 800 ? "90%" : "100%" }
-              mih={50}
-              gap={ width > 800 ? "md" : "none" }
-              justify="center"
-              align="center"
-              my="xs"
-              direction={ width > 800 ? "row" : "column" }
-              wrap="wrap"
-            >
-              
-              <Title w={width > 800 ? "50%" : "100%"}  size="h6" weight="bold" >
-                対戦番号
-                <Tooltip
-                  label="相手に推理されないような4桁の番号を選ぼう"
-                  color="dark"
-                  withArrow
-                  w={"15em"}
-                  multiline
-                >
-                  <ThemeIcon variant="outline" ml="xs" radius="xl" size="xs" color="gray">
-                    <IconQuestionMark />
-                  </ThemeIcon>
-                </Tooltip>
-              </Title>
-              <Group position="right" w={width > 800 ? "40%" : "100%"}>
-                <Center>
-                  <PinInput {...form.getInputProps('number')} color="yellow" w={"100%"} size="md" type="number"  />
-                </Center>
-              </Group>
-            </Flex>
-          </Center>
-          */}
         </ScrollArea>
         <Center>
         <Group position="right"   mt="sm" w={ width > 800 ? "90%" : "100%" }>
-            <Button onClick={() => form.reset()} disabled={sending} color="dark" className="button" variant="white"><IconRotate style={{marginRight: theme.spacing.xs}} size="1rem"/>リセット</Button>
+            <Button onClick={() => form.reset()} disabled={sending} color="dark" variant="outline"><IconRotate style={{marginRight: theme.spacing.xs}} size="1rem"/>リセット</Button>
         </Group>
         </Center>
       </form>

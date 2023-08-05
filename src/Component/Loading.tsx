@@ -16,7 +16,7 @@ export function Loading() {
     >
       
       <Loader color="violet" size="lg" variant="bars" />
-      <Text color="white">読み込み中</Text>
+      <Text color="dark" weight="900">読み込み中...</Text>
     </Flex>
   );
 }

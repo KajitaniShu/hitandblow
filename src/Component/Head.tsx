@@ -6,7 +6,6 @@ import {
   Container,
   rem,
   Title,
-  createStyles,
   Avatar,
   Text,
   Skeleton,
@@ -40,6 +39,7 @@ export function Head({userData, reload, user, height}: any) {
     else if(modalType === 'userInfo') {;}
     else if(modalType !== 'none') setModalType('none');
   })
+  
   return (
     <>
       {/* ユーザーネーム登録モーダル (初期ログイン時に表示する) */}
@@ -49,15 +49,15 @@ export function Head({userData, reload, user, height}: any) {
       <Header height={height} p="sm" className="header">
       <Container>
         <Group position="apart">
-          <Title order={1} size="h4" color="white">Hit&Blow online</Title>
+          <Title order={1} size="h4" color="white" className="title" weight="bolder">Hit&Blow online</Title>
           <Group position="right">
             {width > 900 &&
               <>
               {userData && userData.length > 0 ? 
                 <>
-                  <Avatar radius="xl" size="sm" bg="white">{String(userData[0].level)}</Avatar>
-                  <Text color="white" >{String(userData[0].name)}</Text> 
-                  <Text color="white"><IconDiamondFilled style={{marginRight:"0.1em"}} size="0.75em"/>{String(userData[0].money)}</Text>
+                  <Avatar radius="xl" size="sm" bg="white" >{String(userData[0].level)}</Avatar>
+                  <Text color="white" weight="bold">{String(userData[0].name)}</Text> 
+                  <Group spacing={2}><IconDiamondFilled size="1em" style={{color:"white"}}/><Text color="white" weight="bold">{String(userData[0].money)}</Text></Group>
                 </>
                 :
                 <>
@@ -81,12 +81,12 @@ export function Head({userData, reload, user, height}: any) {
               <Menu.Dropdown className="mini-panel">
                 <Menu.Item
                   onClick={()=>setModalType('userInfo')}
-                  icon={<IconUserCircle size="1rem" color={theme.colors.blue[6]} stroke={1.5} />}
+                  icon={<IconUserCircle size="1rem" color={theme.colors.dark[6]} stroke={1.5} />}
                 >
                   アカウント情報
                 </Menu.Item>
                 <Menu.Item
-                  icon={<IconZoomQuestion size="1rem" color={theme.colors.teal[6]} stroke={1.5} />}
+                  icon={<IconZoomQuestion size="1rem" color={theme.colors.dark[6]} stroke={1.5} />}
                 >
                   操作説明
                 </Menu.Item>

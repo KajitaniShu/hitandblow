@@ -67,13 +67,13 @@ export function Host({userData, height}:any) {
   }
 
   return (
-    <div className="panel panel-shadow panel-border bg-host" style={{width: "100%", height: height}}>
+    <div className="panel panel-shadow panel-border bg-host" style={{width: "100%", height: height, zIndex:10}}>
       <Container>
       <form onSubmit={form.onSubmit((values) => {  submit(String(userData[0].uuid), Number(values.number), Number(values.timeLimit), Boolean(values.effect), String(userData[0].name), Number(userData[0].level), Number(userData[0].win), Number(userData[0].lose), String(values.character)); })}>
         <Badge variant="filled" color="dark" mt="sm" mb="xs">
-            プレイヤー1
+          {userData && userData.length > 0 && userData[0].name !== undefined ? userData[0].name : " - "}
         </Badge>
-        <ScrollArea h={5*px(height)/9} >
+        <ScrollArea h={5*px(height)/9} type="never">
         <Flex
           direction={{ base: 'column', xs: 'row' }}
           gap="md"
@@ -89,21 +89,23 @@ export function Host({userData, height}:any) {
                 <Text fz="sm" c="dark" weight="800">
                   ■ レベル:
                 </Text>
-                <Text fz="sm" c="dark" weight="800">120</Text>
+                <Text fz="sm" c="dark" weight="800">
+                  {userData && userData.length > 0 && userData[0].level !== undefined ? userData[0].level : " - "}
+                </Text>
                 </Group>
               </Group>
 
               <Group>
                 <Group position='apart'>
-                <Text fz="sm" c="dark" weight="800">■ 勝率:</Text>
-                <Text fz="sm" c="dark" weight="800">1.285</Text>
+                <Text fz="sm" c="dark" weight="800">■ 戦績:</Text>
+                <Text fz="sm" c="dark" weight="800">
+                  {userData && userData.length > 0 && userData[0].win !== undefined && userData[0].lose !== undefined ? userData[0].win + "/" + userData[0].lose : " - "}
+                </Text>
                 </Group>
               </Group>
               </div>
             </Center>
         </Flex>
-              
-
           
         </ScrollArea>
         <Group position="right">

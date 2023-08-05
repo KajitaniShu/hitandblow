@@ -5,25 +5,14 @@ import {
   Text,
   px,
   useMantineTheme,
-  Header,
-  ActionIcon,
-  Avatar,
-  Title,
-  SimpleGrid,
   Grid,
   rem,
   Flex,
-  Menu,
-  Modal,
-  TextInput,
   Center,
-  Badge,
   Button,
-  Skeleton
 } from '@mantine/core';
 import {
   useViewportSize,
-  useDisclosure
 } from '@mantine/hooks';
 import { 
   IconDiamondFilled,
@@ -47,9 +36,6 @@ import { Carousel, Embla, useAnimationOffsetEffect } from '@mantine/carousel';
 
 export function Home({user}: any) {
   const theme = useMantineTheme();
-  const componentHeight = px(rem(170));
-  const SECONDARY_TOP_HEIGHT= `calc(${componentHeight} / 3 - ${theme.spacing.md})`;
-  const SECONDARY_BOTTOM_HEIGHT= `calc((${SECONDARY_TOP_HEIGHT} + ${theme.spacing.md} )*2)`;
   const userQuery = query(collection(db, "user-data"), where("uuid", "==", user.uid));
   const [userData, loading, error, snapshot, reload] = useCollectionDataOnce(userQuery);
   const { width, height } = useViewportSize();
@@ -58,9 +44,8 @@ export function Home({user}: any) {
   const [embla, setEmbla] = useState<Embla | null>(null);
   useAnimationOffsetEffect(embla, TRANSITION_DURATION);
 
-
   return (
-    <>
+    <div style={{height: height, backgroundColor: theme.colors.yellow[6]}}>
       <Head userData={userData} reload={reload} user={user} height={rem(50)}/>
         { width > 750 ? 
         <Container pt="sm" size="md">
@@ -82,34 +67,40 @@ export function Home({user}: any) {
                   direction="column"
                   wrap="wrap"
                 >
-                  <Host userData={userData} height={rem(200)}/>
-                  <Guest userData={userData} height={rem(200)}/>
+                  <Host userData={userData} height={rem(180)}/>
+                  <Guest userData={userData} height={rem(180)}/>
                 </Flex>
               </Grid.Col>
               <Grid.Col  span={2}>
-                <GameSetting userData={userData} height={px(rem(400))+px(rem(theme.spacing.md))}/>
+                <GameSetting userData={userData} height={px(rem(360))+px(rem(theme.spacing.md))}/>
               </Grid.Col>
             </Grid>
             
             <Group position='right' w="100%" pt="lg">
             <Button 
-              size="lg" color="dark" mr="md" radius="sm"
-              leftIcon={<IconPlayerPlayFilled/>}
+              className='button'
+              size="lg"  mr="md" radius="sm"
+              leftIcon={<IconPlayerPlayFilled style={{color: "white"}}/>}
               styles={(theme) => ({
+                root: {
+                  backgroundColor: '#222',
+                  '&:not([data-disabled])': theme.fn.hover({
+                    backgroundColor: theme.fn.darken('black', 0.05),
+                  }),
+                },
+
                 leftIcon: {
                   marginRight: theme.spacing.md,
                 },
               })}
-            >ゲームスタート</Button>
+            ><Text color="white">ゲームスタート</Text></Button>
           </Group>
             </Flex>
           </Center>
-          
-          
         </Container>
         :
         
-              <>
+        <>
         <Carousel  mx="auto"  h={height-px(rem(150))} withIndicators withControls={false} getEmblaApi={setEmbla}>
         <Carousel.Slide>
           <Container p="md" size="30rem"  h={height-px(rem(150))}> 
@@ -137,19 +128,27 @@ export function Home({user}: any) {
           </Container>
         </Carousel.Slide>
       </Carousel> 
-      <Group position='right' w="100%" pt="lg">
-      <Button 
-        size="lg" color="dark" mr="md" radius="sm"
-        leftIcon={<IconPlayerPlayFilled/>}
+      <Group position='right' w="100%" pt="lg" bg="yellow">
+      <Button
+        className='button'
+        size="lg"  mr="md" radius="sm"
+        leftIcon={<IconPlayerPlayFilled style={{color: "white"}}/>}
         styles={(theme) => ({
+          root: {
+            backgroundColor: '#222',
+            '&:not([data-disabled])': theme.fn.hover({
+              backgroundColor: theme.fn.darken('black', 0.05),
+            }),
+          },
+
           leftIcon: {
             marginRight: theme.spacing.md,
           },
         })}
-      >ゲームスタート</Button>
-    </Group>
+      ><Text color="white">ゲームスタート</Text></Button>
+      </Group>
     </>
-        }
-        </>
+  }
+  </div>
   )
 }

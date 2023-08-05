@@ -87,7 +87,7 @@ export function GameScene() {
 
       if(loading || initialising)     return <Loading />         // ユーザーデータ取得中はローディング画面を出す
       else if(!roomData)              return <PageNotFound />    // 未登録のルーム
-      else if(!user)                  return <Login />      // 未ログイン*/
+      else if(!user)                  return <Login />           // 未ログイン*/
 
       else return (
         <>

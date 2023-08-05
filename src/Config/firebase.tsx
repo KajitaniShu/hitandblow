@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
-import { GoogleAuthProvider, getAuth } from "firebase/auth";
+import { GoogleAuthProvider, signInAnonymously, getAuth } from "firebase/auth";
 import { getAnalytics } from "firebase/analytics";
 import {collection, doc, addDoc, query, setDoc, where, Timestamp } from 'firebase/firestore';
 
@@ -23,7 +23,7 @@ const analytics = getAnalytics(app);
 const db = getFirestore(app);
 
 const auth = getAuth();
-const provider = new GoogleAuthProvider();
+const googleProvider = new GoogleAuthProvider();
 
 async function addUser(name: any, language: any, uuid: any) {
   const update = Timestamp.now();
@@ -125,4 +125,4 @@ async function setMessage(
   });
 }
 
-export {db, storage, provider, auth, addUser, setUser, addRoom, setPredict, setMessage};
+export {db, storage, googleProvider, auth, addUser, setUser, addRoom, setPredict, setMessage};
