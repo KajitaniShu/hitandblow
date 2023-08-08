@@ -47,13 +47,12 @@ export function HomeScene() {
 
   const [user, initialising] = useAuthState(auth);
   return (
-    <div style={{height:height}}>
+    <>
       {(() => {
         if(initialising) return <Loading />         // ユーザーデータ取得中はローディング画面を出す
         else if(user)    return <Home user={user}/> // ログイン済み
         else             return <Admin />           // 未ログイン
-        return <Loading />
       })()}
-    </div>
+    </>
   )
 }

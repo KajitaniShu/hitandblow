@@ -11,6 +11,7 @@ import {
 } from '@tabler/icons-react';
 import '../css/panel.css'
 import '../css/badge.css'
+import { BackButton } from './BackButton';
 
 
 export function UserInfo({userData, modalType, setModalType, reload}: any) {
@@ -32,7 +33,7 @@ export function UserInfo({userData, modalType, setModalType, reload}: any) {
     },
 
     validate: {
-      name: (value) => (value.length > 10 ? '10文字以内で入力してください' : null),
+      name: (value) => (value.length > 10 || value.length === 0 ? '1文字以上、10文字以内で入力してください' : null),
     },
   });
 
@@ -65,8 +66,8 @@ export function UserInfo({userData, modalType, setModalType, reload}: any) {
   return (
     <Modal centered opened={opened} size="lg" onClose={()=> {setModalType('none'); form.reset(); close();}}    title={
       <Group noWrap spacing="xs">
-        <IconUser size="20"/>
-        <Text weight="bold">ユーザー情報</Text>
+        <IconUser size="16"/>
+        <Text weight="bold" size="sm">ユーザー情報</Text>
       </Group>
     }
       styles={(theme) => ({

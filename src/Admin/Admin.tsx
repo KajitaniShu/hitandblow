@@ -1,9 +1,10 @@
 import React from 'react'
-import { Flex, Group, Text, Image, rem, AspectRatio, Footer, px, Center } from '@mantine/core'
+import { Flex, Group, Text, Image, rem, AspectRatio, px } from '@mantine/core'
 import { useViewportSize  } from '@mantine/hooks';
 import SignInWithGoogle from './SignInWithGoogle';
 import SignInWithAnonymous from './SignInWithAnonymous';
-
+import { Foot } from '../Component/Foot'
+import '../css/admin.css'
 
 export function Admin() {
   const { width, height } = useViewportSize();
@@ -11,7 +12,8 @@ export function Admin() {
   return (
     <>
     <Flex
-      h={height-px(rem(120))}
+      mt={1 * height/4}
+      mb={1 * height/10}
       gap="none"
       justify="center"
       align="center"
@@ -56,17 +58,7 @@ export function Admin() {
         </>
       }
     </Flex>
-    <Footer height={rem(120)} bg="yellow" pt="sm" style={{borderTop: "2px solid black"}}>
-      <Flex  gap="none" wrap="nowrap" direction="column" h={rem(90)} p="sm" align="center">
-          <Flex  gap="md" wrap="nowrap" direction="row">
-            <Text size="xs" weight="bolder">このゲームについて</Text>
-            <Text size="xs" weight="bolder">お問い合わせ</Text>
-            <Text size="xs" weight="bolder">プライバシーポリシー</Text>
-          </Flex>
-          <Text size="xs" mt="md" weight="bolder">Hit&Blow.online</Text>
-          <Text size="xs" weight="bolder">ひいらぎ All Rights Reserved.</Text>
-      </Flex>
-    </Footer>
+    <Foot />
     </>
   );
 }

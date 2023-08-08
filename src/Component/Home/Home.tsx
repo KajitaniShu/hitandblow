@@ -45,7 +45,7 @@ export function Home({user}: any) {
   useAnimationOffsetEffect(embla, TRANSITION_DURATION);
 
   return (
-    <div style={{height: height, backgroundColor: theme.colors.yellow[6]}}>
+    <div style={{height: height, backgroundColor: "#FFC734"}}>
       <Head userData={userData} reload={reload} user={user} height={rem(50)}/>
         { width > 750 ? 
         <Container pt="sm" size="md">
@@ -128,7 +128,7 @@ export function Home({user}: any) {
           </Container>
         </Carousel.Slide>
       </Carousel> 
-      <Group position='right' w="100%" pt="lg" bg="yellow">
+      <Group position='right' w="100%" pt="lg" bg="#FFC734">
       <Button
         className='button'
         size="lg"  mr="md" radius="sm"

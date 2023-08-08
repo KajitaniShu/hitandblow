@@ -17,7 +17,8 @@ import {
   IconDiamondFilled,
   IconUserCircle,
   IconZoomQuestion,
-  IconLogout
+  IconLogout,
+  IconFileDescription
 } from '@tabler/icons-react';
 import {
   IoIosShareAlt
@@ -43,13 +44,22 @@ export function Head({userData, reload, user, height}: any) {
   return (
     <>
       {/* ユーザーネーム登録モーダル (初期ログイン時に表示する) */}
-      <InitName uuid={user.uid} modalType={modalType} setModalType={setModalType} reload={reload} />
+      {userData && userData.length === 0 && <InitName uuid={user.uid} modalType={modalType} setModalType={setModalType} reload={reload} /> }
       
       {userData && userData.length > 0 && <UserInfo userData={userData} modalType={modalType} setModalType={setModalType} reload={reload}/>}
       <Header height={height} p="sm" className="header">
       <Container>
         <Group position="apart">
-          <Title order={1} size="h4" color="white" className="title" weight="bolder">Hit&Blow online</Title>
+          <Title
+            order={1}
+            size="h4"
+            sx={(theme) => ({ fontFamily: `Greycliff CF, ${theme.fontFamily}` })}
+            weight={900}
+            align="center"
+            color="white"
+          >
+            Hit&Blow.online
+          </Title>
           <Group position="right">
             {width > 900 &&
               <>
@@ -72,24 +82,34 @@ export function Head({userData, reload, user, height}: any) {
             <Menu
               transitionProps={{ transition: 'pop-top-right' }}
               position="top-end"
-              width={180}
               withinPortal
             >
             <Menu.Target>
             <ActionIcon style={{color:"white"}} variant="transparent"><IconInfoSquareRoundedFilled size="20"/></ActionIcon>
             </Menu.Target>
               <Menu.Dropdown className="mini-panel">
-                <Menu.Item
-                  onClick={()=>setModalType('userInfo')}
-                  icon={<IconUserCircle size="1rem" color={theme.colors.dark[6]} stroke={1.5} />}
-                >
-                  アカウント情報
-                </Menu.Item>
-                <Menu.Item
-                  icon={<IconZoomQuestion size="1rem" color={theme.colors.dark[6]} stroke={1.5} />}
-                >
-                  操作説明
-                </Menu.Item>
+                {userData && userData.length > 0 && 
+                  <>
+                  <Menu.Item
+                    onClick={()=>setModalType('userInfo')}
+                    icon={<IconUserCircle size="1rem" color={theme.colors.dark[6]} stroke={1.5} />}
+                  >
+                    アカウント情報
+                  </Menu.Item>
+                  </>
+                }
+                  <Menu.Item
+                    icon={<IconZoomQuestion size="1rem" color={theme.colors.dark[6]} stroke={1.5} />}
+                  >
+                    操作説明
+                  </Menu.Item>
+                  <Menu.Item
+                    component="a" 
+                    href="./privacy"
+                    icon={<IconFileDescription size="1rem" color={theme.colors.dark[6]} stroke={1.5} />}
+                  >
+                    プライバシーポリシー
+                  </Menu.Item>
                 <Menu.Divider />
                 <Menu.Item
                   color="red" 

@@ -14,6 +14,7 @@ import {
 } from '@mantine/core';
 import { ModalsProvider } from '@mantine/modals';
 import { HomeScene } from './Scene/HomeScene';
+import { Privacy } from './Scene/Privacy';
 
 
 export function App() {
@@ -54,6 +55,7 @@ export function App() {
           <BrowserRouter basename={process.env.PUBLIC_URL}>
             <Routes>
               <Route index element={<HomeScene/>} />
+              <Route path="/privacy" element={<Privacy />} />
               <Route path="/room/:id" element={<GameScene/>} />
               <Route path="*" element={<PageNotFound />} />
             </Routes>

@@ -32,6 +32,7 @@ import {
 import { 
   IconRotate,
   IconPlayerPlayFilled,
+  IconCheck,
   IconQuestionMark
 } from '@tabler/icons-react';
 import { useForm } from '@mantine/form';
@@ -45,23 +46,23 @@ export function GameSetting({userData, height}:any) {
   const [sending, setSending] = useState(false);
   const form = useForm({
     initialValues: {
-      character: null,
       effect: 'true',
       timeLimit: 60,
-      number: 0,
+      turns: "無制限",
     },
 
     validate: {
-      character: (value) => (value === null ? 'キャラクターを選んでください': null),
+      effect: (value) => (value === null ? '値を設定してください': null),
+      turns:  (value) => (value === null ? '値を設定してください': null),
       timeLimit: (value) => (value < 10 || value > 120 ? '設定可能な制限時間は10～120秒です': null),
-      number: (value) => (value === null ? '値を設定してください': null),
     },
   });
 
-  async function submit(uuid: string, num: number, timeLimits: number, effects: boolean, name:string, level:number, win:number, lose:number, character: string){
+  async function submit(timeLimits: number, effects: boolean, turns:string, ){
     setSending(true);     // 送信中に決定ボタンを押せないようにローディングを表示
-    const roomId = await addRoom(uuid, num, timeLimits, effects, name, level, win, lose, character );  // firebaseにデータを追加
-    window.location.href = "/room/"+roomId;
+    // const 
+    // const roomId = await addRoom(uuid, num, timeLimits, effects, name, level, win, lose, character );  // firebaseにデータを追加
+    //window.location.href = "/room/"+roomId;
     setSending(false);    // ローディングを非表示
   }
 
@@ -72,7 +73,7 @@ export function GameSetting({userData, height}:any) {
           ゲーム設定
         </Badge>
 
-      <form onSubmit={form.onSubmit((values) => {  submit(String(userData[0].uuid), Number(values.number), Number(values.timeLimit), Boolean(values.effect), String(userData[0].name), Number(userData[0].level), Number(userData[0].win), Number(userData[0].lose), String(values.character)); })}>
+      <form onSubmit={form.onSubmit((values) => {  submit(Number(values.timeLimit), Boolean(values.effect), String(userData[0].turns))})}>
         <ScrollArea my="lg" >
           
           <Center>
@@ -123,7 +124,7 @@ export function GameSetting({userData, height}:any) {
               wrap="wrap"
             >
               <Title w={width > 800 ? "50%" : "100%"}  size="h6" weight="bold" >
-                特殊効果の数
+                ターン数
                 <Popover width={"10em"} position="bottom" withArrow shadow="md">
                   <Popover.Target>
                     <ThemeIcon variant="outline" ml="xs" radius="xl" size="xs" color="gray">
@@ -131,16 +132,19 @@ export function GameSetting({userData, height}:any) {
                     </ThemeIcon>
                   </Popover.Target>
                   <Popover.Dropdown bg="black" p="xs">
-                    <Text size="xs" color="white">特殊効果の数を設定しよう ! (1～3個)</Text>
+                    <Text size="xs" color="white">ターン数を設定しよう ! </Text>
                   </Popover.Dropdown>
                 </Popover>
               </Title>
-              <NumberInput
+              <Select 
                 size="md"
-                {...form.getInputProps('timeLimit')}
+                {...form.getInputProps('turns')}
                 w={width > 800 ? "40%" : "100%"}
-                defaultValue={60}
-              />
+                data={[
+                  { value: '5', label: '5' },
+                  { value: '10', label: '10' },
+                  { value: '15', label: '15' },
+              ]}/>
             </Flex>
           </Center>
 
@@ -182,6 +186,7 @@ export function GameSetting({userData, height}:any) {
         <Center>
         <Group position="right"   mt="sm" w={ width > 800 ? "90%" : "100%" }>
             <Button onClick={() => form.reset()} disabled={sending} color="dark" variant="outline"><IconRotate style={{marginRight: theme.spacing.xs}} size="1rem"/>リセット</Button>
+            <Button onClick={() => form.reset()} disabled={sending} color="dark" variant="filled"><IconCheck style={{marginRight: theme.spacing.xs}} size="1rem"/>変更</Button>
         </Group>
         </Center>
       </form>
