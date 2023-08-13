@@ -4,7 +4,7 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { GoogleAuthProvider, signInAnonymously, getAuth } from "firebase/auth";
 import { getAnalytics } from "firebase/analytics";
-import {collection, doc, addDoc, query, setDoc, where, Timestamp } from 'firebase/firestore';
+import { collection, doc, addDoc, query, setDoc, updateDoc, Timestamp } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: "AIzaSyBptRJsLIq4Nz-210u6nGNNrdhZw10WTZU",
@@ -25,71 +25,82 @@ const db = getFirestore(app);
 const auth = getAuth();
 const googleProvider = new GoogleAuthProvider();
 
+// ユーザー情報新規登録
 async function addUser(name: any, language: any, uuid: any) {
   const update = Timestamp.now();
-
   const docRef = await setDoc(doc(db, "user-data", uuid), {
-    uuid: uuid,
     name: name,
+    uuid: uuid,
+    level: 1.0,
     money: 0,
     win: 0,
     lose: 0,
-    level: 1.0,
     language: language,
+    update: update, 
+    assign: "-",
     friends: {},
-    history: {},
-    update: update
+    history: {}
   });
 }
 
+// ユーザー情報変更
 async function setUser(
-    uuid:   string,
-    name:   string,
-    money:  number,
-    win:    number,
-    lose:   number,
-    level:  number,
+    name:     string,
+    uuid:     string,
+    level:    number,
+    money:    number,
+    win:      number,
+    lose:     number,
     language: string,
-    friends: string[],
-    history: string[]) {
+    assign:   string,
+    friends:  string[],
+    history:  string[]) {
   const update = Timestamp.now();
-  const docRef = await setDoc(doc(db, "user-data", uuid), {
-    uuid: uuid,
+  const docRef = await updateDoc(doc(db, "user-data", uuid), {
     name: name,
-    money: 0,
-    win: 0,
-    lose: 0,
-    level: 1.0,
+    uuid: uuid,
+    level: level,
+    money: money,
+    win: win,
+    lose: lose,
     language: language,
+    update: update, 
+    assign: assign,
     friends: friends,
-    history: history,
-    update: update
+    history: history
   });
 }
 
+// ルーム新規作成
 async function addRoom(
   uuid:   string,
-  number:   number,
-  timeLimits: number,
-  effects: boolean,
-  name:string, 
-  level:number, 
-  win:number, 
-  lose:number,
-  character: string
   ) {
   const update = Timestamp.now();
   const docRef = await addDoc(collection(db, "room-data"), {
-    host: {name: name, uuid: uuid, number: number, level: level, win: win, lose: lose, character: character},
-    guest: null,
-    turn: -1,
-    useEffects: effects,
-    timeLimits: timeLimits,
+    host:   { uuid: uuid, number: null, character: null },
+    guest:  { uuid: null, number: null, character: null },
+    data:   { state: "lobby", turn: -1, update: update },
+    rule:   { timeLimits: 60, turns: -1, effects: true },
     update: update,
   });
   return docRef.id;
 }
 
+// ルール変更
+async function setRules(
+  roomId:     string,
+  timeLimits: number,
+  turns:      number,
+  effects:    string
+  ) {
+  const update = Timestamp.now();
+  const docRef = await updateDoc(doc(db, "room-data", roomId), {
+    rule:   { timeLimits: timeLimits, turns: turns, effects: effects },
+    update: update,
+  });
+}
+
+// 考察 (番号) を送信する
 async function setPredict(
   predict: any, 
   effectId: any, 
@@ -110,6 +121,7 @@ async function setPredict(
   return docRef.id;
 }
 
+// ユーザーメッセージ送信
 async function setMessage(
   message: string, 
   playerUuid: string,
@@ -125,4 +137,4 @@ async function setMessage(
   });
 }
 
-export {db, storage, googleProvider, auth, addUser, setUser, addRoom, setPredict, setMessage};
+export {db, storage, googleProvider, auth, addUser, setUser, addRoom, setPredict, setMessage, setRules};

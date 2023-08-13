@@ -55,7 +55,18 @@ export function UserInfo({userData, modalType, setModalType, reload}: any) {
 
   async function submit(name: any, language: any, uuid: any){
     setSending(true);     // 送信中に決定ボタンを押せないようにローディングを表示
-    await setUser(userData[0].uuid, name, userData[0].money, userData[0].win, userData[0].lose, userData[0].level, language, userData[0].friends, userData[0].history);  // firebaseにデータを追加
+    await setUser(                                          // ユーザー情報に入室済みルームとして追加
+        name,                 // name,
+        userData[0].uuid,     // uuid,
+        userData[0].level,    // level,
+        userData[0].money,    // money,
+        userData[0].win,      // win,
+        userData[0].lose ,    // lose,
+        userData[0].language, // language,
+        userData[0].assign,   // assign
+        userData[0].friends,  // friends,
+        userData[0].history,  // history
+      );
     reload();             // ユーザーデータを再読み込み
     close();              // モーダルを閉じる
     setSending(false);    // ローディングを非表示
@@ -70,16 +81,6 @@ export function UserInfo({userData, modalType, setModalType, reload}: any) {
         <Text weight="bold" size="sm">ユーザー情報</Text>
       </Group>
     }
-      styles={(theme) => ({
-        header: {
-          backgroundColor: '#FFC734',
-          height:"3em",
-          borderBottom: "1px solid black"
-        },
-        close: {
-          color:"black"
-        }
-      })}
     >
       <form onSubmit={form.onSubmit((values) => { submit(values.name, 'japanese', userData[0].uuid); })}>
       <ScrollArea h={height/2} w="100%" type="never">
@@ -97,9 +98,9 @@ export function UserInfo({userData, modalType, setModalType, reload}: any) {
         <TextInput
           mb="xl"
           label="レベル"
+          bg="white"
           size="md"
           disabled
-          icon={<IconPencilOff size="1.2rem" />}
           {...form.getInputProps('level')}
         />
         <TextInput
@@ -107,7 +108,6 @@ export function UserInfo({userData, modalType, setModalType, reload}: any) {
           label="ポイント"
           size="md"
           disabled
-          icon={<IconPencilOff size="1.2rem" />}
           {...form.getInputProps('money')}
         />
         <TextInput
@@ -115,7 +115,6 @@ export function UserInfo({userData, modalType, setModalType, reload}: any) {
           label="勝ち"
           size="md"
           disabled
-          icon={<IconPencilOff size="1.2rem" />}
           {...form.getInputProps('win')}
         />
 
@@ -124,7 +123,6 @@ export function UserInfo({userData, modalType, setModalType, reload}: any) {
           label="負け"
           size="md"
           disabled
-          icon={<IconPencilOff size="1.2rem" />}
           {...form.getInputProps('lose')}
         />
         
@@ -133,7 +131,6 @@ export function UserInfo({userData, modalType, setModalType, reload}: any) {
           label="言語"
           size="md"
           disabled
-          icon={<IconPencilOff size="1.2rem" />}
           {...form.getInputProps('language')}
         />
       </Container>
@@ -141,12 +138,12 @@ export function UserInfo({userData, modalType, setModalType, reload}: any) {
       <Group noWrap position="right" mt="md">
           <Button
             type="submit" 
-            leftIcon={<IconCheck size="1rem" />}
+            leftIcon={<IconCheck style={{color: "black"}} size="1rem" />}
             color="yellow"
             loading={sending}
             disabled={!form.isDirty()}
           >
-            変更
+            <Text color="dark">変更</Text>
           </Button>
         </Group>
       </form>

@@ -61,8 +61,8 @@ export function Guest({userData, height}:any) {
 
   async function submit(uuid: string, num: number, timeLimits: number, effects: boolean, name:string, level:number, win:number, lose:number, character: string){
     setSending(true);     // 送信中に決定ボタンを押せないようにローディングを表示
-    const roomId = await addRoom(uuid, num, timeLimits, effects, name, level, win, lose, character );  // firebaseにデータを追加
-    window.location.href = "/room/"+roomId;
+    //const roomId = await addRoom(uuid, num, timeLimits, effects, name, level, win, lose, character );  // firebaseにデータを追加
+    //window.location.href = "/room/"+roomId;
     setSending(false);    // ローディングを非表示
   }
 
