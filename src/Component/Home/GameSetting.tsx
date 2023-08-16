@@ -51,7 +51,6 @@ export function GameSetting({roomData, userData, height}:any) {
 
   useEffect(() => {
     if(roomData && roomData[0]) {
-      console.log("aaa")
       form.setFieldValue('effect',    String(roomData[0].rule.effects));
       form.setFieldValue('timeLimit', roomData[0].rule.timeLimits);
       form.setFieldValue('turns',     String(roomData[0].rule.turns));
@@ -151,6 +150,9 @@ export function GameSetting({roomData, userData, height}:any) {
                   { value: "-1", label: '無制限'},
                   { value: "10", label: '10' },
                   { value: "15", label: '15' },
+                  { value: "20", label: '20' },
+                  { value: "25", label: '25' },
+                  { value: "30", label: '30' },
               ]}/>
             </Flex>
           </Center>
@@ -182,6 +184,8 @@ export function GameSetting({roomData, userData, height}:any) {
               </Title>
               <NumberInput
                 size="md"
+                min={10}
+                max={120}
                 {...form.getInputProps('timeLimit')}
                 w={width > 750 ? "40%" : "100%"}
               />
@@ -189,7 +193,7 @@ export function GameSetting({roomData, userData, height}:any) {
           </Center>
         <Center>
         <Group position="right"   mt="sm" w={ width > 750 ? "90%" : "100%" }>
-            <Button disabled={sending} onClick={() => {form.reset(); submit(60, "-1", "true")}} color="dark" variant="outline"><IconRotate style={{marginRight: theme.spacing.xs}} size="1rem"/>リセット</Button>
+            <Button disabled={sending} onClick={() => {form.reset(); submit(60, "-1", "true")}} color="dark" variant="default"><IconRotate style={{marginRight: theme.spacing.xs}} size="1rem"/>リセット</Button>
             <Button disabled={sending} type="submit" color="dark" variant="filled"><IconCheck style={{marginRight: theme.spacing.xs}} size="1rem"/>変更</Button>
         </Group>
         </Center>

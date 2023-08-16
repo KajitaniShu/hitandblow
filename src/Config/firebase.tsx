@@ -27,7 +27,7 @@ const googleProvider = new GoogleAuthProvider();
 
 // ユーザー情報新規登録
 async function addUser(name: any, language: any, uuid: any) {
-  const update = Timestamp.now();
+  const update = Timestamp.now(); 
   const docRef = await setDoc(doc(db, "user-data", uuid), {
     name: name,
     uuid: uuid,
@@ -35,40 +35,66 @@ async function addUser(name: any, language: any, uuid: any) {
     money: 0,
     win: 0,
     lose: 0,
+    assign: null,
+    assignType: null,
     language: language,
-    update: update, 
-    assign: "-",
+    update: update,
     friends: {},
     history: {}
   });
 }
 
 // ユーザー情報変更
-async function setUser(
+async function assignRoom(
+    isHost:   boolean,
+    uuid:     string,
+    roomId:   string,
+  ) {
+  const update = Timestamp.now();
+  const docRef = await updateDoc(doc(db, "user-data", uuid), {
+    update: update, 
+    assign: roomId,
+    assignType: isHost ? "host" : "guest",
+  });
+}
+
+
+// ユーザー名初期追加
+async function setName(
     name:     string,
     uuid:     string,
-    level:    number,
-    money:    number,
-    win:      number,
-    lose:     number,
-    language: string,
-    assign:   string,
-    friends:  string[],
-    history:  string[]) {
+  ){
   const update = Timestamp.now();
   const docRef = await updateDoc(doc(db, "user-data", uuid), {
     name: name,
-    uuid: uuid,
-    level: level,
-    money: money,
-    win: win,
-    lose: lose,
-    language: language,
-    update: update, 
-    assign: assign,
-    friends: friends,
-    history: history
+    update: update
   });
+}
+
+// ユーザー情報変更
+async function setUser(
+  name:     string,
+  uuid:     string,
+  level:    number,
+  money:    number,
+  win:      number,
+  lose:     number,
+  language: string,
+  friends:  string[],
+  history:  string[]) {
+const update = Timestamp.now();
+const docRef = await updateDoc(doc(db, "user-data", uuid), {
+  name: name,
+  uuid: uuid,
+  level: level,
+  money: money,
+  win: win,
+  lose: lose,
+  language: language,
+  update: update, 
+  friends: friends,
+  history: history
+});
 }
 
 // ルーム新規作成
@@ -77,8 +103,24 @@ async function addRoom(
   ) {
   const update = Timestamp.now();
   const docRef = await addDoc(collection(db, "room-data"), {
-    host:   { uuid: uuid, number: null, character: null },
-    guest:  { uuid: null, number: null, character: null },
+    host:   { 
+        uuid:         uuid, 
+        number:       null, 
+        character:    null, 
+        name:         null,
+        level:        null,
+        win:          null,
+        lose:         null,
+    },
+    guest:  { 
+        uuid:         null, 
+        number:       null, 
+        character:    null, 
+        name:         null,
+        level:        null,
+        win:          null,
+        lose:         null,  
+    },
     data:   { state: "lobby", turn: -1, update: update },
     rule:   { timeLimits: 60, turns: -1, effects: true },
     update: update,
@@ -99,6 +141,49 @@ async function setRules(
     update: update,
   });
 }
+
+// プレイヤーのデータを設定
+async function setPlayerData(
+  isHost:     boolean,
+  roomId:     string,
+  uuid:       string,
+  number:     any,
+  character:  any,
+  name:       string,
+  level:    number,
+  win:      number,
+  lose:     number,
+  ) {
+  const update = Timestamp.now();
+  if(isHost){
+    const docRef = await updateDoc(doc(db, "room-data", roomId), {
+      host:   { 
+        uuid: uuid, 
+        number: number, 
+        character: character, 
+        name:   name,
+        level:  level,
+        win:    win,
+        lose:   lose,
+      },
+      update: update,
+    });
+  }else{
+    const docRef = await updateDoc(doc(db, "room-data", roomId), {
+      guest:   {
+        uuid: uuid, 
+        number: number, 
+        character: character, 
+        name:   name,
+        level:  level,
+        win:    win,
+        lose:   lose,
+      },
+      update: update,
+    });
+  }
+}
+
 
 // 考察 (番号) を送信する
 async function setPredict(
@@ -137,4 +222,4 @@ async function setMessage(
   });
 }
 
-export {db, storage, googleProvider, auth, addUser, setUser, addRoom, setPredict, setMessage, setRules};
+export {db, storage, googleProvider, auth, addUser, setUser, addRoom, setPredict, setMessage, setRules, setPlayerData, assignRoom, setName};

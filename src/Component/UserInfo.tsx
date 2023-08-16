@@ -56,22 +56,21 @@ export function UserInfo({userData, modalType, setModalType, reload}: any) {
   async function submit(name: any, language: any, uuid: any){
     setSending(true);     // 送信中に決定ボタンを押せないようにローディングを表示
     await setUser(                                          // ユーザー情報に入室済みルームとして追加
-        name,                 // name,
-        userData[0].uuid,     // uuid,
-        userData[0].level,    // level,
-        userData[0].money,    // money,
-        userData[0].win,      // win,
-        userData[0].lose ,    // lose,
-        userData[0].language, // language,
-        userData[0].assign,   // assign
-        userData[0].friends,  // friends,
-        userData[0].history,  // history
-      );
+      name,                 // name,
+      userData[0].uuid,     // uuid,
+      userData[0].level,    // level,
+      userData[0].money,    // money,
+      userData[0].win,      // win,
+      userData[0].lose ,    // lose,
+      userData[0].language, // language,
+      userData[0].friends,  // friends,
+      userData[0].history,  // history
+    );
     reload();             // ユーザーデータを再読み込み
-    close();              // モーダルを閉じる
     setSending(false);    // ローディングを非表示
     setModalType('none'); // 現在開くべきモーダルの種類を'none'(何も開かない) にする
     form.reset();         // フォームに書き込んだ情報をリセット
+    close();              // モーダルを閉じる
   }
   
   return (

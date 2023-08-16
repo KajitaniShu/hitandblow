@@ -10,13 +10,15 @@ import {
   Flex,
   Center,
   Button,
+  CopyButton
 } from '@mantine/core';
 import {
   useViewportSize,
 } from '@mantine/hooks';
 import { 
   IconPlayerPlayFilled,
-  IconShare2
+  IconShare2,
+  IconCheck
 } from '@tabler/icons-react';
 import { GameSetting } from './GameSetting';
 import { Host } from './Host';
@@ -26,15 +28,14 @@ import { db }  from '../../Config/firebase';
 import { useCollectionDataOnce, useCollectionData } from 'react-firebase-hooks/firestore';
 import { Head } from '../Head'
 import { Carousel, Embla, useAnimationOffsetEffect } from '@mantine/carousel';
-import { addRoom, setUser } from '../../Config/firebase'
+import { addRoom, assignRoom } from '../../Config/firebase'
 
 
 export function Home({user}: any) {
   const theme = useMantineTheme();
   const userQuery = query(collection(db, "user-data"), where("uuid", "==", user.uid));
   const [userData, loading, error, snapshot, reload] = useCollectionDataOnce(userQuery);
-
-  const roomID = userData && userData[0] ? userData[0].assign : "-";
+  const roomID = userData && userData[0] && userData[0].assign ? userData[0].assign : "-";
   
   const roomQuery = query(collection(db, "room-data"), where('__name__', '==', roomID));
   const [roomData] = useCollectionData(roomQuery);
@@ -47,31 +48,24 @@ export function Home({user}: any) {
   // ルーム新規作成
   async function createRoom(){
     if(userData && userData[0]) {
-      const roomId = await addRoom(userData[0].uuid);   // ルーム追加
-      await setUser(                                          // ユーザー情報に入室済みルームとして追加
-        userData[0].name,     // name,
+      const roomId = await addRoom(userData[0].uuid);         // ルーム追加
+      await assignRoom(                                       // ユーザー情報に入室済みルームとして追加
+        true,                 // isHost
         userData[0].uuid,     // uuid,
-        userData[0].level,    // level,
-        userData[0].money,    // money,
-        userData[0].win,      // win,
-        userData[0].lose ,    // lose,
-        userData[0].language, // language,
-        roomId,               // assign
-        userData[0].friends,  // friends,
-        userData[0].history,  // history
+        roomId,               // roomId
       );
+      reload();
     }
-
   };
   
   useEffect(() => {
     // ユーザー情報が登録されている & 入室しているルームがない
-    if(userData && userData[0] && userData[0].assign === "-") {
+    if(userData && userData.length > 0 && userData[0].assign === null) {
       // ルームを追加し、入室済みにする
+      console.log("addRoom", userData, roomData);
       createRoom();
     }
   },[userData])
-  
   
 
   return (
@@ -107,24 +101,30 @@ export function Home({user}: any) {
             </Grid>
             
             <Group position='right' w="100%" pt="lg">
-              <Button
-                className='button'
-                size="lg" radius="sm"
-                leftIcon={<IconShare2 style={{color: "white"}}/>}
-                styles={(theme) => ({
-                  root: {
-                    backgroundColor: '#222',
-                    '&:not([data-disabled])': theme.fn.hover({
-                      backgroundColor: theme.fn.darken('black', 0.05),
-                    }),
-                  },
-                  leftIcon: {
-                    marginRight: theme.spacing.md,
-                  },
-                })}
-              >
-                招待
-              </Button>
+              {userData && userData.length > 0 && userData[0].assign && userData[0].assign !== "-" && 
+              <CopyButton value={window.location.href + "invite/" + userData[0].assign}>
+                {({ copied, copy }) => (
+                <Button
+                  onClick={copy}
+                  size="lg" radius="sm"
+                  leftIcon={copied ? <IconCheck style={{color: "white"}}/> : <IconShare2 style={{color: "white"}}/>}
+                  styles={(theme) => ({
+                    root: {
+                      backgroundColor: copied ? theme.colors.yellow[7] : '#222',
+                      '&:not([data-disabled])': theme.fn.hover({
+                        backgroundColor: copied ? theme.colors.yellow[7] : theme.fn.darken('black', 0.05),
+                      }),
+                    },
+                    leftIcon: {
+                      marginRight: theme.spacing.md,
+                    },
+                  })}
+                >
+                  招待
+                </Button>
+                )}
+              </CopyButton>
+              }
               <Button 
                 className='button'
                 size="lg"  mr="md" radius="sm"
@@ -147,7 +147,7 @@ export function Home({user}: any) {
         </Container>
         :
         <>
-        <Carousel  mx="auto"  h={height-px(rem(150))} withIndicators withControls={false} getEmblaApi={setEmbla}>
+        <Carousel  mx="auto" h={height-px(rem(150))} withIndicators withControls={false} getEmblaApi={setEmbla}>
         <Carousel.Slide>
           <Container p="md" size="30rem"  h={height-px(rem(150))}> 
           <Center h={height-px(rem(150))}>
@@ -156,6 +156,7 @@ export function Home({user}: any) {
               align="flex-start"
               direction="row"
               wrap="wrap"
+              w="100%"
               mb="xl"
             >
               <Host userData={userData} roomData={roomData} height={rem(200)}/>
@@ -176,20 +177,27 @@ export function Home({user}: any) {
       </Carousel> 
       <Container size="xs">
         <Group position='right'>
-          <Button
-            className='button'
-            size="md" radius="sm"
-            styles={(theme) => ({
-              root: {
-                backgroundColor: '#222',
-                '&:not([data-disabled])': theme.fn.hover({
-                  backgroundColor: theme.fn.darken('black', 0.05),
-                }),
-              },
-            })}
-          >
-            <IconShare2 style={{color: "white"}}/>
-          </Button>
+          {userData && userData.length > 0 && userData[0].assign && userData[0].assign !== "-" && 
+            <CopyButton value={window.location.href + "invite/" + userData[0].assign}>
+              {({ copied, copy }) => (
+              <Button
+                onClick={copy}
+                size="md" radius="sm"
+                styles={(theme) => ({
+                  root: {
+                    backgroundColor: copied ? theme.colors.yellow[7] : '#222',
+                    '&:not([data-disabled])': theme.fn.hover({
+                      backgroundColor: copied ? theme.colors.yellow[7] : theme.fn.darken('black', 0.05),
+                    }),
+                  },
+                })}
+              >
+                {copied ? <IconCheck style={{color: "white"}}/> : <IconShare2 style={{color: "white"}}/>}
+                
+              </Button>
+              )}
+            </CopyButton>
+          }
           <Button
             className='button'
             size="md" radius="sm"

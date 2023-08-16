@@ -36,15 +36,15 @@ export function Head({userData, reload, user, height}: any) {
   const theme = useMantineTheme();
 
   useEffect(() => {
-    if(userData && userData.length <= 0) { setModalType('initName'); }
+    if(userData && (userData.length <= 0 || userData[0].name === undefined || userData[0].name === null)) { setModalType('initName'); }
     else if(modalType === 'userInfo') {;}
     else if(modalType !== 'none') setModalType('none');
   })
-  
+
   return (
     <>
       {/* ユーザーネーム登録モーダル (初期ログイン時に表示する) */}
-      {userData && userData.length === 0 && <InitName uuid={user.uid} modalType={modalType} setModalType={setModalType} reload={reload} /> }
+      <InitName uuid={user.uid} userData={userData} modalType={modalType} setModalType={setModalType} reload={reload} />
       
       {userData && userData.length > 0 && <UserInfo userData={userData} modalType={modalType} setModalType={setModalType} reload={reload}/>}
       <Header height={height} p="sm" className="header">

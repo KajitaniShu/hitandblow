@@ -3,14 +3,16 @@ import React from 'react'
 import { Head } from '../Component/Head'
 import '../css/panel.css'
 import { Foot } from '../Component/Foot'
+import { useViewportSize  } from '@mantine/hooks';
 
 
 export function Privacy() {
   const theme = useMantineTheme();
+  const { width, height } = useViewportSize();
 
 
   return (
-    <>
+    <div style={{ minHeight: "100vh", position: "relative"}}>
       <Header height={rem(60)} p="sm" mb={rem(50)} className="header">
         <Container>
           <Group position="apart">
@@ -92,6 +94,6 @@ export function Privacy() {
         </div>
       </Container>
       <Foot />
-    </>
+    </div>
   )
 }
