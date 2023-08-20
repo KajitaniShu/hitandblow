@@ -1,5 +1,5 @@
 .panel{
-  border-radius: 10px;
+  border-radius: 7px;
   background-color: #ffffff;
   -webkit-box-shadow: 0px 3px 0 black;
   box-shadow: 0px 3px 0 black;
@@ -7,7 +7,7 @@
 }
 
 .small-panel{
-  border-radius: 10px;
+  border-radius: 7px;
   background-color: white;
   -webkit-box-shadow: 0px 3px 0 black;
   box-shadow: 0px px 0 black;

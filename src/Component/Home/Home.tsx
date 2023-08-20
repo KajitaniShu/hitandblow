@@ -69,7 +69,8 @@ export function Home({user}: any) {
   
 
   return (
-    <div style={{height: height, backgroundColor: "#FFC734"}}>
+    <>
+    <div style={{height: height-px(rem(40)), backgroundColor: theme.colors.yellow[5]}}>
       <Head userData={userData} reload={reload} user={user} height={rem(50)}/>
         { width > 750 ? 
         <Container pt="sm" size="md">
@@ -110,13 +111,13 @@ export function Home({user}: any) {
                   leftIcon={copied ? <IconCheck style={{color: "white"}}/> : <IconShare2 style={{color: "white"}}/>}
                   styles={(theme) => ({
                     root: {
-                      backgroundColor: copied ? theme.colors.yellow[7] : '#222',
+                      backgroundColor: 'black',
                       '&:not([data-disabled])': theme.fn.hover({
-                        backgroundColor: copied ? theme.colors.yellow[7] : theme.fn.darken('black', 0.05),
+                        backgroundColor: theme.fn.darken('#222', 0.05),
                       }),
                     },
                     leftIcon: {
-                      marginRight: theme.spacing.md,
+                      marginRight: theme.spacing.sm,
                     },
                   })}
                 >
@@ -131,13 +132,13 @@ export function Home({user}: any) {
                 leftIcon={<IconPlayerPlayFilled style={{color: "white"}}/>}
                 styles={(theme) => ({
                   root: {
-                    backgroundColor: '#222',
+                    backgroundColor: 'black',
                     '&:not([data-disabled])': theme.fn.hover({
-                      backgroundColor: theme.fn.darken('black', 0.05),
+                      backgroundColor: theme.fn.darken('#222', 0.05),
                     }),
                   },
                   leftIcon: {
-                    marginRight: theme.spacing.md,
+                    marginRight: theme.spacing.sm,
                   },
                 })}
               ><Text color="white">開始</Text></Button>
@@ -147,7 +148,7 @@ export function Home({user}: any) {
         </Container>
         :
         <>
-        <Carousel  mx="auto" h={height-px(rem(150))} withIndicators withControls={false} getEmblaApi={setEmbla}>
+        <Carousel mx="auto" h={height-px(rem(150))} withIndicators withControls={false} getEmblaApi={setEmbla}>
         <Carousel.Slide>
           <Container p="md" size="30rem"  h={height-px(rem(150))}> 
           <Center h={height-px(rem(150))}>
@@ -185,10 +186,13 @@ export function Home({user}: any) {
                 size="md" radius="sm"
                 styles={(theme) => ({
                   root: {
-                    backgroundColor: copied ? theme.colors.yellow[7] : '#222',
+                    backgroundColor: 'black',
                     '&:not([data-disabled])': theme.fn.hover({
-                      backgroundColor: copied ? theme.colors.yellow[7] : theme.fn.darken('black', 0.05),
+                      backgroundColor: theme.fn.darken('#222', 0.05),
                     }),
+                  },
+                  leftIcon: {
+                    marginRight: theme.spacing.sm,
                   },
                 })}
               >
@@ -200,18 +204,17 @@ export function Home({user}: any) {
           }
           <Button
             className='button'
-            size="md" radius="sm"
+            size="md" radius="xs"
             leftIcon={<IconPlayerPlayFilled style={{color: "white"}}/>}
             styles={(theme) => ({
               root: {
-                backgroundColor: '#222',
+                backgroundColor: 'black',
                 '&:not([data-disabled])': theme.fn.hover({
-                  backgroundColor: theme.fn.darken('black', 0.05),
+                  backgroundColor: theme.fn.darken('#222', 0.05),
                 }),
               },
-
               leftIcon: {
-                marginRight: theme.spacing.md,
+                marginRight: theme.spacing.sm,
               },
             })}
           ><Text color="white">開始</Text></Button>
@@ -220,5 +223,7 @@ export function Home({user}: any) {
     </>
   }
   </div>
+  <Group noWrap h={rem(40)} bg="black" w="100%" />
+  </>
   )
 }

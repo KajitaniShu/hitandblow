@@ -7,7 +7,8 @@
 }
 .bg-host:before{
 	z-index:-1;
-	background-color: hwb(337 0% 0% / 0.7);
+	/*background-color: hwb(337 0% 0% / 0.7);*/
+	background-color: black;
 	content: '';
 	display: block;
 	transform: rotate(-60deg);

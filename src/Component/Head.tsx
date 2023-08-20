@@ -6,14 +6,15 @@ import {
   Container,
   rem,
   Title,
-  Avatar,
+  Progress,
   Text,
   Skeleton,
   Menu,
+  Avatar,
   useMantineTheme
 } from '@mantine/core';
 import {
-  IconInfoSquareRoundedFilled,
+  IconDots,
   IconDiamondFilled,
   IconUserCircle,
   IconZoomQuestion,
@@ -42,7 +43,7 @@ export function Head({userData, reload, user, height}: any) {
   })
 
   return (
-    <>
+    <div>
       {/* ユーザーネーム登録モーダル (初期ログイン時に表示する) */}
       <InitName uuid={user.uid} userData={userData} modalType={modalType} setModalType={setModalType} reload={reload} />
       
@@ -56,7 +57,7 @@ export function Head({userData, reload, user, height}: any) {
             sx={(theme) => ({ fontFamily: `Greycliff CF, ${theme.fontFamily}` })}
             weight={900}
             align="center"
-            color="white"
+            color="dark"
           >
             Hit&Blow.online
           </Title>
@@ -65,9 +66,15 @@ export function Head({userData, reload, user, height}: any) {
               <>
               {userData && userData.length > 0 ? 
                 <>
-                  <Avatar radius="xl" size="sm" bg="white" >{String(userData[0].level)}</Avatar>
-                  <Text color="white" weight="bold">{String(userData[0].name)}</Text> 
-                  <Group spacing={2}><IconDiamondFilled size="1em" style={{color:"white"}}/><Text color="white" weight="bold">{String(userData[0].money)}</Text></Group>
+                  <Text color="dark" weight="bold">{String(userData[0].name)}</Text> 
+                  <Group spacing={4}>
+                    <IconDiamondFilled size="0.7em" style={{color:theme.colors.dark[6]}}/>
+                    <Text color="dark" size="sm" weight="bold">{String(userData[0].money)}</Text>
+                  </Group>
+                  <Group spacing={0}>
+                    <Avatar color="dark" size="sm" radius="3px" variant="filled">{String(userData[0].level)}</Avatar>
+                    <Progress w={rem(100)} color="dark" radius="none" size="lg" value={50}  />
+                  </Group>
                 </>
                 :
                 <>
@@ -85,7 +92,7 @@ export function Head({userData, reload, user, height}: any) {
               withinPortal
             >
             <Menu.Target>
-            <ActionIcon style={{color:"white"}} variant="transparent"><IconInfoSquareRoundedFilled size="20"/></ActionIcon>
+            <ActionIcon color="dark" radius="sm" size="md"  ><IconDots size="20"/></ActionIcon>
             </Menu.Target>
               <Menu.Dropdown className="mini-panel">
                 {userData && userData.length > 0 && 
@@ -124,6 +131,6 @@ export function Head({userData, reload, user, height}: any) {
         </Group>
       </Container>
     </Header>
-  </>
+  </div>
   )
 }

@@ -1,0 +1,18 @@
+.lattice {
+  background-color: "#F5F5F5";
+  background-image:
+  repeating-linear-gradient(
+    90deg,
+    #fcc31991 ,
+    #fcc31991 1px,
+    transparent 1px,
+    transparent 32px
+  ),
+  repeating-linear-gradient(
+    0deg,
+    #fcc31991 ,
+    #fcc31991 1px,
+    transparent 1px,
+    transparent 32px
+  );
+}

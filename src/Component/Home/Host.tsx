@@ -15,7 +15,8 @@ import {
   Text,
   ActionIcon,
   Center,
-  Modal
+  Modal,
+  useMantineTheme
 } from '@mantine/core';
 import { 
   useDisclosure, 
@@ -30,9 +31,10 @@ import { CharacterSetting } from './CharacterSetting'
 
 export function Host({userData, roomData, height}:any) {
   const [opened, { open, close }] = useDisclosure(false); // モーダルオープン用
+  const theme = useMantineTheme();
   
   return (
-    <div className="panel panel-shadow panel-border bg-host" style={{width: "100%", height: height, zIndex:10}}>
+    <div className="panel panel-shadow panel-border" style={{width: "100%", height: height, zIndex:10}}>
       <Container>
         {roomData && roomData.length > 0 && userData && userData.length > 0 &&
           <>
