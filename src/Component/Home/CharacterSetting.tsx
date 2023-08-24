@@ -2,8 +2,10 @@ import React, {useState} from 'react'
 import { SimpleGrid, UnstyledButton, ThemeIcon, rem, Text, Group, createStyles, getStylesRef, Image, LoadingOverlay, PinInput, Button, Container, Divider  } from '@mantine/core';
 import {
   useViewportSize,
-  
 } from '@mantine/hooks';
+import { 
+  IconChevronRight
+} from '@tabler/icons-react';
 import { useForm } from '@mantine/form';
 import { setPlayerData } from '../../Config/firebase'
 
@@ -132,8 +134,13 @@ export function CharacterSetting({userData, isHost, close}: any) {
       <LoadingOverlay visible={sending} overlayBlur={2} />
       {step === 0 && 
       <>
-        <Text mb="sm" ml="md">キャラクターを選択してください</Text>
-        <Divider mb="xl" />
+        <Group noWrap spacing={8} p="xs" >
+          <ThemeIcon variant="filled" radius="xl" size={rem(14)} color="dark" >
+            <IconChevronRight size={rem(10)} stroke={4}/>
+          </ThemeIcon>
+          <Text size="sm">キャラクターを選択してください</Text>
+        </Group>
+        <Divider mb="xl" variant="dashed"/>
         <Container size="xs">
           
           <SimpleGrid cols={width > 750 ? 2 : 1}>
@@ -144,11 +151,16 @@ export function CharacterSetting({userData, isHost, close}: any) {
       }
       {step === 1 && 
       <>
-        <Text mb="sm" ml="md">対戦番号を決めてください</Text>
+        <Group noWrap py={rem(5)} >
+          <ThemeIcon variant="filled" radius="xl" size={rem(14)} color="dark" >
+            <IconChevronRight size={rem(10)} stroke={4}/>
+          </ThemeIcon>
+          <Text mb="sm" ml="md" size="sm">対戦番号を決めてください</Text>
+        </Group>
         <Divider mb="xl" />
         <Container size="xs">
         <Group position="center">
-          <PinInput inputType="tel" m="xl" inputMode="numeric" {...form.getInputProps('number')}/>
+          <PinInput inputType="tel" size="lg" m="xl" inputMode="numeric" {...form.getInputProps('number')}/>
         </Group>
         </Container>
       </>

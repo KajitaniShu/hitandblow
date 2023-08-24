@@ -8,7 +8,7 @@ import {
   Container,
   useMantineTheme,
   Button,
-  Badge,
+  rem,
   Flex,
   Title,
   Text,
@@ -16,7 +16,9 @@ import {
   Center,
   Select,
   NumberInput,
-  ThemeIcon
+  ThemeIcon,
+  Paper,
+  Divider
 } from '@mantine/core';
 import {
   useViewportSize
@@ -24,7 +26,8 @@ import {
 import { 
   IconRotate,
   IconCheck,
-  IconQuestionMark
+  IconQuestionMark,
+  IconChevronRight
 } from '@tabler/icons-react';
 import { useForm, isInRange, isNotEmpty } from '@mantine/form';
 
@@ -69,11 +72,17 @@ export function GameSetting({roomData, userData, height}:any) {
   }
 
   return (
-    <div className="panel panel-shadow panel-border" style={{height: height, width: "100%"}}>
+    <Paper withBorder pt={rem(8)} radius="md" style={{width: "100%", height: height, zIndex:10}}>
       <Container >
-        <Badge variant="filled" color="dark" mt="sm" mb="xl" >
-          ゲーム設定
-        </Badge>
+        <Group noWrap spacing={8} py={rem(5)} >
+          <ThemeIcon variant="filled" radius="xl" size={rem(14)} color="dark" >
+            <IconChevronRight size={rem(10)} stroke={4}/>
+          </ThemeIcon>
+          <Text fw={900} size="xs">
+            ゲーム設定
+          </Text>
+        </Group>
+        <Divider pb="xl" variant="dashed"/>
 
       <form onSubmit={form.onSubmit((values) => { submit(values.timeLimit, values.turns, values.effect); })}>
           <Center pb={ width > 750 ? "xs" : "none" }>
@@ -200,6 +209,6 @@ export function GameSetting({roomData, userData, height}:any) {
       </form>
       </Container>
       
-    </div>
+    </Paper>
   )
 }

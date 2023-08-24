@@ -16,14 +16,20 @@ import {
   ActionIcon,
   Center,
   Modal,
-  useMantineTheme
+  useMantineTheme,
+  Paper,
+  Divider,
+  ThemeIcon,
+  rem
 } from '@mantine/core';
 import { 
   useDisclosure, 
 } from '@mantine/hooks';
 import { 
   IconRotate,
+  IconChevronRight
 } from '@tabler/icons-react';
+
 import { CharacterSetting } from './CharacterSetting'
 
 
@@ -34,31 +40,38 @@ export function Host({userData, roomData, height}:any) {
   const theme = useMantineTheme();
   
   return (
-    <div className="panel panel-shadow panel-border" style={{width: "100%", height: height, zIndex:10}}>
+    <Paper withBorder radius="md" pt={rem(8)}  style={{width: "100%", height: height, zIndex:10}}>
       <Container>
         {roomData && roomData.length > 0 && userData && userData.length > 0 &&
           <>
-          <Badge variant="filled" color="dark" mt="sm" mb="xs">
-            {roomData[0].host.name !== null ? roomData[0].host.name : " - "}
-          </Badge>
-          <ScrollArea h={5*px(height)/9} type="never">
+          <Group noWrap spacing={8} py={rem(5)} >
+            <ThemeIcon variant="filled" radius="xl" size={rem(14)} color="dark" >
+              <IconChevronRight size={rem(10)} stroke={3}/>
+            </ThemeIcon>
+            <Text fw={900} size="xs" sx={{ fontFamily: 'Greycliff CF, sans-serif' }}>
+              {roomData[0].host.name !== null ? roomData[0].host.name : " - "}
+            </Text>
+          </Group>
+          <Divider pb="xs" variant="dashed"/>
+          
+          <ScrollArea h={5*px(height)/10} type="never" >
             {roomData[0].host.character !== null && roomData[0].host.number !== null ?
               <Flex
                 direction={{ base: 'column', xs: 'row' }}
-                gap="md"
+                gap="xl"
                 justify={{ xs: 'center' }}
               >
-                  <Center h={5*px(height)/9}>
-                      <Avatar radius="1000px" size={8*px(height)/11} src={'./images/character/'+ roomData[0].host.character +'.png'}  p="sm" />
+                  <Center h={5*px(height)/10} m="none">
+                      <Avatar p="none" size={8*px(height)/16} src={'./images/character/'+ roomData[0].host.character +'.png'}  />
                   </Center>
-                  <Center h={5*px(height)/9}>
+                  <Center h={5*px(height)/10} m="none">
                     <div>
                     <Group>
                       <Group  position='apart'>
-                      <Text fz="sm" c="dark" weight="800">
+                      <Text color="dark" weight="600" size="xs" >
                         ■ レベル:
                       </Text>
-                      <Text fz="sm" c="dark" weight="800">
+                      <Text color="dark" weight="600" size="xs">
                         {roomData[0].host.level !== null ? roomData[0].host.level : " - "}
                       </Text>
                       </Group>
@@ -66,8 +79,8 @@ export function Host({userData, roomData, height}:any) {
 
                     <Group>
                       <Group position='apart'>
-                      <Text fz="sm" c="dark" weight="800">■ 戦績:</Text>
-                      <Text fz="sm" c="dark" weight="800">
+                      <Text color="dark" weight="600" size="xs">■ 戦績:</Text>
+                      <Text color="dark" weight="600" size="xs">
                         {roomData[0].host.win !== null && roomData[0].host.lose !== null ? roomData[0].host.win + "/" + roomData[0].host.lose : " - "}
                       </Text>
                       </Group>
@@ -82,19 +95,19 @@ export function Host({userData, roomData, height}:any) {
                   <Modal onClose={close} withCloseButton={false} opened={opened}  size="auto" centered >
                     <CharacterSetting userData={userData} isHost={true} close={close}/> 
                   </Modal>
-                  <Button onClick={open} color="dark">準備する</Button>
+                  <Button onClick={open} color="yellow" variant="filled">準備する</Button>
                 </>
                 }
                 {(roomData[0].host.number === null || roomData[0].host.character === null) && userData[0].assignType === "guest" &&
                 <>
-                  <Text color="dark" weight="600">準備中...</Text>
+                  <Text size="sm" color="dimmed" weight="600">対戦相手を待っています...</Text>
                 </>
                 }
               </Center>
           }
           </ScrollArea>
           {roomData[0].host.character !== null && roomData[0].host.number !== null &&
-            <Group position="right" noWrap>
+            <Group position="right" spacing={8} noWrap mt="none">
               {userData[0].assignType === "host" &&
               <>
               <ActionIcon size="sm" radius="xl" variant="default" onClick={()=>
@@ -110,11 +123,11 @@ export function Host({userData, roomData, height}:any) {
                   userData[0].lose,   // lose
                 )}
               >
-                <IconRotate size="0.875rem" />
+                <IconRotate size="0.875rem" style={{color: theme.colors.gray[6]}}/>
               </ActionIcon>
               </>
               }
-              <Badge variant="filled" color="dark">
+              <Badge variant="filled" size="md" color="dark">
                   Ready !
               </Badge>
             </Group>
@@ -122,6 +135,6 @@ export function Host({userData, roomData, height}:any) {
           </>
         }
       </Container>
-    </div>
+    </Paper>
   )
 }

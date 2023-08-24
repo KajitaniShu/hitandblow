@@ -11,7 +11,8 @@ import {
   Skeleton,
   Menu,
   Avatar,
-  useMantineTheme
+  useMantineTheme,
+  useMantineColorScheme
 } from '@mantine/core';
 import {
   IconDots,
@@ -19,11 +20,10 @@ import {
   IconUserCircle,
   IconZoomQuestion,
   IconLogout,
-  IconFileDescription
+  IconFileDescription,
+  IconSun, 
+  IconMoonStars
 } from '@tabler/icons-react';
-import {
-  IoIosShareAlt
-} from 'react-icons/io'
 import { auth } from '../Config/firebase'
 import { InitName } from './InitName' 
 import { UserInfo } from './UserInfo' 
@@ -31,10 +31,12 @@ import {
   useViewportSize 
 } from '@mantine/hooks';
 
+
 export function Head({userData, reload, user, height}: any) {
   const [modalType, setModalType] = useState('none');
   const { width } = useViewportSize();
   const theme = useMantineTheme();
+  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 
   useEffect(() => {
     if(userData && (userData.length <= 0 || userData[0].name === undefined || userData[0].name === null)) { setModalType('initName'); }
@@ -116,6 +118,16 @@ export function Head({userData, reload, user, height}: any) {
                     icon={<IconFileDescription size="1rem" color={theme.colors.dark[6]} stroke={1.5} />}
                   >
                     プライバシーポリシー
+                  </Menu.Item>
+                  <Menu.Item
+                    onClick={() => toggleColorScheme()}
+                    icon={colorScheme === 'dark' ?
+                      <IconSun size="1rem" color={theme.colors.dark[6]} stroke={1.5} />
+                      :
+                      <IconMoonStars size="1rem" color={theme.colors.dark[6]} stroke={1.5} />
+                    }
+                  >
+                    {colorScheme === 'dark' ? "ライトモード" : "ダークモード"}
                   </Menu.Item>
                 <Menu.Divider />
                 <Menu.Item
