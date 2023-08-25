@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDisclosure } from '@mantine/hooks';
-import { Modal, Group, Button, TextInput, Text, rem } from '@mantine/core';
+import { Modal, Group, Button, TextInput, Text, rem, Paper, useMantineTheme, Divider } from '@mantine/core';
 import { addUser, setName } from '../Config/firebase'
 import { useForm } from '@mantine/form';
 import { 
@@ -12,6 +12,7 @@ import '../css/button.css'
 
 export function InitName({uuid, modalType, userData, setModalType, reload}: any) {
   const [sending, setSending] = useState(false);
+  const theme = useMantineTheme();
   const [opened, { open, close }] = useDisclosure(false);
   const form = useForm({
     initialValues: {
@@ -35,12 +36,17 @@ export function InitName({uuid, modalType, userData, setModalType, reload}: any)
   }
   
   return (
-    <Modal centered withCloseButton={false} opened={opened} onClose={close}  title={<Group><IconPencil size="1.2rem"/><Text weight="bold" size="sm">ユーザーネームを設定してください</Text></Group>}
+    <Modal.Root centered opened={opened} onClose={close}
     >
+      <Modal.Overlay />
+      <Modal.Content sx={{backgroundColor: "transparent"}}>
+        
+      <Paper p="md" shadow="sm" radius="md" sx={{border: theme.colorScheme === "dark" ? "1px solid #61677A": "2px solid black"}}>
+      <Group px="sm"><IconPencil size="1.2rem"/><Text weight="bold" size="sm">ユーザーネームを設定してください</Text></Group>
+      <Divider variant="dashed" mt="xs" />
       <form onSubmit={form.onSubmit((values) => { submit(values.name, 'japanese', uuid); })}>
         <TextInput
-          mt={rem(30)}
-          mb={rem(20)}
+          my={rem(30)}
           mx="md"
           size="lg"
           data-autofocus
@@ -58,6 +64,8 @@ export function InitName({uuid, modalType, userData, setModalType, reload}: any)
           </Button>
         </Group>
       </form>
-    </Modal>
+      </Paper>
+      </Modal.Content>
+    </Modal.Root>
   )
 }

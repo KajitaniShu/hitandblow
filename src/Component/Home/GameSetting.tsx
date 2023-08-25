@@ -72,10 +72,10 @@ export function GameSetting({roomData, userData, height}:any) {
   }
 
   return (
-    <Paper withBorder pt={rem(8)} radius="md" style={{width: "100%", height: height, zIndex:10}}>
+    <Paper pt={rem(8)} shadow="sm" radius="md" style={{width: "100%", height: height, zIndex:10}}  sx={{border: theme.colorScheme === "dark" ? "1px solid #61677A": "2px solid black"}}>
       <Container >
         <Group noWrap spacing={8} py={rem(5)} >
-          <ThemeIcon variant="filled" radius="xl" size={rem(14)} color="dark" >
+          <ThemeIcon variant="filled" radius="xl" size={rem(14)} color={theme.colorScheme === "dark" ? "gray" : "dark"} style={{color: theme.colorScheme === "dark" ? "black" : "white"}}>
             <IconChevronRight size={rem(10)} stroke={4}/>
           </ThemeIcon>
           <Text fw={900} size="xs">

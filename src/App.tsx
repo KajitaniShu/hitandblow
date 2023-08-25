@@ -50,6 +50,7 @@ export function App() {
               "#E67700"],
           },
           primaryColor: 'brand',
+          primaryShade: { light: 6, dark: 5 }
         }}
       >
         <ModalsProvider>

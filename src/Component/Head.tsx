@@ -59,7 +59,7 @@ export function Head({userData, reload, user, height}: any) {
             sx={(theme) => ({ fontFamily: `Greycliff CF, ${theme.fontFamily}` })}
             weight={900}
             align="center"
-            color="dark"
+            color={theme.colorScheme === 'dark' ? theme.colors.yellow[4] : "dark"}
           >
             Hit&Blow.online
           </Title>
@@ -68,14 +68,14 @@ export function Head({userData, reload, user, height}: any) {
               <>
               {userData && userData.length > 0 ? 
                 <>
-                  <Text color="dark" weight="bold">{String(userData[0].name)}</Text> 
+                  <Text color={theme.colorScheme === 'dark' ? theme.colors.yellow[4] : "dark"} weight="bold">{String(userData[0].name)}</Text> 
                   <Group spacing={4}>
-                    <IconDiamondFilled size="0.7em" style={{color:theme.colors.dark[6]}}/>
-                    <Text color="dark" size="sm" weight="bold">{String(userData[0].money)}</Text>
+                    <IconDiamondFilled size="0.7em" style={{color:theme.colorScheme === 'dark' ? theme.colors.yellow[4] : theme.colors.dark[6]}}/>
+                    <Text color={theme.colorScheme === 'dark' ? theme.colors.yellow[4] : "dark"} size="sm" weight="bold">{String(userData[0].money)}</Text>
                   </Group>
                   <Group spacing={0}>
-                    <Avatar color="dark" size="sm" radius="3px" variant="filled">{String(userData[0].level)}</Avatar>
-                    <Progress w={rem(100)} color="dark" radius="none" size="lg" value={50}  />
+                    <Avatar variant="default" bg={theme.colorScheme === 'dark' ? theme.colors.yellow[4] : "dark"} style={{color: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0]}} size="sm" radius="3px" >{String(userData[0].level)}</Avatar>
+                    <Progress w={rem(100)} color={theme.colorScheme === 'dark' ? theme.colors.yellow[4] : "dark"} radius="none" size="lg" value={50}  />
                   </Group>
                 </>
                 :
@@ -101,30 +101,30 @@ export function Head({userData, reload, user, height}: any) {
                   <>
                   <Menu.Item
                     onClick={()=>setModalType('userInfo')}
-                    icon={<IconUserCircle size="1rem" color={theme.colors.dark[6]} stroke={1.5} />}
+                    icon={<IconUserCircle size="1rem" stroke={1.5} />}
                   >
                     アカウント情報
                   </Menu.Item>
                   </>
                 }
                   <Menu.Item
-                    icon={<IconZoomQuestion size="1rem" color={theme.colors.dark[6]} stroke={1.5} />}
+                    icon={<IconZoomQuestion size="1rem" stroke={1.5} />}
                   >
                     操作説明
                   </Menu.Item>
                   <Menu.Item
                     component="a" 
                     href="./privacy"
-                    icon={<IconFileDescription size="1rem" color={theme.colors.dark[6]} stroke={1.5} />}
+                    icon={<IconFileDescription size="1rem" stroke={1.5} />}
                   >
                     プライバシーポリシー
                   </Menu.Item>
                   <Menu.Item
                     onClick={() => toggleColorScheme()}
                     icon={colorScheme === 'dark' ?
-                      <IconSun size="1rem" color={theme.colors.dark[6]} stroke={1.5} />
+                      <IconSun size="1rem" stroke={1.5} />
                       :
-                      <IconMoonStars size="1rem" color={theme.colors.dark[6]} stroke={1.5} />
+                      <IconMoonStars size="1rem" stroke={1.5} />
                     }
                   >
                     {colorScheme === 'dark' ? "ライトモード" : "ダークモード"}

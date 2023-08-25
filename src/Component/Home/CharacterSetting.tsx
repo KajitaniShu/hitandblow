@@ -160,7 +160,7 @@ export function CharacterSetting({userData, isHost, close}: any) {
         <Divider mb="xl" />
         <Container size="xs">
         <Group position="center">
-          <PinInput inputType="tel" size="lg" m="xl" inputMode="numeric" {...form.getInputProps('number')}/>
+          <PinInput data-autofocus inputType="tel" size="lg" m="xl" inputMode="numeric" {...form.getInputProps('number')}/>
         </Group>
         </Container>
       </>
@@ -169,13 +169,13 @@ export function CharacterSetting({userData, isHost, close}: any) {
           {step === 0 && 
             <>
               <Button variant="default" onClick={close}>閉じる</Button>
-              <Button onClick={nextStep}>次へ</Button>
+              <Button color="yellow" onClick={nextStep}>次へ</Button>
             </>
           }
           {step === 1 && 
             <>
               <Button variant="default" onClick={prevStep}>戻る</Button>
-              <Button type="submit">準備完了</Button>
+              <Button color="yellow" type="submit">準備完了</Button>
             </>
           }
       </Group>

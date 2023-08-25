@@ -40,12 +40,12 @@ export function Guest({userData, roomData, height}:any) {
   const [opened, { open, close }] = useDisclosure(false); // モーダルオープン用
   
   return (
-    <Paper withBorder  pt={rem(8)}  radius="md" style={{width: "100%", height: height, zIndex:10}}>
+    <Paper pt={rem(8)} shadow="sm" radius="md" style={{width: "100%", height: height, zIndex:10}}  sx={{border: theme.colorScheme === "dark" ? "1px solid #61677A": "2px solid black"}}>
       <Container>
         {roomData && roomData.length > 0 && userData && userData.length > 0 &&
           <>
           <Group noWrap spacing={8} py={rem(5)} >
-            <ThemeIcon variant="filled" radius="xl" size={rem(14)} color="dark" >
+            <ThemeIcon variant="filled" radius="xl" size={rem(14)} color={theme.colorScheme === "dark" ? "gray" : "dark"} style={{color: theme.colorScheme === "dark" ? "black" : "white"}}>
               <IconChevronRight size={rem(10)} stroke={4}/>
             </ThemeIcon>
             <Text fw={900} size="xs"  sx={{ fontFamily: 'Greycliff CF, sans-serif' }}>
@@ -68,10 +68,10 @@ export function Guest({userData, roomData, height}:any) {
                     <div>
                     <Group>
                       <Group  position='apart'>
-                      <Text color="dark" weight="600" size="xs" >
+                      <Text weight="600" size="xs" >
                         ■ レベル:
                       </Text>
-                      <Text color="dark" weight="600" size="xs" >
+                      <Text weight="600" size="xs" >
                         {roomData[0].guest.level !== null ? roomData[0].guest.level : " - "}
                       </Text>
                       </Group>
@@ -79,8 +79,8 @@ export function Guest({userData, roomData, height}:any) {
 
                     <Group>
                       <Group position='apart'>
-                      <Text color="dark" weight="600" size="xs" >■ 戦績:</Text>
-                      <Text color="dark" weight="600" size="xs" >
+                      <Text weight="600" size="xs" >■ 戦績:</Text>
+                      <Text weight="600" size="xs" >
                         {roomData[0].guest.win !== null && roomData[0].guest.lose !== null ? roomData[0].guest.win + "/" + roomData[0].guest.lose : " - "}
                       </Text>
                       </Group>
@@ -112,7 +112,7 @@ export function Guest({userData, roomData, height}:any) {
             <Group position="right" noWrap mt="none" spacing={8}>
               {userData[0].assignType === "guest" &&
               <>
-              <ActionIcon size="sm" radius="xl" variant="default" onClick={()=>
+              <ActionIcon size="sm" radius="xl" variant="transparent" onClick={()=>
                 setPlayerData(
                   false,              // isHost,
                   userData[0].assign, // roomId,
@@ -125,11 +125,11 @@ export function Guest({userData, roomData, height}:any) {
                   userData[0].lose,   // lose
                 )}
               >
-                <IconRotate size="0.875rem" />
+                <IconRotate size="0.8rem" color={theme.colorScheme === "dark" ? theme.colors.gray[3] : "black"}/>
               </ActionIcon>
               </>
               }
-              <Badge variant="filled" size="md" color="dark">
+              <Badge variant="filled" size="md"color={theme.colorScheme === "dark" ? "yellow" : "dark"} style={{color:theme.colorScheme === "dark" ? "black" : "white"}} >
                   Ready !
               </Badge>
             </Group>

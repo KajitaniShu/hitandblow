@@ -70,7 +70,7 @@ export function Home({user}: any) {
 
   return (
     <>
-    <div style={{height: height-px(rem(40)), backgroundColor: theme.colors.gray[0]}}>
+    <div style={{height: height-px(rem(40)), backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.yellow[4] }}>
       <Head userData={userData} reload={reload} user={user} height={rem(50)}/>
         { width > 750 ? 
         <Container pt="sm" size="md">
