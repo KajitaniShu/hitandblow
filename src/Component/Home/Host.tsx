@@ -58,11 +58,11 @@ export function Host({userData, roomData, height}:any) {
             {roomData[0].host.character !== null && roomData[0].host.number !== null ?
               <Flex
                 direction={{ base: 'column', xs: 'row' }}
-                gap="xl"
+                gap={rem(40)}
                 justify={{ xs: 'center' }}
               >
                   <Center h={5*px(height)/10} m="none">
-                      <Avatar p="none" size={8*px(height)/16} src={'./images/character/'+ roomData[0].host.character +'.png'}  />
+                      <Avatar radius={rem(200)} style={{overflow: "visible"}} bg={theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[1]} size={8*px(height)/16} src={'./images/character/'+ roomData[0].host.character +'.png'}  />
                   </Center>
                   <Center h={5*px(height)/10} m="none">
                     <div>
