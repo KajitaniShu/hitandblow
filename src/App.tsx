@@ -15,11 +15,13 @@ import {
 import { ModalsProvider } from '@mantine/modals';
 import { HomeScene } from './Scene/HomeScene';
 import { Privacy } from './Scene/Privacy';
+import { useColorScheme } from '@mantine/hooks';
 import { InviteScene } from './Scene/InviteScene';
 
 
 export function App() {
-  const [colorScheme, setColorScheme] = useState<ColorScheme>('light');
+  const preferredColorScheme = useColorScheme();
+  const [colorScheme, setColorScheme] = useState<ColorScheme>(preferredColorScheme);
   const toggleColorScheme = (value?: ColorScheme) =>
     setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
 
@@ -48,9 +50,28 @@ export function App() {
               "#F59F00",
               "#F08C00",
               "#E67700"],
+            dark: [
+              '#C1C2C5',
+              '#A6A7AB',
+              '#909296',
+              '#5C5F66',
+              '#373A40',
+              '#2C2E33',
+              '#25262B',
+              '#1A1B1E',
+              '#141517',
+              '#101113',
+            ],
           },
           primaryColor: 'brand',
-          primaryShade: { light: 6, dark: 5 }
+          primaryShade: { light: 6, dark: 4 },
+          components: {
+            Button: {
+              defaultProps: (theme) => ({
+                color: theme.colorScheme === 'dark' ? "yellow" : "yellow",
+              })
+            },
+          },
         }}
       >
         <ModalsProvider>

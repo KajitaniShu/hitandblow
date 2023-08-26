@@ -12,6 +12,6 @@ export default function SignInWithAnonymous({...props}: any) {
   }
 
   return (
-    <Button leftIcon={<ThemeIcon size="xs" variant="filled" radius="xl" color="white" ><IconUser style={{color: "black"}}/></ThemeIcon>} onClick={hundleSignIn} variant="default" color="gray" {...props}>匿名ログイン</Button>
+    <Button leftIcon={<ThemeIcon size="xs" variant="white" radius="xl" color="dark" ><IconUser /></ThemeIcon>} onClick={hundleSignIn} variant="default" color="gray" {...props}>匿名ログイン</Button>
   )
 }

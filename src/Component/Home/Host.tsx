@@ -40,7 +40,7 @@ export function Host({userData, roomData, height}:any) {
   const theme = useMantineTheme();
   
   return (
-    <Paper radius="md" shadow="sm" pt={rem(8)}  style={{width: "100%", height: height, zIndex:10}} sx={{border: theme.colorScheme === "dark" ? "1px solid #61677A": "2px solid black"}}>
+    <Paper radius="md" shadow="sm" pt={rem(8)}  style={{width: "100%", height: height, zIndex:10}} sx={{border: theme.colorScheme === "dark" ? "1px solid #5C5F66": "2px solid black"}}>
       <Container>
         {roomData && roomData.length > 0 && userData && userData.length > 0 &&
           <>
@@ -95,7 +95,7 @@ export function Host({userData, roomData, height}:any) {
                   <Modal onClose={close} withCloseButton={false} opened={opened}  size="auto" centered >
                     <CharacterSetting userData={userData} isHost={true} close={close}/> 
                   </Modal>
-                  <Button onClick={open} color="yellow" variant="filled">準備する</Button>
+                  <Button onClick={open} variant="filled" sx={{color: theme.colorScheme === "dark" ? "#141517" : "white"}}>準備する</Button>
                 </>
                 }
                 {(roomData[0].host.number === null || roomData[0].host.character === null) && userData[0].assignType === "guest" &&
@@ -127,7 +127,7 @@ export function Host({userData, roomData, height}:any) {
               </ActionIcon>
               </>
               }
-              <Badge variant="filled" size="md" color={theme.colorScheme === "dark" ? "yellow" : "dark"} style={{color:theme.colorScheme === "dark" ? "black" : "white"}}>
+              <Badge variant="filled" size="md" color={theme.colorScheme === "dark" ? "yellow" : "dark"} style={{color:theme.colorScheme === "dark" ? "#141517" : "white"}}>
                   Ready !
               </Badge>
             </Group>

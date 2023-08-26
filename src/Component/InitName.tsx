@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDisclosure } from '@mantine/hooks';
-import { Modal, Group, Button, TextInput, Text, rem, Paper, useMantineTheme, Divider } from '@mantine/core';
+import { Modal, Group, Button, TextInput, Text, rem, Paper, ThemeIcon, useMantineTheme, Divider } from '@mantine/core';
 import { addUser, setName } from '../Config/firebase'
 import { useForm } from '@mantine/form';
 import { 
@@ -41,8 +41,11 @@ export function InitName({uuid, modalType, userData, setModalType, reload}: any)
       <Modal.Overlay />
       <Modal.Content sx={{backgroundColor: "transparent"}}>
         
-      <Paper p="md" shadow="sm" radius="md" sx={{border: theme.colorScheme === "dark" ? "1px solid #61677A": "2px solid black"}}>
-      <Group px="sm"><IconPencil size="1.2rem"/><Text weight="bold" size="sm">ユーザーネームを設定してください</Text></Group>
+      <Paper p="md" shadow="sm" radius="md" sx={{border: theme.colorScheme === "dark" ? "1px solid #5C5F66": "2px solid black"}}>
+      
+      <Group noWrap spacing={8} pb={rem(5)} >
+        <IconPencil size="1.2rem"/><Text weight="bold" size="sm">ユーザーネームを設定してください</Text>
+      </Group>
       <Divider variant="dashed" mt="xs" />
       <form onSubmit={form.onSubmit((values) => { submit(values.name, 'japanese', uuid); })}>
         <TextInput
@@ -59,6 +62,7 @@ export function InitName({uuid, modalType, userData, setModalType, reload}: any)
             type="submit" 
             leftIcon={<IconCheck size="1rem" />}
             loading={sending}
+            sx={{color: theme.colorScheme === "dark" ? "#141517" : "white"}}
           >
             決定
           </Button>

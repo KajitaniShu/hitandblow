@@ -4,3 +4,10 @@
   box-shadow: 0px 2 px 0 black;
   border: 1.5px solid black;
 }
+
+.light-primary-button {
+}
+
+.dark-primary-button {
+  color: #141517
+}

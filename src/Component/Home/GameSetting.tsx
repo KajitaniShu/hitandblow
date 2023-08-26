@@ -72,7 +72,7 @@ export function GameSetting({roomData, userData, height}:any) {
   }
 
   return (
-    <Paper pt={rem(8)} shadow="sm" radius="md" style={{width: "100%", height: height, zIndex:10}}  sx={{border: theme.colorScheme === "dark" ? "1px solid #61677A": "2px solid black"}}>
+    <Paper pt={rem(8)} shadow="sm" radius="md" style={{width: "100%", height: height, zIndex:10}}  sx={{border: theme.colorScheme === "dark" ? "1px solid #5C5F66": "2px solid black"}}>
       <Container >
         <Group noWrap spacing={8} py={rem(5)} >
           <ThemeIcon variant="filled" radius="xl" size={rem(14)} color={theme.colorScheme === "dark" ? "gray" : "dark"} style={{color: theme.colorScheme === "dark" ? "black" : "white"}}>
@@ -202,8 +202,8 @@ export function GameSetting({roomData, userData, height}:any) {
           </Center>
         <Center>
         <Group position="right"   mt="sm" w={ width > 750 ? "90%" : "100%" }>
-            <Button disabled={sending} onClick={() => {form.reset(); submit(60, "-1", "true")}} color="dark" variant="default"><IconRotate style={{marginRight: theme.spacing.xs}} size="1rem"/>リセット</Button>
-            <Button disabled={sending} type="submit" color="dark" variant="filled"><IconCheck style={{marginRight: theme.spacing.xs}} size="1rem"/>変更</Button>
+            <Button disabled={sending} onClick={() => {form.reset(); submit(60, "-1", "true")}} color="dark" variant="subtle"><IconRotate size="1rem"/></Button>
+            <Button disabled={sending} type="submit" color="dark" variant="filled" ><IconCheck style={{marginRight: theme.spacing.xs}} size="1rem"/>変更</Button>
         </Group>
         </Center>
       </form>

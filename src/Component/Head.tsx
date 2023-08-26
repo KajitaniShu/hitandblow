@@ -94,9 +94,9 @@ export function Head({userData, reload, user, height}: any) {
               withinPortal
             >
             <Menu.Target>
-            <ActionIcon color="dark" radius="sm" size="md"  ><IconDots size="20"/></ActionIcon>
+              <ActionIcon radius="sm" size="md" sx={{color: theme.colorScheme === "dark" ? "" : "black"}}><IconDots size="20"/></ActionIcon>
             </Menu.Target>
-              <Menu.Dropdown className="mini-panel">
+              <Menu.Dropdown sx={{border: theme.colorScheme === "dark" ? "" : "2px solid black"}}>
                 {userData && userData.length > 0 && 
                   <>
                   <Menu.Item

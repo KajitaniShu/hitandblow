@@ -1,5 +1,5 @@
 import React from 'react'
-import { Flex, Group, Text, Image, rem, AspectRatio, px } from '@mantine/core'
+import { Flex, Group, Text, Image, rem, AspectRatio, px, Paper, useMantineTheme } from '@mantine/core'
 import { useViewportSize  } from '@mantine/hooks';
 import SignInWithGoogle from './SignInWithGoogle';
 import SignInWithAnonymous from './SignInWithAnonymous';
@@ -8,6 +8,7 @@ import '../css/admin.css'
 
 export function Admin() {
   const { width, height } = useViewportSize();
+  const theme = useMantineTheme();
 
   return (
     <>
@@ -30,12 +31,12 @@ export function Admin() {
               <Image src="./images/title.png"/>
             </AspectRatio>
           </Group>
-          <div className="panel" style={{width: rem(400), zIndex:10}}>
+          <Paper pt={rem(8)} shadow="sm" style={{width: rem(380), zIndex:10}} radius="md" sx={{border: theme.colorScheme === "dark" ? "1px solid #5C5F66": "2px solid black"}}>
             <Flex  gap="xl" wrap="nowrap" direction="column"align="center" py={rem(40)}>
               <SignInWithGoogle w={rem(250)}/>
               <SignInWithAnonymous w={rem(250)}/>
             </Flex>
-          </div>
+          </Paper>
           </>
           :
           <>

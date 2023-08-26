@@ -40,7 +40,7 @@ export function Guest({userData, roomData, height}:any) {
   const [opened, { open, close }] = useDisclosure(false); // モーダルオープン用
   
   return (
-    <Paper pt={rem(8)} shadow="sm" radius="md" style={{width: "100%", height: height, zIndex:10}}  sx={{border: theme.colorScheme === "dark" ? "1px solid #61677A": "2px solid black"}}>
+    <Paper pt={rem(8)} shadow="sm" radius="md" style={{width: "100%", height: height, zIndex:10}}  sx={{border: theme.colorScheme === "dark" ? "1px solid #5C5F66": "2px solid black"}}>
       <Container>
         {roomData && roomData.length > 0 && userData && userData.length > 0 &&
           <>
@@ -97,7 +97,7 @@ export function Guest({userData, roomData, height}:any) {
                   >
                     <CharacterSetting userData={userData} isHost={false} close={close}/> 
                   </Modal>
-                  <Button onClick={open} color="yellow" variant="filled">準備する</Button>
+                  <Button onClick={open} variant="filled" sx={{color: theme.colorScheme === "dark" ? "#141517" : "white"}}>準備する</Button>
                 </>
                 }
                 {(roomData[0].guest.number === null || roomData[0].guest.character === null) && userData[0].assignType === "host" &&

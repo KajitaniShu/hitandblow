@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDisclosure, useViewportSize } from '@mantine/hooks';
-import { Modal, Group, Button, TextInput, Container, Text, ScrollArea } from '@mantine/core';
+import { Modal, Group, Button, TextInput, Container, Text, ScrollArea, Paper, Divider, rem, useMantineTheme } from '@mantine/core';
 import { setUser } from '../Config/firebase'
 import { useForm } from '@mantine/form';
 import { 
@@ -18,6 +18,8 @@ export function UserInfo({userData, modalType, setModalType, reload}: any) {
   const [sending, setSending] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
   const { width, height } = useViewportSize();
+  const theme = useMantineTheme();
+
   
   const form = useForm({
     initialValues: {
@@ -74,78 +76,84 @@ export function UserInfo({userData, modalType, setModalType, reload}: any) {
   }
   
   return (
-    <Modal centered opened={opened} size="lg" onClose={()=> {setModalType('none'); form.reset(); close();}}    title={
-      <Group noWrap spacing="xs">
-        <IconUser size="16"/>
-        <Text weight="bold" size="sm">ユーザー情報</Text>
-      </Group>
-    }
-    >
-      <form onSubmit={form.onSubmit((values) => { submit(values.name, 'japanese', userData[0].uuid); })}>
-      <ScrollArea h={height/2} w="100%" type="never">
-      <Container >
-        <TextInput
-          mt="lg"
-          mb="xl"
-          size="md"
-          label="名前"
-          data-autofocus
-          placeholder="10文字以内"
-          icon={<IconPencil size="1.2rem" />}
-          {...form.getInputProps('name')}
-        />
-        <TextInput
-          mb="xl"
-          label="レベル"
-          bg="white"
-          size="md"
-          disabled
-          {...form.getInputProps('level')}
-        />
-        <TextInput
-          mb="xl"
-          label="ポイント"
-          size="md"
-          disabled
-          {...form.getInputProps('money')}
-        />
-        <TextInput
-          mb="xl"
-          label="勝ち"
-          size="md"
-          disabled
-          {...form.getInputProps('win')}
-        />
-
-        <TextInput
-          mb="xl"
-          label="負け"
-          size="md"
-          disabled
-          {...form.getInputProps('lose')}
-        />
-        
-        <TextInput
-          mb="xl"
-          label="言語"
-          size="md"
-          disabled
-          {...form.getInputProps('language')}
-        />
-      </Container>
-      </ScrollArea>
-      <Group noWrap position="right" mt="md">
-          <Button
-            type="submit" 
-            leftIcon={<IconCheck style={{color: "black"}} size="1rem" />}
-            color="yellow"
-            loading={sending}
-            disabled={!form.isDirty()}
-          >
-            <Text color="dark">変更</Text>
-          </Button>
+    <Modal.Root centered opened={opened} onClose={()=> {setModalType('none'); form.reset(); close();}}>
+      <Modal.Overlay />
+      <Modal.Content sx={{backgroundColor: "transparent"}}>
+      <Paper p="md" shadow="sm" radius="md" sx={{border: theme.colorScheme === "dark" ? "1px solid #5C5F66": "2px solid black"}}>
+        <Group position='apart' >
+          <Group noWrap spacing={8} pb={rem(5)}>
+            <IconUser size="1.2rem"/><Text weight="bold" size="sm">ユーザー情報</Text>
+          </Group>
+          <Modal.CloseButton/>
         </Group>
-      </form>
-    </Modal>
+        <Divider variant="dashed" mt="xs" />
+        <form onSubmit={form.onSubmit((values) => { submit(values.name, 'japanese', userData[0].uuid); })}>
+        <ScrollArea h={height/2} w="100%" type="never">
+        <Container >
+          <TextInput
+            mt="lg"
+            mb="xl"
+            size="md"
+            label="名前"
+            data-autofocus
+            placeholder="10文字以内"
+            icon={<IconPencil size="1.2rem" />}
+            {...form.getInputProps('name')}
+          />
+          <TextInput
+            mb="xl"
+            label="レベル"
+            size="md"
+            disabled
+            {...form.getInputProps('level')}
+          />
+          <TextInput
+            mb="xl"
+            label="ポイント"
+            size="md"
+            disabled
+            {...form.getInputProps('money')}
+          />
+          <TextInput
+            mb="xl"
+            label="勝ち"
+            size="md"
+            disabled
+            {...form.getInputProps('win')}
+          />
+
+          <TextInput
+            mb="xl"
+            label="負け"
+            size="md"
+            disabled
+            {...form.getInputProps('lose')}
+          />
+          
+          <TextInput
+            mb="xl"
+            label="言語"
+            size="md"
+            disabled
+            {...form.getInputProps('language')}
+          />
+        </Container>
+        </ScrollArea>
+        <Group noWrap position="right" mt="md">
+            <Button
+              type="submit" 
+              leftIcon={<IconCheck size="1rem" />}
+              loading={sending}
+              disabled={!form.isDirty()}
+              variant="filled" 
+              sx={{color: theme.colorScheme === "dark" ? "#141517" : "white"}}
+            >
+              変更
+            </Button>
+          </Group>
+        </form>
+        </Paper>
+      </Modal.Content>
+    </Modal.Root>
   )
 }

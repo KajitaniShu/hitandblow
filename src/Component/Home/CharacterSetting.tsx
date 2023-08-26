@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { SimpleGrid, UnstyledButton, ThemeIcon, rem, Text, Group, createStyles, getStylesRef, Image, LoadingOverlay, PinInput, Button, Container, Divider  } from '@mantine/core';
+import { SimpleGrid, UnstyledButton, ThemeIcon, rem, useMantineTheme, Text, Group, createStyles, getStylesRef, Image, LoadingOverlay, PinInput, Button, Container, Divider  } from '@mantine/core';
 import {
   useViewportSize,
 } from '@mantine/hooks';
@@ -44,7 +44,7 @@ const useStyles = createStyles((theme) => ({
   }
 }));
 
-const mockdata = [
+const character_data = [
   {
     value: 'ninja',
     title: '忍者',
@@ -77,9 +77,10 @@ export function CharacterSetting({userData, isHost, close}: any) {
   const { width } = useViewportSize();
   const { classes, cx } = useStyles();
   const [sending, setSending] = useState(false);
-  const [active, setActive] = useState(mockdata[0].title);
+  const [active, setActive] = useState(character_data[0].value);
   const nextStep = () => setStep((current) => (current < 3 ? current + 1 : current));
   const prevStep = () => setStep((current) => (current > 0 ? current - 1 : current));
+  const theme = useMantineTheme();
 
   const form = useForm({
     initialValues: {
@@ -110,7 +111,7 @@ export function CharacterSetting({userData, isHost, close}: any) {
     close();
   }
 
-  const links = mockdata.map((item, index) => (
+  const links = character_data.map((item, index) => (
     <UnstyledButton key={item.value} onClick={()=> {form.setFieldValue("character", item.value);  setActive(item.value);}} className={cx(classes.character, { [classes.characterActive]: item.value === active})}>
       <Group noWrap align="flex-start">
         <ThemeIcon size={rem(45)} variant="default" radius="md" sx={{overflow: "hidden"}} bg="#FFF9DB" >
@@ -134,7 +135,7 @@ export function CharacterSetting({userData, isHost, close}: any) {
       <LoadingOverlay visible={sending} overlayBlur={2} />
       {step === 0 && 
       <>
-        <Group noWrap spacing={8} p="xs" >
+        <Group noWrap spacing={8} pb={rem(5)} >
           <ThemeIcon variant="filled" radius="xl" size={rem(14)} color="dark" >
             <IconChevronRight size={rem(10)} stroke={4}/>
           </ThemeIcon>
@@ -151,11 +152,11 @@ export function CharacterSetting({userData, isHost, close}: any) {
       }
       {step === 1 && 
       <>
-        <Group noWrap py={rem(5)} >
+        <Group noWrap spacing={8} pb={rem(5)}>
           <ThemeIcon variant="filled" radius="xl" size={rem(14)} color="dark" >
             <IconChevronRight size={rem(10)} stroke={4}/>
           </ThemeIcon>
-          <Text mb="sm" ml="md" size="sm">対戦番号を決めてください</Text>
+          <Text size="sm">対戦番号を決めてください</Text>
         </Group>
         <Divider mb="xl" />
         <Container size="xs">
@@ -169,13 +170,13 @@ export function CharacterSetting({userData, isHost, close}: any) {
           {step === 0 && 
             <>
               <Button variant="default" onClick={close}>閉じる</Button>
-              <Button color="yellow" onClick={nextStep}>次へ</Button>
+              <Button onClick={nextStep} sx={{color: theme.colorScheme === "dark" ? "#141517" : "white"}}>次へ</Button>
             </>
           }
           {step === 1 && 
             <>
               <Button variant="default" onClick={prevStep}>戻る</Button>
-              <Button color="yellow" type="submit">準備完了</Button>
+              <Button type="submit" sx={{color: theme.colorScheme === "dark" ? "#141517" : "white"}}>準備完了</Button>
             </>
           }
       </Group>

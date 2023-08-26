@@ -107,8 +107,9 @@ export function Home({user}: any) {
                 {({ copied, copy }) => (
                 <Button
                   onClick={copy}
+                  variant="filled"
                   size="lg" radius="sm"
-                  leftIcon={copied ? <IconCheck style={{color: "white"}}/> : <IconShare2 style={{color: "white"}}/>}
+                  leftIcon={copied ? <IconCheck /> : <IconShare2/>}
                   styles={(theme) => ({
                     root: {
                       backgroundColor: 'black',
@@ -127,7 +128,7 @@ export function Home({user}: any) {
               </CopyButton>
               }
               <Button 
-                className='button'
+
                 size="lg"  mr="md" radius="sm"
                 leftIcon={<IconPlayerPlayFilled style={{color: "white"}}/>}
                 styles={(theme) => ({
@@ -203,7 +204,6 @@ export function Home({user}: any) {
             </CopyButton>
           }
           <Button
-            className='button'
             size="md" radius="xs"
             leftIcon={<IconPlayerPlayFilled style={{color: "white"}}/>}
             styles={(theme) => ({

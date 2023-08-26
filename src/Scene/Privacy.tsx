@@ -1,4 +1,4 @@
-import { Container, Title, Text, Header, rem, Group, useMantineTheme, Badge, px, AspectRatio, Image, Breadcrumbs } from '@mantine/core'
+import { Container, Title, Text, Header, rem, Group, useMantineTheme, Badge, px, Paper, AspectRatio, Image, Breadcrumbs } from '@mantine/core'
 import React from 'react'
 import { Head } from '../Component/Head'
 import '../css/panel.css'
@@ -32,7 +32,7 @@ export function Privacy() {
           </Group>
         </Container>
       </Header>
-      <Container size="xs" >
+      <Container size="xs" pb="xl" mb="xl">
           <Breadcrumbs separator=">">
             <Text size="xs" td="underline" component="a" href="./" color="dimmed">ホーム</Text>
             <Text size="xs" color="dimmed">プライバシーポリシー</Text>
@@ -53,20 +53,20 @@ export function Privacy() {
           </AspectRatio>
         </Group>
 
-        <div className="panel" style={{padding: theme.spacing.md, marginTop: theme.spacing.xl, marginBottom: theme.spacing.xl}}>
-        <Badge color="dark" variant='filled'>ユーザーデータの取り扱いについて</Badge>
-        <Text 
-          color="dimmed" 
-          size="sm" 
-          pt="lg"
-          pb="xs"
-          sx={(theme) => ({ fontFamily: `Greycliff CF, ${theme.fontFamily}` })}
-        >
-          当サイトではログイン時にアカウント情報を収集しておりますが、ゲーム内での個人識別とサービス改善にのみ使用し、本人の同意なく第三者に提供することはありません。
-        </Text>
-        </div>
+        <Paper py="md" px="xl" shadow="sm" mt={px(theme.spacing.xl)} radius="md" sx={{border: theme.colorScheme === "dark" ? "1px solid #5C5F66": "2px solid black"}}>
+          <Badge color="dark" variant='filled'>ユーザーデータの取り扱いについて</Badge>
+          <Text 
+            color="dimmed" 
+            size="sm" 
+            pt="lg"
+            pb="xs"
+            sx={(theme) => ({ fontFamily: `Greycliff CF, ${theme.fontFamily}` })}
+          >
+            当サイトではログイン時にアカウント情報を収集しておりますが、ゲーム内での個人識別とサービス改善にのみ使用し、本人の同意なく第三者に提供することはありません。
+          </Text>
+        </Paper>
 
-        <div className="panel" style={{padding: theme.spacing.md, marginTop: 2*px(theme.spacing.xl), marginBottom: theme.spacing.xl}}>
+        <Paper py="md" px="xl" mt={2*px(theme.spacing.xl)} shadow="sm" radius="md" sx={{border: theme.colorScheme === "dark" ? "1px solid #5C5F66": "2px solid black"}}>
         <Badge color="dark" variant='filled'>アクセス解析ツールについて</Badge>
         <Text 
           color="dimmed" 
@@ -78,9 +78,9 @@ export function Privacy() {
           当サイトではアクセス解析にGoogle Analyticsを使用しています。収集したデータは当サイトのサービス向上のために使用いたします。
         </Text>
         <Group position='right'><Text size="xs" color="dimmed" td="underline" component="a" href="https://marketingplatform.google.com/about/analytics/terms/jp/">Google Analytics利用規約</Text></Group>
-        </div>
+        </Paper>
 
-        <div className="panel" style={{padding: theme.spacing.md, marginTop: 2*px(theme.spacing.xl), marginBottom: rem(120)}}>
+        <Paper py="md" px="xl" mt={2*px(theme.spacing.xl)} shadow="sm" radius="md" sx={{border: theme.colorScheme === "dark" ? "1px solid #5C5F66": "2px solid black"}}>
         <Badge color="dark" variant='filled'>プライバシーポリシー記載内容について</Badge>
         <Text 
           color="dimmed" 
@@ -91,7 +91,7 @@ export function Privacy() {
         >
           本プライバシーポリシーは予告なく改定される場合があります。ご了承ください。
         </Text>
-        </div>
+        </Paper>
       </Container>
       <Foot />
     </div>
